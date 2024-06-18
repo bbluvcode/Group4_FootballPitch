@@ -1,0 +1,35 @@
+step by step update code git hub
+1. git pull origin main ///câu này luôn viết trước khi làm việc, và trước khi up code để tránh xung đột
+2. git add .
+	+ hoặc git add FILE-NAME
+3. git commit -m "nội dung commit/commend"
+4. git push
+
+\\=======LẦN ĐẦU TIÊN UP GIT HUB=======\\
+Sau khi tao responsitory tren git hub xong thì vào thư mục trong máy tính chứa code tạo file git
+
+///Ở MÁY TÍNH CÓ CODE CẦN UP LÊN GIT
+////create a new repository on the command line, (responsitory không biết ý có phải nói là file git init không ta?)
+
+1. git init  			////sẽ tạo ra file/folder ẩn .git
+2. git add README.md 		////câu này không biết cần không, mà thường báo lỗi tại trong folder mình đâu có file README đâu nên chắc là bỏ qua
+3. git commit -m "first commit" 	////câu này phải viết, commit là comment, ghi mô tả. nội dung trong ngoặc kép có thể để trống
+4. git branch -M main 		////cần viết
+5. git remote add origin https://github.com/bbluvcode/Group4_FootballPitch.git ////để kết nối responsitory trên git và máy tính
+				////câu remote thì git remote add origin https://github.com/USERNAME/RESPONSITORY-ON-GIT-NAME
+				
+
+6. git push -u origin main	////câu này là đẩy code lên rồi nè, lần đầu cần thiết lập nên phải có -u, -M. lần 2 trở đi viết ngắn gọn git push là oke, pull cũng vậy
+
+
+////…or push an existing repository from the command line
+0. có reponsitory chắc là có file .git rồi đó đa
+1.git remote add origin https://github.com/bbluvcode/Group4_FootballPitch.git
+2.git branch -M main
+3.git push -u origin main
+
+
+///Ở 1 MÁY TÍNH KHÁC khi cần kéo code về
+////khi máy chưa có code thì đầu tiên là CLONE
+//vô thư mục đích mở cmd viết lệnh 
+1. git clone https://github.com/USER-NAME/NAME-RESPONSITORY-ON-GIT
