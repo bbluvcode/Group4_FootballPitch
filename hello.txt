@@ -12,7 +12,7 @@ Sau khi tao responsitory tren git hub xong thì vào thư mục trong máy tính
 
 1. git init  			////sẽ tạo ra file/folder ẩn .git
 2. git add README.md 		////câu này không biết cần không, mà thường báo lỗi tại trong folder mình đâu có file README đâu nên chắc là bỏ qua
-3. git commit -m "first commit" 	////câu này phải viết, commit là comment, ghi mô tả. nội dung trong ngoặc kép có thể để trống
+3. git commit -m "first commit" ////câu này phải viết, commit là xác nhận và comment, ghi mô tả. nội dung trong ngoặc kép có thể để trống
 4. git branch -M main 		////cần viết
 5. git remote add origin https://github.com/bbluvcode/Group4_FootballPitch.git ////để kết nối responsitory trên git và máy tính
 				////câu remote thì git remote add origin https://github.com/USERNAME/RESPONSITORY-ON-GIT-NAME
