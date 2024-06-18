@@ -4,6 +4,7 @@
 3. git commit -m "Message"	\\**Message có thể thay bằng mô tả
 4. git push			\\**(lần đầu push thì cần viết đầy đủ là git push -u origin main)
 
+///hello from inteliJ
 
 \\=======LẦN ĐẦU TIÊN UP GIT HUB=======//
 
