@@ -6,11 +6,13 @@
 
 
 \\=======LẦN ĐẦU TIÊN UP GIT HUB=======//
-Sau khi tao responsitory tren git hub xong thì vào thư mục trong máy tính chứa code tạo file git
 
-///Ở MÁY TÍNH CÓ CODE CẦN UP LÊN GIT
+1. down và cài đặt git trên máy tính https://git-scm.com/download/win
+2. signup/ signIn https://github.com/ -> tạo responsitory trên github
+3. Vào thư mục trong máy tính chứa code mở cmd viết các lệnh git
+
+//==Ở MÁY TÍNH CÓ CODE CẦN UP LÊN GIT==\\
 \\**create a new repository on the command line, (responsitory không biết ý có phải nói là file git init không ta?)
-
 1. git init  			\\**sẽ tạo ra file/folder ẩn .git, chức năng nhận biết thư viện tránh up thư viện, và nhận biết những sự thay đổi
 2. git add README.md 		\\**câu này không biết cần không, mà thường báo lỗi tại trong folder mình đâu có file README đâu nên chắc là bỏ qua
 3. git commit -m "first commit" \\**câu này phải viết, commit là xác nhận và comment, ghi mô tả. nội dung trong ngoặc kép có thể để trống
