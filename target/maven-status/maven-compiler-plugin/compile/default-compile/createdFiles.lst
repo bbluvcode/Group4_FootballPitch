@@ -1,6 +1,6 @@
 com\mycompany\democrud\PitchCategory.class
+DAO\CustomerDAO.class
 Entities\Field.class
-DB\getConnectDB.class
 com\mycompany\democrud\Pitch.class
 Entities\User.class
 com\mycompany\democrud\App.class
@@ -16,7 +16,6 @@ DAO\PaymentBillDAO.class
 DAO\UserDAO.class
 Entities\Booking.class
 Entities\ServiceCategory.class
-DB\GetConnectDBDAO.class
 com\mycompany\democrud\FullpageController.class
 Entities\Customer.class
 Entities\PaymentBill.class
