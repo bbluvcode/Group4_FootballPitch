@@ -15,7 +15,7 @@ import java.util.Optional;
 public abstract class GetConnectDBDAO<T> {
 
  public Connection cn;
-
+//oke abc
     public Connection connectDb() {
         String url = "jdbc:sqlserver://localhost:1433;databaseName=qlsanbong;encrypt=true;trustServerCertificate=true;";
         String username = "sa";
