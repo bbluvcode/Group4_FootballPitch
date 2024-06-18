@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class CustomerDAO extends ConnectDB<Customer, String> {
-
+//custommer
     ArrayList<Customer> CusList = new ArrayList<>();
 
     @Override
