@@ -1,7 +1,7 @@
 \\======step by step update code git hub=====//
 1. git pull origin main ///câu này luôn viết trước khi làm việc, và trước khi up code để tránh xung đột
 2. git add .	(+ hoặc git add FILE-NAME)
-3. git commit -m "nội dung commit/commend"
+3. git commit -m "nội dung commit/commend" /////nếu không muốn message thì viết git commit thôi là được
 4. git push
 
 \\=======LẦN ĐẦU TIÊN UP GIT HUB=======//
