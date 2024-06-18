@@ -1,11 +1,10 @@
-step by step update code git hub
+\\======step by step update code git hub=====//
 1. git pull origin main ///câu này luôn viết trước khi làm việc, và trước khi up code để tránh xung đột
-2. git add .
-	+ hoặc git add FILE-NAME
+2. git add .	(+ hoặc git add FILE-NAME)
 3. git commit -m "nội dung commit/commend"
 4. git push
 
-\\=======LẦN ĐẦU TIÊN UP GIT HUB=======\\
+\\=======LẦN ĐẦU TIÊN UP GIT HUB=======//
 Sau khi tao responsitory tren git hub xong thì vào thư mục trong máy tính chứa code tạo file git
 
 ///Ở MÁY TÍNH CÓ CODE CẦN UP LÊN GIT
