@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="loginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: white;" stylesheets="@login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.LoginController">
+   <children>
+      <Pane layoutX="350.0" layoutY="63.0" prefHeight="360.0" prefWidth="332.0" style="-fx-background-color: black; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;">
+         <children>
+            <Label layoutX="55.0" layoutY="14.0" prefHeight="50.0" prefWidth="135.0" text="Phone" textFill="white">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfPhone" layoutX="54.0" layoutY="63.0" prefHeight="41.0" prefWidth="250.0" style="-fx-focus-traversable: true; -fx-background-color: d0ffad;">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </TextField>
+            <Label layoutX="55.0" layoutY="104.0" prefHeight="50.0" prefWidth="101.0" text="Password" textAlignment="CENTER" textFill="white">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLogin" layoutX="81.0" layoutY="258.0" mnemonicParsing="false" onAction="#login" prefHeight="50.0" prefWidth="170.0" style="-fx-background-color: #1a73e8; -fx-background-radius: 15px; -fx-border-radius: 15px;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Times New Roman Bold" size="25.0" />
+               </font>
+            </Button>
+            <Circle layoutX="324.0" layoutY="8.0" radius="21.0" stroke="WHITE" strokeType="INSIDE">
+               <fill>
+                  <RadialGradient centerX="0.4966814539073842" centerY="0.34848480603911647" focusAngle="-48.95" focusDistance="-0.036697212709199345" radius="0.5458715158864992">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.09356725215911865" green="0.2631579041481018" blue="0.13313840329647064" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.025572005383580062">
+                           <color>
+                              <Color red="0.2777777910232544" green="1.0" blue="0.4342592656612396" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.4000000059604645" green="1.0" blue="0.8100000023841858" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Circle>
+            <Hyperlink layoutX="173.0" layoutY="212.0" onAction="#forgotPass" prefHeight="31.0" prefWidth="135.0" text="Forgot password?" textFill="#df1a1a">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Hyperlink>
+            <ImageView blendMode="SCREEN" cache="true" fitHeight="41.0" fitWidth="41.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imageView/phone.png" />
+               </image>
+            </ImageView>
+            <ImageView blendMode="SCREEN" cache="true" fitHeight="41.0" fitWidth="41.0" layoutX="14.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imageView/key.jpg" />
+               </image>
+            </ImageView>
+            <PasswordField fx:id="pfPass" layoutX="54.0" layoutY="154.0" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: d0ffad;" />
+         </children>
+      </Pane>
+      <Line endX="300.0" endY="10.00000286102295" fill="BLACK" layoutX="38.0" layoutY="44.0" opacity="0.14" startX="300.0" startY="388.4000244140625" strokeWidth="2.0" />
+      <ImageView blendMode="MULTIPLY" fitHeight="261.0" fitWidth="308.0" layoutX="14.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imageView/logo.png" />
+         </image></ImageView>
+      <Button layoutX="654.0" mnemonicParsing="false" onAction="#close" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: white;">
+         <graphic>
+            <FontAwesomeIcon fill="#df1111" glyphName="CLOSE" selectionFill="#d40c0c" size="2em" textAlignment="CENTER" />
+         </graphic>
+      </Button>
+      <Button layoutX="614.0" mnemonicParsing="false" onAction="#minimize" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: white;">
+         <graphic>
+            <FontAwesomeIcon fill="#6b6060" glyphName="MINUS" selectionFill="#d40c0c" size="2em" textAlignment="CENTER" />
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

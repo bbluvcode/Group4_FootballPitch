@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>-->
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="admin_page" prefHeight="655.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.FullpageController">
+   <children>
+      <AnchorPane layoutX="2.4" prefHeight="45.0" prefWidth="1260.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="216.0" text="Paradise Sport">
+               <font>
+                  <Font name="Tahoma Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnClose" layoutX="1216.0" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="42.0" styleClass="close" stylesheets="@page.css">
+               <graphic>
+                  <FontAwesomeIcon fill="#dc0d0d" glyphName="CLOSE" size="2em" textAlignment="CENTER" wrappingWidth="21.957166481020977" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnMini" layoutX="1180.0" mnemonicParsing="false" onAction="#minimize" prefHeight="40.0" prefWidth="42.0" styleClass="minimize" stylesheets="@page.css">
+               <graphic>
+                  <FontAwesomeIcon fill="#200202" glyphName="MINUS" size="2em" />
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="40.0" prefHeight="615.0" prefWidth="205.0" style="-fx-background-color: #e41841;" styleClass="nav-form" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="59.0" layoutY="32.0" text="Welcome" textAlignment="JUSTIFY" textFill="#201f1f">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="62.0" prefHeight="34.0" prefWidth="104.0" text="ADMIN" textAlignment="JUSTIFY" textFill="#201f1f">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+            </Label>
+            <Line endX="96.99998474121094" layoutX="103.0" layoutY="99.0" startX="-100.0" stroke="#f5eded" strokeWidth="3.0" />
+            <Button fx:id="btnUserPage" alignment="CENTER" layoutX="6.0" layoutY="105.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Nhân viên" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/employee.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnLogout" layoutX="15.0" layoutY="549.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="166.0" styleClass="logout" stylesheets="@page.css" text="    Đăng xuất" textFill="#f2e9e9">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Button>
+            <FontAwesomeIcon fill="#c8dc14" glyphName="SIGN_OUT" layoutX="23.0" layoutY="585.0" selectionFill="#ece2e2" size="2.5em" wrappingWidth="35.99999999999977" />
+            <Button fx:id="btnCusPage" alignment="CENTER" layoutX="6.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Khách hàng" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/customer.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnPitPage" alignment="CENTER" layoutX="6.0" layoutY="215.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Sân bóng" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/pitch.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnSerPage" alignment="CENTER" layoutX="6.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Dịch vụ" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/service.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnCatePage" alignment="CENTER" layoutX="5.0" layoutY="325.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Phân loại" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/cate.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnBillPage" alignment="CENTER" layoutX="6.0" layoutY="380.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Hóa đơn" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/bill.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnPayPage" alignment="CENTER" layoutX="6.0" layoutY="435.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Thanh toán" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/payment.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnSalesPage" alignment="CENTER" layoutX="6.0" layoutY="490.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="50.0" prefWidth="185.0" styleClass="nav-btn" stylesheets="@page.css" text="Doanh thu" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <graphic>
+                  <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imageView/sales.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+      <StackPane layoutX="201.0" layoutY="40.0" prefHeight="620.0" prefWidth="1033.0">
+         <children>
+            <BorderPane fx:id="UserPage" prefHeight="609.0" prefWidth="1042.0" stylesheets="@page.css" visible="false">
+               <left>
+                  <AnchorPane prefHeight="615.0" prefWidth="323.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="316.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <AnchorPane layoutX="87.0" layoutY="14.0" prefHeight="134.0" prefWidth="126.0" stylesheets="@page.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ImageView fx:id="View_U" fitHeight="136.0" fitWidth="129.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Button fx:id="btnImg_U" layoutY="109.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #007bff;" styleClass="btn-img" stylesheets="@page.css" text="Add Image" />
+                                 </children>
+                              </AnchorPane>
+                              <VBox layoutX="12.0" layoutY="164.0" prefHeight="288.0" prefWidth="282.0">
+                                 <children>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="127.0" text="Phone" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfPhone_U" prefHeight="31.0" prefWidth="235.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="119.0" text="Password" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <PasswordField fx:id="tfPass" prefHeight="26.0" prefWidth="225.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </PasswordField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="89.0" text="Position" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="cbPos_U" prefHeight="31.0" prefWidth="108.0" styleClass="textfield" stylesheets="@page.css" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="121.0" text="Name" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfName_U" prefHeight="26.0" prefWidth="227.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="90.0" text="Gender" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" stylesheets="@page.css" text="Male">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="gender_U" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="92.0" stylesheets="@page.css" text="Female" toggleGroup="$gender_U">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="118.0" text="Birthday" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <DatePicker fx:id="tfBirth_U" prefHeight="31.0" prefWidth="220.0" styleClass="textfield" stylesheets="@page.css" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Line endX="185.0" layoutX="120.0" layoutY="467.0" startX="-117.69998931884766" stroke="#300d0d" />
+                              <Button fx:id="btnAdd_U" layoutX="42.0" layoutY="491.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnClear_U" layoutX="168.0" layoutY="491.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="CLEAR" />
+                              <Button fx:id="btnUpdate_U" layoutX="42.0" layoutY="558.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
+                              <Button fx:id="btnDelete_U" layoutX="168.0" layoutY="558.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="delete-btn" stylesheets="@page.css" text="DELETE" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="5.0" />
+                     </BorderPane.margin>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="615.0" prefWidth="710.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="722.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="0.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <TextField fx:id="btnSearch_U" layoutX="31.0" layoutY="14.0" prefHeight="40.0" prefWidth="319.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <FontAwesomeIcon glyphName="SEARCH" layoutX="317.0" layoutY="40.0" size="1.5em" />
+                              <TableView fx:id="tbView_U" layoutX="14.0" layoutY="77.0" prefHeight="531.0" prefWidth="700.0" stylesheets="@page.css" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
+                                 <columns>
+                                    <TableColumn fx:id="colImg_U" prefWidth="96.00000381469727" text="Image" />
+                                    <TableColumn fx:id="colName_U" prefWidth="153.6000213623047" text="Name" />
+                                    <TableColumn fx:id="colPos_U" minWidth="0.0" prefWidth="84.79998779296875" text="Position" />
+                                    <TableColumn fx:id="colGender_U" minWidth="5.60003662109375" prefWidth="94.39996337890625" text="Gender" />
+                                    <TableColumn fx:id="colBirth_U" prefWidth="103.2000732421875" text="Birhday" />
+                                    <TableColumn fx:id="colPhone_U" minWidth="0.0" prefWidth="171.199951171875" text="Phone" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane fx:id="CusPage" prefHeight="609.0" prefWidth="1042.0" visible="false">
+               <left>
+                  <AnchorPane prefHeight="620.0" prefWidth="310.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="303.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <AnchorPane layoutX="87.0" layoutY="24.0" prefHeight="134.0" prefWidth="126.0" stylesheets="@page.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ImageView fx:id="View_Cus" fitHeight="136.0" fitWidth="129.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Button fx:id="btnImg_Cus" layoutY="109.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #007bff;" styleClass="btn-img" stylesheets="@page.css" text="Add Image" />
+                                 </children>
+                              </AnchorPane>
+                              <Line endX="167.99993896484375" endY="3.0517578125E-5" layoutX="127.0" layoutY="446.0" startX="-117.69998931884766" stroke="#300d0d" />
+                              <Button fx:id="btnAdd_Cus" layoutX="41.0" layoutY="474.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnClear_Cus" layoutX="167.0" layoutY="474.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="CLEAR" />
+                              <Button fx:id="btnUpdate_Cus" layoutX="41.0" layoutY="541.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
+                              <Button fx:id="btnDelete_Cus" layoutX="167.0" layoutY="541.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" stylesheets="@page.css" text="DELETE">
+                                 <styleClass>
+                                    <String fx:value="add-btn" />
+                                    <String fx:value="delete-btn" />
+                                 </styleClass>
+                              </Button>
+                              <VBox layoutX="10.0" layoutY="207.0" prefHeight="179.0" prefWidth="282.0">
+                                 <children>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="34.0" prefWidth="90.0" text="Name" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfName_Cus" prefHeight="34.0" prefWidth="200.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="34.0" prefWidth="90.0" text="Phone" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfPhone_Cus" prefHeight="34.0" prefWidth="199.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label fx:id="tfPoint_Cus" prefHeight="34.0" prefWidth="90.0" text="Point" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfPhone_Cus" prefHeight="34.0" prefWidth="199.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="5.0" />
+                     </BorderPane.margin>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="615.0" prefWidth="710.0" stylesheets="@page.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="734.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="0.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <TextField fx:id="btnSearch_Cus" layoutX="31.0" layoutY="14.0" prefHeight="40.0" prefWidth="319.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <FontAwesomeIcon glyphName="SEARCH" layoutX="317.0" layoutY="40.0" size="1.5em" />
+                              <TableView fx:id="tbView_Cus" layoutX="7.0" layoutY="77.0" prefHeight="531.0" prefWidth="717.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
+                                 <columns>
+                                    <TableColumn fx:id="colImg_Cus" prefWidth="116.80005264282227" text="Image" />
+                                    <TableColumn fx:id="colName_Cus" prefWidth="123.99998474121094" text="Name" />
+                                    <TableColumn fx:id="colGender_Cus" minWidth="0.0" prefWidth="106.39994812011719" text="Gender" />
+                                    <TableColumn fx:id="colBirth_Cus" minWidth="0.0" prefWidth="125.60003662109375" text="Birthday" />
+                                    <TableColumn fx:id="colPhone_Cus" minWidth="0.0" prefWidth="132.79998779296875" text="Phone" />
+                                    <TableColumn fx:id="colPoint_Cus" minWidth="0.0" prefWidth="111.199951171875" text="Point" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane fx:id="PitPage" prefHeight="609.0" prefWidth="1042.0" visible="false">
+               <left>
+                  <AnchorPane prefHeight="615.0" prefWidth="323.0" BorderPane.alignment="CENTER" />
+               </left>
+               <center>
+                  <AnchorPane prefHeight="615.0" prefWidth="710.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <BorderPane fx:id="SerPage" prefHeight="609.0" prefWidth="1042.0">
+               <left>
+                  <AnchorPane prefHeight="615.0" prefWidth="323.0" stylesheets="@page.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="300.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="0.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <AnchorPane layoutX="81.0" layoutY="32.0" prefHeight="134.0" prefWidth="126.0" stylesheets="@page.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ImageView fx:id="View_Ser" fitHeight="136.0" fitWidth="129.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Button fx:id="btnImg_Ser" layoutY="109.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #007bff;" styleClass="btn-img" stylesheets="@page.css" text="Add Image" />
+                                 </children>
+                              </AnchorPane>
+                              <VBox layoutX="7.0" layoutY="192.0" prefHeight="181.0" prefWidth="282.0" styleClass="label" stylesheets="@page.css">
+                                 <children>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="127.0" text="Name" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfName_Ser" prefHeight="31.0" prefWidth="235.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="119.0" text="Price" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <PasswordField fx:id="tfPrice_Ser" prefHeight="26.0" prefWidth="225.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </PasswordField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="89.0" text="Type" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="cbType_Ser" prefHeight="31.0" prefWidth="108.0" styleClass="textfield" stylesheets="@page.css" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="89.0" text="Quantity" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Spinner fx:id="Quantity_Ser" prefHeight="31.0" prefWidth="150.0" styleClass="textfield" stylesheets="@page.css" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Line endX="188.00006103515625" endY="3.0517578125E-5" layoutX="119.0" layoutY="411.0" startX="-117.69998931884766" stroke="#300d0d" />
+                              <Button fx:id="btnAdd_Ser" layoutX="40.0" layoutY="457.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnClear_Ser" layoutX="166.0" layoutY="457.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="CLEAR" />
+                              <Button fx:id="btnUpdate_Ser" layoutX="40.0" layoutY="524.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
+                              <Button fx:id="btnDelete_Ser" layoutX="166.0" layoutY="524.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="delete-btn" stylesheets="@page.css" text="DELETE" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="5.0" />
+                     </BorderPane.margin>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="615.0" prefWidth="710.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="726.0" stylesheets="@page.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="5.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <TextField fx:id="btnSearch_Ser" layoutX="31.0" layoutY="14.0" prefHeight="40.0" prefWidth="319.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <FontAwesomeIcon glyphName="SEARCH" layoutX="317.0" layoutY="40.0" size="1.5em" />
+                              <TableView fx:id="tbView_Ser" layoutX="14.0" layoutY="77.0" prefHeight="530.0" prefWidth="700.0" stylesheets="@page.css" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
+                                 <columns>
+                                    <TableColumn fx:id="colImg_Ser" prefWidth="137.60004425048828" text="Image" />
+                                    <TableColumn fx:id="colName_Ser" prefWidth="147.99996948242188" text="Name" />
+                                    <TableColumn fx:id="colType_Ser" minWidth="0.0" prefWidth="162.39996337890625" text="Type" />
+                                    <TableColumn fx:id="colPrice_Ser" prefWidth="104.0" text="Price" />
+                                    <TableColumn fx:id="colQoh_Ser" minWidth="0.0" prefWidth="144.0" text="Quantity" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <BorderPane fx:id="CatePage" prefHeight="609.0" prefWidth="1042.0" visible="false">
+               <left>
+                  <AnchorPane prefHeight="615.0" prefWidth="323.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="300.0" stylesheets="@page.css" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <AnchorPane layoutX="87.0" layoutY="46.0" prefHeight="134.0" prefWidth="126.0" stylesheets="@page.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ImageView fitHeight="136.0" fitWidth="129.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Button layoutY="109.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #007bff;" styleClass="btn-img" stylesheets="@page.css" text="Add Image" />
+                                 </children>
+                              </AnchorPane>
+                              <VBox layoutX="14.0" layoutY="239.0" prefHeight="107.0" prefWidth="282.0">
+                                 <children>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="34.0" prefWidth="71.0" text="Size" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox prefHeight="34.0" prefWidth="165.0" styleClass="textfield" stylesheets="@page.css" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="45.0" prefWidth="342.0">
+                                       <children>
+                                          <Label prefHeight="34.0" prefWidth="71.0" text="Price" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <PasswordField fx:id="tfPass2" prefHeight="34.0" prefWidth="165.0" style="-fx-background-color: linear-gradient(to bottom, #efefef, #eee); -fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327); -fx-border-width: .4px;" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </PasswordField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Line endX="188.4000244140625" layoutX="119.0" layoutY="409.0" startX="-117.69998931884766" stroke="#300d0d" />
+                              <Button layoutX="33.0" layoutY="448.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="159.0" layoutY="448.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="CLEAR" />
+                              <Button layoutX="33.0" layoutY="515.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
+                              <Button layoutX="159.0" layoutY="515.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" stylesheets="@page.css" text="DELETE">
+                                 <styleClass>
+                                    <String fx:value="add-btn" />
+                                    <String fx:value="delete-btn" />
+                                 </styleClass>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="615.0" prefWidth="710.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="615.0" prefWidth="725.0" stylesheets="@page.css" AnchorPane.leftAnchor="4.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <TextField layoutX="31.0" layoutY="14.0" prefHeight="40.0" prefWidth="319.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <FontAwesomeIcon glyphName="SEARCH" layoutX="317.0" layoutY="40.0" size="1.5em" />
+                              <TableView layoutX="14.0" layoutY="77.0" prefHeight="531.0" prefWidth="703.0" stylesheets="@page.css">
+                                 <columns>
+                                    <TableColumn prefWidth="300.79999351501465" text="Image" />
+                                    <TableColumn prefWidth="226.39984130859375" text="Size" />
+                                    <TableColumn minWidth="0.0" prefWidth="172.00006103515625" text="Price" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+            <ImageView blendMode="MULTIPLY" fitWidth="600.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+               <image>
+                  <Image url="@../imageView/logo.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets bottom="15.0" right="50.0" />
+               </StackPane.margin>
+            </ImageView>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
