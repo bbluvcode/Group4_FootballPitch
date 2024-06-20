@@ -241,6 +241,7 @@ public class PagesController implements Initializable {
             txtTimeStart_Booking.setText(bk.getTime_book().toString());
             spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
             lbIdb_booking.setText("" + bk.getIdb());
+            cboIdk_Booking.setValue(bk.getIdk());
         }
     }
 
@@ -267,9 +268,12 @@ public class PagesController implements Initializable {
         bk.setDep(Integer.parseInt(txtDeposit_Booking.getText()));
         bk.setTime_book(Time.valueOf(txtTimeStart_Booking.getText()));
         bk.setHrs(spnHrs_Booking.getValue());
+        bk.setIdp(Integer.parseInt(lbIDP_hide_Booking.getText()));
         int idb = Integer.parseInt(lbIdb_booking.getText());
         bkDAO.Update(idb,bk);
         System.out.println("Updated Booking");
+        showPitchObservableList_Booking(3);
+
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Updated Booking");
         alert.setHeaderText(null);

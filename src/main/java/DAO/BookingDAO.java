@@ -5,6 +5,7 @@
 package DAO;
 
 import Entities.Booking;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,11 +15,11 @@ import java.sql.Time;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
  * @author ADMIN
  */
 public class BookingDAO extends ConnectDB<Booking, Integer> {
@@ -27,17 +28,22 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
 
     @Override
     public void Update(Integer id, Booking b) {
-        int idb = b.getIdb();
-        String idu = b.getIdu();
+        int idb = id;
+//        String idu = b.getIdu();
         int idp = b.getIdp();
         String idk = b.getIdk();
-        Time time = b.getTime_book();
+//        Time time = b.getTime_book();
         int hrs = b.getHrs();
         int deposit = b.getDep();
-        String sql = "UPDATE payments SET idu = " + idu + ", idp = " + idp + ", idk = " + idk + ",time = " + time + ", hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = id";
+        System.out.println(b);
+//        String sql = "UPDATE payments SET idu = " + idu + ", idp = " + idp + ", idk = " + idk + ",time = " + time + ", hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
+        String sql = "UPDATE payments SET idp = " + idp + ", idk = '" + idk + "', hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
+        System.out.println(sql);
         executeSQL(sql);
         System.out.println("Booking UPDATED Successfully!");
     }
+
+
 
     @Override
     public void Insert(Booking b) {
