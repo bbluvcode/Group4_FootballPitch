@@ -16,7 +16,6 @@ DAO\PaymentBillDAO.class
 DAO\UserDAO.class
 Entities\Booking.class
 Entities\ServiceCategory.class
-com\mycompany\democrud\FullpageController.class
 Entities\Customer.class
 Entities\PaymentBill.class
 Entities\Pitch.class

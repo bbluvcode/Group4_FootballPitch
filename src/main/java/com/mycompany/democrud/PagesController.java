@@ -10,6 +10,7 @@ import Entities.PaymentBill;
 import Entities.User;
 
 import java.net.URL;
+import java.sql.Time;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,8 +29,11 @@ import javafx.stage.Stage;
  * FXML Controller class
  *
  * @author ADMIN
+ * <p>
+ * hoi co lam sao để thiết lap đinh dang nhạp cho txt là time
  */
 public class PagesController implements Initializable {
+
     Alert alert;
     PitchDAO pDAO = new PitchDAO();
     UserDAO userDAO = new UserDAO();
@@ -116,9 +120,7 @@ public class PagesController implements Initializable {
         showPitchObservableList_Booking(3);
 
         //****END - manage booking****      
-
     }
-
 
     public void showPitchObservableList_Booking(int available) {
         pDAO = new PitchDAO();
@@ -131,7 +133,6 @@ public class PagesController implements Initializable {
         colSizePitch_Booking.setCellValueFactory(new PropertyValueFactory<>("size"));
 
         tvBooked_PitchObservableList_Booking.setItems(pitchBookedObservableList);
-
 
         tvBooked_PitchObservableList_Booking.getSelectionModel().selectFirst();
         tvBooked_PitchObservableList_Booking.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -261,8 +262,19 @@ public class PagesController implements Initializable {
 
     @FXML
     private void btnUpdate_Booking(ActionEvent event) {
-        
-//        bkDAO.Update();
+        bk = new Booking();
+        bk.setIdk(cboIdk_Booking.getValue());
+        bk.setDep(Integer.parseInt(txtDeposit_Booking.getText()));
+        bk.setTime_book(Time.valueOf(txtTimeStart_Booking.getText()));
+        bk.setHrs(spnHrs_Booking.getValue());
+        int idb = Integer.parseInt(lbIdb_booking.getText());
+        bkDAO.Update(idb,bk);
+        System.out.println("Updated Booking");
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Updated Booking");
+        alert.setHeaderText(null);
+        alert.setContentText("Booking Updated");
+        alert.showAndWait();
     }
 
     @FXML
