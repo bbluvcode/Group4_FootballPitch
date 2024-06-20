@@ -12,7 +12,7 @@ public class Pitch extends PitchCategory {
 
     int idp;
     String name;
-    int available;
+    int available; //1. available, 2. not available, 3. booked
 
     public Pitch(int idp, String name, int available, int idcp, String size, int price) {
         super(idcp, size, price);
