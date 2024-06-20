@@ -5,6 +5,7 @@
 package DAO;
 
 import Entities.User;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -14,17 +15,17 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
  * @author ADMIN
  */
 public class UserDAO extends ConnectDB<User, String> {
 
     ObservableList<User> UserObservableList = FXCollections.observableArrayList();
-    ObservableList<String> UserIDStringObservableList = FXCollections.observableArrayList();
+    ObservableList<String> UserID_String_List = FXCollections.observableArrayList();
 
     @Override
     public void Update(String idu, User u) {
@@ -79,8 +80,8 @@ public class UserDAO extends ConnectDB<User, String> {
         }
         return UserObservableList;
     }
-    
-        public ObservableList<String> getAll_ID_User() {
+
+    public ObservableList<String> getAll_ID_User() {
         Connection cn = getConnection();
         String sql = "SELECT qluser.*, user_type.type FROM qluser INNER JOIN user_type ON qluser.[idt]=user_type.[idt]";
         try {
@@ -90,12 +91,12 @@ public class UserDAO extends ConnectDB<User, String> {
             while (rs.next()) {
                 String idu = rs.getString("idu");
 
-                UserIDStringObservableList.add(idu);
+                UserID_String_List.add(idu);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return UserIDStringObservableList;
+        return UserID_String_List;
     }
 
     public Optional<User> Search(String id) {

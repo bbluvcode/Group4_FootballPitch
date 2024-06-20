@@ -5,6 +5,8 @@
 package DAO;
 
 import com.mycompany.democrud.Pitch;
+
+import java.net.PortUnreachableException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -26,7 +28,7 @@ import javafx.collections.transformation.SortedList;
  */
 public class PitchDAO extends ConnectDB<Pitch, Integer> {
 
-    public ObservableList<Pitch> fieldsList = FXCollections.observableArrayList();
+    public ObservableList<Pitch> fieldsObservableList = FXCollections.observableArrayList();
 
     public PitchDAO() {
     }
@@ -86,13 +88,13 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
                 int available = rs.getInt("available");
                 no++;
                 Pitch p = new Pitch(idp, name, available, idcp, size, price, no);
-                fieldsList.add(p);
+                fieldsObservableList.add(p);
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
 
-        return fieldsList;
+        return fieldsObservableList;
     }
 
     public ObservableList<Pitch> getByIDcategory(int idcp) {
@@ -120,13 +122,13 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
                 int available = rs.getInt("available");
                 no++;
                 p = new Pitch(idp, name, available, idcp, size, price, no);
-                fieldsList.add(p);
+                fieldsObservableList.add(p);
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
 
-        return fieldsList;
+        return fieldsObservableList;
     }
 
     public ObservableList<Pitch> getByAvailable(int available) {
@@ -156,20 +158,28 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
                 String name = rs.getString("name");
                 no++;
                 p = new Pitch(idp, name, available, idcp, size, price, no);
-                fieldsList.add(p);
+                fieldsObservableList.add(p);
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        return fieldsList;
+        return fieldsObservableList;
     }
 
+    //xem tinh trang san la (1,2,3): 1. trống, 2 khách đang thue, 3 sân co khach đặt
     public int getAvailableByID(int id) {
-        for (Pitch f : fieldsList) {
+        for (Pitch f : fieldsObservableList) {
             if (f.getIdp() == id) {
                 return f.getAvailable();
             }
         }
         return 0;
+    }
+
+    public void UpdateAvailable(int idp, int available){
+        //available: 1. trống, 2 khách đang thue, 3 sân co khach đặt
+        String sql="UPDATE sanbong set available = "+available+" WHERE idp = " + idp;
+        System.out.println("PitchDAO: updated Vailable " + available + "for " + idp);
+        executeSQL(sql);
     }
 }

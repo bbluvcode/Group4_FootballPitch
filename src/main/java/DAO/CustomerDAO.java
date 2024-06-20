@@ -5,12 +5,14 @@
 package DAO;
 
 import Entities.Customer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,11 +21,19 @@ import java.util.logging.Logger;
  */
 public class CustomerDAO extends ConnectDB<Customer, String> {
 
-    ArrayList<Customer> CusList = new ArrayList<>();
+    ObservableList<Customer> CusList = FXCollections.observableArrayList();
+    ObservableList<String> CusID_String_List = FXCollections.observableArrayList();
 
     @Override
     public void Update(String id, Customer t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String idk = t.getIdk();
+        String name = t.getName();
+        String phone = t.getPhone();
+        int point = t.getPoint();
+//        String mail = t.getMail();
+        String sql = "UPDATE customer SET name='"+name+"',phone='"+phone+"' WHERE idk='"+idk+"'";
+        executeSQL(sql);
+
     }
 
     @Override
@@ -39,11 +49,13 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
 
     @Override
     public void Delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "DELETE FROM customer WHERE idk='" + id + "'";
+        executeSQL(sql);
+        System.out.println("Customer Deleted");
     }
 
     @Override
-    public List<Customer> getAll() {
+    public ObservableList<Customer> getAll() {
         String query = "SELECT * FROM khachhang";
 
         try {
@@ -60,11 +72,26 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
                 c = new Customer(idk, name, phone, point, mail);
                 CusList.add(c);
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return CusList;
     }
+    public ObservableList<String> getAll_ID_Cus() {
+        Connection cn = getConnection();
+        String sql = "SELECT * FROM khachhang";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
+            while (rs.next()) {
+                String idk = rs.getString("idk");
+
+                CusID_String_List.add(idk);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return CusID_String_List;
+    }
 }

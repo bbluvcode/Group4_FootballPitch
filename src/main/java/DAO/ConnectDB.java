@@ -4,8 +4,9 @@
  */
 package DAO;
 
+import javafx.collections.ObservableList;
+
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,7 +46,7 @@ public abstract class ConnectDB<Entity, idType> {
 
     public abstract void Delete(idType id);
 
-    public abstract List<Entity> getAll();
+    public abstract ObservableList<Entity> getAll();
 
     public void executeSQL(String query) {
         Connection cn = getConnection();

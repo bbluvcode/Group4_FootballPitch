@@ -7,7 +7,8 @@ package DAO;
 import Entities.Service;
 import Entities.Service;
 import Entities.Service;
-import java.util.List;
+import javafx.collections.ObservableList;
+
 
 /**
  *
@@ -16,24 +17,24 @@ import java.util.List;
 public class TestDB {
 
     public static void main(String[] args) {
-//        FieldsDAO fListDB = new FieldsDAO();
-//        List<Field> fList = fListDB.getAll();
-//        Pitch t = fList.get(3);
+//        FieldsDAO fObservableListDB = new FieldsDAO();
+//        ObservableList<Field> fObservableList = fObservableListDB.getAll();
+//        Pitch t = fObservableList.get(3);
 //        
 //        System.out.println(t);
 //        int idcp = t.getIdcp();
 //        String name = t.getName();
 //        int available = t.getAvailable();
 //        System.out.println(idcp+ name+ available);
-//        fListDB.Insert(t);
-//        fListDB.Update(1 , t);
-//        for(Pitch f : fList){
+//        fObservableListDB.Insert(t);
+//        fObservableListDB.Update(1 , t);
+//        for(Pitch f : fObservableList){
 //            System.out.println(f);
 //        }
 
-        ServiceDAO uListDB = new ServiceDAO();
-        List<Service> uList = uListDB.getAll();
-        for (Service f : uList) {
+        ServiceDAO uObservableListDB = new ServiceDAO();
+        ObservableList<Service> uObservableList = uObservableListDB.getAll();
+        for (Service f : uObservableList) {
             System.out.println(f);
         }
 

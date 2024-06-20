@@ -5,11 +5,12 @@
 package DAO;
 
 import Entities.Service;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +20,9 @@ import java.util.logging.Logger;
  */
 public class ServiceDAO extends ConnectDB<Service, Integer> {
 
-    ArrayList<Service> serList = new ArrayList<>();
-    ArrayList<Service> serSell_List = new ArrayList<>();
-    ArrayList<Service> serRent_List = new ArrayList<>();
+    ObservableList<Service> serObservableList = FXCollections.observableArrayList();
+    ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
+    ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
 
     @Override
     public void Update(Integer id, Service s) {
@@ -50,13 +51,13 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
     }
 
     @Override
-    public List<Service> getAll() {
+    public ObservableList<Service> getAll() {
         getAll_RentService();
         getAll_SellService();
-        return serList;
+        return serObservableList;
     }
 
-    public List<Service> getAll_SellService() {
+    public ObservableList<Service> getAll_SellService() {
         String query = "SELECT ser_sell.*, cat_ser.type FROM ser_sell INNER JOIN cat_ser ON ser_sell.idc = cat_ser.idc";
         try {
             Statement st = getConnection().createStatement();
@@ -73,17 +74,17 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
                 String type = rs.getString("type");
 
                 s = new Service(ids, name, price, img, qoh, idc, type);
-                serSell_List.add(s);
-                serList.add(s);
+                serSell_ObservableList.add(s);
+                serObservableList.add(s);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return serSell_List;
+        return serSell_ObservableList;
     }
 
-    public List<Service> getAll_RentService() {
+    public ObservableList<Service> getAll_RentService() {
         String query = "SELECT ser_rent.*, cat_ser.type FROM ser_rent INNER JOIN cat_ser ON ser_rent.idc = cat_ser.idc";
         try {
             Statement st = getConnection().createStatement();
@@ -100,14 +101,14 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
                 String type = rs.getString("type");
 
                 s = new Service(ids, name, price, img, qoh, idc, type);
-                serRent_List.add(s);
-                serList.add(s);
+                serRent_ObservableList.add(s);
+                serObservableList.add(s);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return serSell_List;
+        return serSell_ObservableList;
     }
 
 }

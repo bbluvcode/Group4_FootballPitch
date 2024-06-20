@@ -45,7 +45,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_service = t.getTt_service();
         int tt_payment = t.getTt_payment();
         boolean comp = t.isComp();
-        int idbk = t.getIdbk();
         String sql = "UPDATE payments SET idu  = '" + idu + "'  , idp  = " + idp + "  , idk  = '" + idk + "'  , time_start  =  '" + time_start + "'  , time_end  = '" + time_end + "'  , hrs_used  = " + hrs_used + "  , pay_date  = '" + pay_date + "'  , deposit  = " + deposit + "  , tt_booking  = " + tt_booking + "  , tt_service  = " + tt_service + "  , tt_payment  = " + tt_payment + "  , completed  = " + comp + "WHERE idb = " + idb;
         try {
             Statement st = getConnection().createStatement();
@@ -71,7 +70,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_service = t.getTt_service();
         int tt_payment = t.getTt_payment();
         boolean comp = t.isComp();
-        int idbk = t.getIdbk();
         String sql = "INSERT INTO payments (idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, completed) VALUES (" + idb + ", '" + idu + "', " + idp + ", '" + idk + "', GETDATE(), '" + time_end + "', " + hrs_used + ", '" + pay_date + "', " + deposit + ", " + tt_booking + ", " + tt_service + ", " + tt_payment + ", " + comp + ")";
 
         try {
@@ -118,12 +116,11 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 int tt_service = rs.getInt("tt_service");
                 int tt_payment = rs.getInt("tt_payment");
                 boolean comp = rs.getBoolean("completed");
-                int idbk = rs.getInt("idbk");
                 String khachhang_name = rs.getString("khachhang_name");
                 String qluser_name = rs.getString("qluser_name");
                 String sanbong_name = rs.getString("sanbong_name");
 
-                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, idbk, khachhang_name, qluser_name, sanbong_name);
+                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, khachhang_name, qluser_name, sanbong_name);
                 pbObservableList.add(pb);
             }
         } catch (SQLException ex) {
@@ -212,5 +209,10 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
             }
         }
         return Optional.empty();
+    }
+
+    public void UpdateTimeStart (int idPaymentBill) {
+        String sql = "UPDATE payments set time_start = CAST(GETDATE() as TIME) WHERE idpaymentbill = " + idPaymentBill;
+        executeSQL(sql);
     }
 }

@@ -17,7 +17,7 @@
                 <goal>javafx:run@ide-debug</goal>
             </goals>
             <properties>
-                <jpda.listen>true</jpda.listen>
+                <jpda.ObservableListen>true</jpda.ObservableListen>
             </properties>
         </action>
         <action>
