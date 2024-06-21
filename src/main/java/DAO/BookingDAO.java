@@ -47,14 +47,15 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
 
     @Override
     public void Insert(Booking b) {
-        String idu = b.getIdu();
+        //String idu = b.getIdu();
+        String idu = "0939966602";
         int idp = b.getIdp();
         String idk = b.getIdk();
         Time time = b.getTime_book();
         int hrs = b.getHrs();
         int deposit = b.getDep();
-        int stt = b.getStt();
-        String sql = "INSERT INTO payments (idu, idp, idk, time, hrs, deposit, stt) VALUES (" + idu + ", " + idp + ", " + idk + "," + time + ", " + hrs + ", " + deposit + ", 1 )";
+        String sql = "INSERT INTO payments (idu, idp, idk, time_book, hrs, deposit, stt, pay_date) VALUES ('" + idu + "', " + idp + ", '" + idk + "', '"+time +"', " + hrs + ", " + deposit + ", 1 , CAST(GETDATE() AS DATE))";
+        System.out.println("SQL: "+sql);
         executeSQL(sql);
         System.out.println("Booking INSERTED Successfully!");
     }
