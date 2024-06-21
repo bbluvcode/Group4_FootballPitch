@@ -106,8 +106,11 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
     }
 
     public Optional<Booking> getBookingByPitch(int idp) {
+        System.out.println("IDP: " + idp);
         for (Booking bk : bkObservableList) {
+            System.out.println(bk);
             if (bk.getIdp() == idp) {
+
                 return Optional.of(bk);
             }
         }
@@ -125,7 +128,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL";
+        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND time_book >= CAST(GETDATE() AS TIME)";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);

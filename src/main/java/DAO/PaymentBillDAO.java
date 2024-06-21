@@ -212,7 +212,8 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     }
 
     public void UpdateTimeStart (int idPaymentBill) {
-        String sql = "UPDATE payments set time_start = CAST(GETDATE() as TIME) WHERE idpaymentbill = " + idPaymentBill;
+        String sql = "UPDATE payments set time_start = CAST(GETDATE() as TIME) WHERE idb = " + idPaymentBill;
+        System.out.println("START BUTTON: " + sql);
         executeSQL(sql);
     }
 }
