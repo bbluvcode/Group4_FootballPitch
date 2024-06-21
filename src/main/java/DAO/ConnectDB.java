@@ -28,9 +28,7 @@ public abstract class ConnectDB<Entity, idType> {
 
             //connect to db
             cn = DriverManager.getConnection(url, username, pass);
-            
-            System.out.println("Connect DB successfully!");
-            
+
         } catch (ClassNotFoundException ex) {
             System.out.println("Loi: " + ex.getMessage());
         } catch (SQLException ex) {

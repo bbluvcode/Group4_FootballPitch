@@ -9,37 +9,25 @@ import Entities.Service;
 import Entities.Service;
 import javafx.collections.ObservableList;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
 
 /**
- *
  * @author ADMIN
  */
 public class TestDB {
 
     public static void main(String[] args) {
-//        FieldsDAO fObservableListDB = new FieldsDAO();
-//        ObservableList<Field> fObservableList = fObservableListDB.getAll();
-//        Pitch t = fObservableList.get(3);
-//        
+//        Time t = Time.valueOf(LocalTime.now());
+//        Time t2 = Time.valueOf("10:20:20");
+//        System.out.println(t.toString());
 //        System.out.println(t);
-//        int idcp = t.getIdcp();
-//        String name = t.getName();
-//        int available = t.getAvailable();
-//        System.out.println(idcp+ name+ available);
-//        fObservableListDB.Insert(t);
-//        fObservableListDB.Update(1 , t);
-//        for(Pitch f : fObservableList){
-//            System.out.println(f);
-//        }
+//        System.out.println(t2.toString());
 
-        ServiceDAO uObservableListDB = new ServiceDAO();
-        ObservableList<Service> uObservableList = uObservableListDB.getAll();
-        for (Service f : uObservableList) {
-            System.out.println(f);
-        }
+        PitchDAO pitchDAO = new PitchDAO();
 
-//
-//        Service pn = new Service();
-//        System.out.println(pn);
     }
 }

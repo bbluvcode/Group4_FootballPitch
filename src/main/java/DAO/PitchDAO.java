@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import Entities.Booking;
 import com.mycompany.democrud.Pitch;
 
 import java.net.PortUnreachableException;
@@ -29,8 +30,36 @@ import javafx.collections.transformation.SortedList;
 public class PitchDAO extends ConnectDB<Pitch, Integer> {
 
     public ObservableList<Pitch> fieldsObservableList = FXCollections.observableArrayList();
+    public ObservableList<Pitch> availableFields = FXCollections.observableArrayList();
+    public ObservableList<Pitch> rentingFieldsList = FXCollections.observableArrayList();
+    public ObservableList<Pitch> bookingFieldsList = FXCollections.observableArrayList();
 
     public PitchDAO() {
+        updateLists();
+    }
+
+    public void updateLists(){
+        String sql = "UPDATE sanbong SET available = 1";
+        executeSQL(sql);
+
+        BookingDAO bkDAO = new BookingDAO();
+        if (!bkDAO.getAll_idpBookingToDay().isEmpty()){
+            String idpBookedList = bkDAO.getAll_idpBookingToDay().toString();
+            idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
+
+            sql = "UPDATE sanbong SET available = 3 WHERE idp IN " + idpBookedList;
+            executeSQL(sql);
+        }
+
+        if (!bkDAO.getAll_idpBookingComplete_ToDay().isEmpty()){
+            String idpBookedList = bkDAO.getAll_idpBookingComplete_ToDay().toString();
+            idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
+
+            sql = "UPDATE sanbong SET available = 2 WHERE idp IN " + idpBookedList;
+            executeSQL(sql);
+        }
+
+        System.out.println("PitchDAO updateLists");
     }
 
     @Override

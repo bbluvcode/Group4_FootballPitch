@@ -35,10 +35,10 @@ import javafx.stage.Stage;
 public class PagesController implements Initializable {
 
     Alert alert;
-    PitchDAO pDAO ;
+    PitchDAO pDAO;
     UserDAO userDAO;
     CustomerDAO cusDAO;
-    PaymentBillDAO pmDAO ;
+    PaymentBillDAO pmDAO;
     BookingDAO bkDAO = new BookingDAO();
     Optional<Booking> opBk;
     Booking bk = new Booking();
@@ -83,6 +83,8 @@ public class PagesController implements Initializable {
     private Label lbNamePitch_Booking;
     @FXML
     private Label lbIdb_booking;
+    @FXML
+    private Label lbIdu_booking;
     @FXML
     private Button btnBooking_Booking;
     @FXML
@@ -139,11 +141,10 @@ public class PagesController implements Initializable {
             tvBooked_PitchObservableList_Booking.getSelectionModel().selectFirst();
             tvBooked_PitchObservableList_Booking.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             selectPitch_Booking();
-        }
-         catch (Exception e) {
-             alert = new Alert(AlertType.ERROR);
-             alert.setContentText("Error: " + e.getMessage());
-             alert.show();
+        } catch (Exception e) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Error: " + e.getMessage());
+            alert.show();
         }
 
     }
@@ -251,6 +252,7 @@ public class PagesController implements Initializable {
             spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
             lbIdb_booking.setText("" + bk.getIdb());
             cboIdk_Booking.setValue(bk.getIdk());
+            lbIdu_booking.setText(bk.getIdu());
         }
     }
 
@@ -261,14 +263,13 @@ public class PagesController implements Initializable {
 
     @FXML
     private void btnAdd_Booking(ActionEvent event) {
-
-        //String idu;
         int idp = Integer.parseInt(lbIDP_hide_Booking.getText());
+        String idu = lbIdu_booking.getText();
         String idk = cboIdk_Booking.getValue();
         Time time_book;
         try {
             time_book = Time.valueOf(txtTimeStart_Booking.getText());
-        } catch(Exception ex){
+        } catch (Exception ex) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -298,40 +299,39 @@ public class PagesController implements Initializable {
             return;
         }
 
-        if(lbIDP_hide_Booking.getText().equals("")) {
+        if (lbIDP_hide_Booking.getText().equals("")) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select pitch");
             alert.showAndWait();
             return;
+        } else {
+            bk = new Booking();
+            bk.setIdp(idp);
+            bk.setIdk(idk);
+            bk.setIdu(idu);
+            bk.setDep(deposit);
+            bk.setTime_book(time_book);
+            bk.setHrs(hrs);
+            bk.setStt(stt);
+            System.out.println(bk);
+
+            bkDAO.Insert(bk);
+
+            System.out.println("ADDED BOOOKING");
+            showPitchObservableList_Booking(3);
+
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Added Booking");
+            alert.setHeaderText(null);
+            alert.setContentText("Booking Updated");
+            alert.showAndWait();
+
+            setBtnVisible(btnNew_Booking);
+            setBtnNOTvisible(btnAdd_Booking);
+            showPitchObservableList_Booking(3);
         }
-
-        bk = new Booking();
-        bk.setIdp(idp);
-        bk.setIdk(idk);
-        bk.setDep(deposit);
-        bk.setTime_book(time_book);
-        bk.setHrs(hrs);
-        bk.setStt(stt);
-        System.out.println(bk);
-
-        bkDAO.Insert(bk);
-        pDAO = new PitchDAO();
-        pDAO.UpdateAvailable(idp, 3);
-        System.out.println("ADDED BOOOKING");
-        showPitchObservableList_Booking(3);
-
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Added Booking");
-        alert.setHeaderText(null);
-        alert.setContentText("Booking Updated");
-        alert.showAndWait();
-
-        setBtnVisible(btnNew_Booking);
-        setBtnNOTvisible(btnAdd_Booking);
-        showPitchObservableList_Booking(3);
-
     }
 
     @FXML
@@ -343,7 +343,7 @@ public class PagesController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             int idb = Integer.parseInt(lbIdb_booking.getText());
-            bkDAO.UpdateSTT(idb,3);
+            bkDAO.UpdateSTT(idb, 3);
             pDAO = new PitchDAO();
             pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 1);
             System.out.println("Deleted Booking");
@@ -445,8 +445,6 @@ public class PagesController implements Initializable {
 
                 if (result.get() == ButtonType.OK) {
                     pmDAO.UpdateTimeStart(idb);
-                    pDAO.UpdateAvailable(idp, 2);
-
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText("Pitch " + idb + "start for rent!");
