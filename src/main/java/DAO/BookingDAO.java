@@ -72,7 +72,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         Connection cn = getConnection();
         String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name "
                 + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE pay_date = CAST(GETDATE() AS DATE) AND time_book >= CAST(GETDATE() AS TIME)";
-        System.out.println(sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -107,11 +106,9 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
     }
 
     public Optional<Booking> getBookingByPitch(int idp,int stt) {
-        System.out.println("IDP: " + idp);
         for (Booking bk : bkObservableList) {
             System.out.println(bk);
             if (bk.getIdp() == idp && bk.getStt() == stt) {
-
                 return Optional.of(bk);
             }
         }

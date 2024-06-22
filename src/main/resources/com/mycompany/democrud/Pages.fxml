@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
     <children>
         <AnchorPane layoutX="2.0" layoutY="2.0" prefHeight="45.0" prefWidth="1260.0">
             <children>
@@ -193,8 +193,8 @@
                                                         <Font size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <ComboBox fx:id="cboIdk_Booking" prefHeight="29.0" prefWidth="142.0" styleClass="textfield" />
-                                                <Button blendMode="EXCLUSION" minWidth="43.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="43.0" stylesheets="@page.css" text="New">
+                                                <ComboBox fx:id="cboIdk_Booking" prefHeight="25.0" prefWidth="136.0" styleClass="textfield" />
+                                                <Button blendMode="EXCLUSION" minWidth="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" stylesheets="@page.css" text="New">
                                                     <font>
                                                         <Font name="System Bold" size="10.0" />
                                                     </font>
@@ -222,14 +222,14 @@
                                     <StackPane fx:id="stpTimeBook_Booking" prefHeight="150.0" prefWidth="200.0">
                                        <children>
                                           <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" stroke="WHITE" strokeType="INSIDE" width="283.0" />
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                          <HBox prefHeight="46.0" prefWidth="283.0">
                                              <children>
-                                                <Label prefHeight="32.0" prefWidth="103.0" text="Time book" textFill="#610a0a">
+                                                <Label prefHeight="32.0" prefWidth="108.0" text="Time book" textFill="#610a0a">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="txtTimeStart_Booking" prefHeight="30.0" prefWidth="139.0" styleClass="textfield" stylesheets="@page.css">
+                                                <TextField fx:id="txtTimeStart_Booking" prefHeight="23.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>
@@ -242,7 +242,7 @@
                               </StackPane>
                                         <HBox prefHeight="61.0" prefWidth="282.0">
                                             <children>
-                                                <Label prefHeight="30.0" prefWidth="105.0" text="Hours" textFill="#610a0a">
+                                                <Label prefHeight="30.0" prefWidth="108.0" text="Hours" textFill="#610a0a">
                                                     <font>
                                                         <Font size="15.0" />
                                                     </font>
@@ -252,7 +252,7 @@
                                         </HBox>
                                         <HBox prefHeight="25.0" prefWidth="282.0">
                                             <children>
-                                                <Label prefHeight="40.0" prefWidth="105.0" text="Deposit" textFill="#610a0a">
+                                                <Label prefHeight="32.0" prefWidth="110.0" text="Deposit" textFill="#610a0a">
                                                     <font>
                                                         <Font size="15.0" />
                                                     </font>
@@ -270,43 +270,48 @@
                                 <Button fx:id="btnReset_Booking" layoutX="205.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnReset_Booking" prefHeight="45.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="Reset" />
                                 <Button fx:id="btnAdd_Booking" layoutX="50.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnAdd_Booking" prefHeight="45.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD" />
                                 <Button fx:id="btnDelete_Booking" disable="true" layoutX="175.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnDelete_Booking" prefHeight="45.0" prefWidth="100.0" styleClass="delete-btn" stylesheets="@page.css" text="CANCEL" />
-                                <VBox layoutX="15.0" layoutY="42.0" prefHeight="105.0" prefWidth="185.0">
-                                    <children>
-                                          <Label fx:id="lbNamePitch_Booking" prefHeight="47.0" prefWidth="84.0" text="Pitch...">
+                        <HBox layoutX="17.0" layoutY="77.0" prefHeight="68.0" prefWidth="288.0">
+                           <children>
+                                          <Label fx:id="lbNamePitch_Booking" prefHeight="47.0" prefWidth="172.0" text="Pitch...">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0" />
+                                                  <Font name="Tahoma Bold" size="24.0" />
                                               </font>
                                           </Label>
-                                        <HBox prefHeight="34.0" prefWidth="136.0">
-                                            <children>
-                                                <Label prefHeight="32.0" prefWidth="84.0" text="Booking ID:">
-                                                    <font>
-                                                        <Font name="Tahoma" size="14.0" />
-                                                    </font>
-                                                </Label>
-                                    <Label fx:id="lbIdb_booking" prefHeight="34.0" prefWidth="99.0" text="...">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                            </children>
-                                        </HBox>
-                                        <HBox prefHeight="32.0" prefWidth="185.0">
-                                            <children>
-                                                <Label prefHeight="37.0" prefWidth="68.0" text="Staff ID :" textAlignment="RIGHT" textFill="#461111">
-                                                    <font>
-                                                        <Font name="Tahoma" size="14.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label fx:id="lbIdu_booking" prefHeight="38.0" prefWidth="115.0" text="0939966602">
-                                                    <font>
-                                                        <Font name="Tahoma" size="14.0" />
-                                                    </font>
-                                                </Label>
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                </VBox>
+                                      <VBox prefHeight="86.0" prefWidth="182.0">
+                                          <children>
+                                    <HBox layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="149.0" />
+                                              <HBox prefHeight="21.0" prefWidth="149.0">
+                                                  <children>
+                                                      <Label prefHeight="26.0" prefWidth="79.0" text="Booking ID">
+                                                          <font>
+                                                              <Font name="Tahoma" size="13.0" />
+                                                          </font>
+                                                      </Label>
+                                          <Label fx:id="lbIdb_booking" prefHeight="25.0" prefWidth="66.0" text="...">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                                  </children>
+                                              </HBox>
+                                              <HBox prefHeight="26.0" prefWidth="149.0">
+                                                  <children>
+                                                      <Label prefHeight="32.0" prefWidth="59.0" text="Staff ID " textAlignment="RIGHT" textFill="#461111">
+                                                          <font>
+                                                              <Font name="Tahoma" size="13.0" />
+                                                          </font>
+                                                      </Label>
+                                                      <Label fx:id="lbIdu_booking" prefHeight="32.0" prefWidth="91.0" text="0939966602">
+                                                          <font>
+                                                              <Font name="Tahoma" size="13.0" />
+                                                          </font>
+                                                      </Label>
+                                                  </children>
+                                              </HBox>
+                                          </children>
+                                      </VBox>
+                           </children>
+                        </HBox>
                                 <Button layoutX="49.0" layoutY="479.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="SAVE" visible="false" />
                                 <Button fx:id="btnUpdate_Booking" layoutX="52.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnUpdate_Booking" prefHeight="45.0" prefWidth="223.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
                                 <Button fx:id="btnNew_Booking" layoutX="47.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnNew_Booking" prefHeight="48.0" prefWidth="104.0" styleClass="add-btn" stylesheets="@page.css" text="NEW">

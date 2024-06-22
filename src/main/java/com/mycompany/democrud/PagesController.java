@@ -120,19 +120,22 @@ public class PagesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //**MANAGE BOOKING**
 
+        initialize_manageBooking();
+    }
+    //**initialize**
+    public void initialize_manageBooking() {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
         spnHrs_Booking.setValueFactory(valueFactory);
         setItem_cboIdk_Booking();
 
         //Disible Button_Booking
+
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
-
-        //****END - manage booking****      
     }
 
+    //**MANAGE BOOKING**
     public void showPitchObservableList_Booking(int available) {
         String nameTableObservableList = available == 1 ? "Available" : available == 2 ? "Renting" : "Booking";
 
@@ -491,6 +494,7 @@ public class PagesController implements Initializable {
 
                 if (result.get() == ButtonType.OK) {
                     pmDAO.UpdateTimeStart(idb);
+                    initialize_manageBooking();
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText("Pitch " + idp + " start for rent!");
