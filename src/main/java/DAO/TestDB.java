@@ -27,7 +27,11 @@ public class TestDB {
 //        System.out.println(t);
 //        System.out.println(t2.toString());
 
-        PitchDAO pitchDAO = new PitchDAO();
+//        PitchDAO pitchDAO = new PitchDAO();
 
+        LocalTime crHrs = LocalTime.now().plusMinutes(15);
+        int crHours = crHrs.getHour();
+        int crMinutes = crHrs.getMinute();
+        System.out.println(crHours +" va " + crMinutes);
     }
 }

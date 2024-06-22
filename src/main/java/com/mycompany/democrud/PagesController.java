@@ -11,6 +11,7 @@ import Entities.User;
 
 import java.net.URL;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -76,6 +78,12 @@ public class PagesController implements Initializable {
     @FXML
     private Spinner<Integer> spnHrs_Booking;
     @FXML
+    private Spinner<Integer> spnHour_timeBook_Booking;
+    @FXML
+    private Spinner<Integer> spnMinute_timeBook_Booking;
+    @FXML
+    private StackPane stpTimeBook_Booking;
+    @FXML
     private TextField txtDeposit_Booking;
     @FXML
     private Label lbNameTable_booking;
@@ -105,7 +113,7 @@ public class PagesController implements Initializable {
     private TextField txtSearch_Booking;
     @FXML
     private Button btnStart_Booking;
-    private int hrs;
+
 
     /**
      * Initializes the controller class.
@@ -218,6 +226,21 @@ public class PagesController implements Initializable {
         selectPitch_Booking();
     }
 
+    void Click_spnHour_timeBook_Booking() {
+        LocalTime crHrs = LocalTime.now().plusMinutes(15);
+        int crHours = crHrs.getHour();
+        int crMinutes = crHrs.getMinute();
+
+        int spnHour = spnHour_timeBook_Booking.getValue();
+        if (spnHour == crHours) {
+            SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(crMinutes, 55, crMinutes, 5);
+            spnMinute_timeBook_Booking.setValueFactory(valueMinute);
+        } else {
+            SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 55, 0, 5);
+            spnMinute_timeBook_Booking.setValueFactory(valueMinute);
+        }
+    }
+
     //====FXML ACTION====================================================================================================
     //====FXML ====================================================================================================
     @FXML
@@ -239,19 +262,21 @@ public class PagesController implements Initializable {
         Pitch itemSelect = tvBooked_PitchObservableList_Booking.getSelectionModel().getSelectedItem();
         lbNamePitch_Booking.setText(itemSelect.getName());
         lbIDP_hide_Booking.setText("" + itemSelect.getIdp());
-
+        int stt;
         if (itemSelect.getAvailable() != 1) {
+            stt = 2;
+            if (itemSelect.getAvailable() == 3) {
+                stt = 1;
+                btnStart_Booking.setVisible(true);
+            }
             bk = new Booking();
             bkDAO = new BookingDAO();
             bkDAO.getAll();
-            opBk = bkDAO.getBookingByPitch(itemSelect.getIdp());
+            opBk = bkDAO.getBookingByPitch(itemSelect.getIdp(), stt);
             if (opBk.isEmpty()) {
                 System.out.println("Cannot found booking");
                 reset_Booking();
                 return;
-            }
-            if (itemSelect.getAvailable() == 3) {
-                btnStart_Booking.setVisible(true);
             }
             bk = opBk.get();
             txtDeposit_Booking.setText("" + bk.getDep());
@@ -270,6 +295,11 @@ public class PagesController implements Initializable {
 
     @FXML
     private void btnAdd_Booking(ActionEvent event) {
+
+        int hrstimebook = spnHour_timeBook_Booking.getValue();
+        int minutes = spnMinute_timeBook_Booking.getValue();
+
+        txtTimeStart_Booking.setText(hrstimebook + ":" + minutes + ":" + "00");
 
         if (cboIdk_Booking.getValue().equals("")) {
             alert = new Alert(Alert.AlertType.ERROR);
@@ -300,10 +330,10 @@ public class PagesController implements Initializable {
             int idp = Integer.parseInt(lbIDP_hide_Booking.getText());
             String idu = lbIdu_booking.getText();
             String idk = cboIdk_Booking.getValue();
-            Time time_book;
             int hrs = spnHrs_Booking.getValue();
             int deposit = Integer.parseInt(txtDeposit_Booking.getText());
             int stt = 1;
+            Time time_book;
             try {
                 time_book = Time.valueOf(txtTimeStart_Booking.getText());
             } catch (Exception ex) {
@@ -322,7 +352,6 @@ public class PagesController implements Initializable {
             bk.setTime_book(time_book);
             bk.setHrs(hrs);
             bk.setStt(stt);
-            System.out.println(bk);
 
             bkDAO.Insert(bk);
 
@@ -338,6 +367,8 @@ public class PagesController implements Initializable {
             setBtnVisible(btnNew_Booking);
             setBtnNOTvisible(btnAdd_Booking);
             showPitchObservableList_Booking(3);
+            stpTimeBook_Booking.setVisible(true);
+
         }
     }
 
@@ -384,13 +415,19 @@ public class PagesController implements Initializable {
     private void btnNew_Booking(ActionEvent event) {
 
         showPitchObservableList_Booking(1);
-        Alert alert = new Alert(AlertType.ERROR);
 
+        stpTimeBook_Booking.setVisible(false);
+        LocalTime crHrs = LocalTime.now().plusMinutes(15);
+        int crHours = crHrs.getHour();
+        SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 18, crHours);
+        spnHour_timeBook_Booking.setValueFactory(valueHour);
+        Click_spnHour_timeBook_Booking();
+
+
+        Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Message");
         alert.setHeaderText("Please select a available pitch from ObservableList!");
-//        alert.setContentText("Please select a available from ObservableList!");
         alert.show();
-        txtTimeStart_Booking.setText("10:20:20");
 
         changeVisibleBtn_Booking(btnNew_Booking.getId());
         lbNameTable_booking.getStyleClass().removeAll("update-btn");
@@ -409,6 +446,7 @@ public class PagesController implements Initializable {
 
     @FXML
     private void btnBooking_Booking(ActionEvent event) {
+        stpTimeBook_Booking.setVisible(true);
 
         changeVisibleBtn_Booking(btnBooking_Booking.getId());
         showPitchObservableList_Booking(3);
@@ -421,7 +459,7 @@ public class PagesController implements Initializable {
         btnDelete_Booking.setDisable(false);
         btnUpdate_Booking.setDisable(false);
         setDisableInput_Booking(false);
-
+        txtDeposit_Booking.setVisible(true);
     }
 
     @FXML
@@ -434,7 +472,9 @@ public class PagesController implements Initializable {
         setBtnDisible_Booking();
         selectPitch_Booking();
         setDisableInput_Booking(true);
-        btnComplete_Booking.isPressed();
+        txtDeposit_Booking.setVisible(true);
+        stpTimeBook_Booking.setVisible(true);
+
     }
 
     @FXML
@@ -464,5 +504,11 @@ public class PagesController implements Initializable {
             alert.show();
         }
     }
+
+    @FXML
+    void Click_spnHour_timeBook_Booking(MouseEvent event) {
+        Click_spnHour_timeBook_Booking();
+    }
+
 
 }
