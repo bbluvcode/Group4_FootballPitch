@@ -14,11 +14,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
     <children>
         <AnchorPane layoutX="2.0" layoutY="2.0" prefHeight="45.0" prefWidth="1260.0">
             <children>
@@ -191,7 +193,7 @@
                                                         <Font size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <ComboBox fx:id="cboIdk_Booking" prefHeight="29.0" prefWidth="147.0" styleClass="textfield" />
+                                                <ComboBox fx:id="cboIdk_Booking" prefHeight="29.0" prefWidth="142.0" styleClass="textfield" />
                                                 <Button blendMode="EXCLUSION" minWidth="43.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="43.0" stylesheets="@page.css" text="New">
                                                     <font>
                                                         <Font name="System Bold" size="10.0" />
@@ -199,20 +201,45 @@
                                                 </Button>
                                             </children>
                                         </HBox>
-                                        <HBox prefHeight="57.0" prefWidth="282.0">
-                                            <children>
-                                                <Label prefHeight="32.0" prefWidth="125.0" text="Time book" textFill="#610a0a">
-                                                    <font>
-                                                        <Font size="15.0" />
-                                                    </font>
+                              <StackPane prefHeight="53.0" prefWidth="230.0">
+                                 <children>
+                                    <HBox prefHeight="57.0" prefWidth="282.0">
+                                       <children>
+                                          <Label prefHeight="32.0" prefWidth="103.0" text="Time book" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Spinner fx:id="spnHour_timeBook_Booking" onMouseClicked="#Click_spnHour_timeBook_Booking" prefHeight="27.0" prefWidth="62.0" styleClass="textfield" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="13.0" text=":" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Spinner fx:id="spnMinute_timeBook_Booking" layoutX="135.0" layoutY="10.0" prefHeight="25.0" prefWidth="61.0" styleClass="textfield" />
+                                       </children>
+                                    </HBox>
+                                    <StackPane fx:id="stpTimeBook_Booking" prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" stroke="WHITE" strokeType="INSIDE" width="283.0" />
+                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Label prefHeight="32.0" prefWidth="103.0" text="Time book" textFill="#610a0a">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
                                                 </Label>
-                                                <TextField fx:id="txtTimeStart_Booking" prefHeight="32.0" prefWidth="203.0" styleClass="textfield" stylesheets="@page.css">
-                                                    <font>
-                                                        <Font size="15.0" />
-                                                    </font>
+                                                <TextField fx:id="txtTimeStart_Booking" prefHeight="30.0" prefWidth="139.0" styleClass="textfield" stylesheets="@page.css">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
                                                 </TextField>
-                                            </children>
-                                        </HBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </StackPane>
                                         <HBox prefHeight="61.0" prefWidth="282.0">
                                             <children>
                                                 <Label prefHeight="30.0" prefWidth="105.0" text="Hours" textFill="#610a0a">
@@ -220,7 +247,7 @@
                                                         <Font size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <Spinner fx:id="spnHrs_Booking" prefHeight="30.0" prefWidth="181.0" styleClass="textfield" stylesheets="@page.css" />
+                                                <Spinner fx:id="spnHrs_Booking" prefHeight="30.0" prefWidth="133.0" styleClass="textfield" stylesheets="@page.css" />
                                             </children>
                                         </HBox>
                                         <HBox prefHeight="25.0" prefWidth="282.0">
@@ -230,7 +257,7 @@
                                                         <Font size="15.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField fx:id="txtDeposit_Booking" prefHeight="0.0" prefWidth="178.0" styleClass="textfield" stylesheets="@page.css">
+                                                <TextField fx:id="txtDeposit_Booking" prefHeight="32.0" prefWidth="134.0" styleClass="textfield" stylesheets="@page.css">
                                                     <font>
                                                         <Font size="15.0" />
                                                     </font>
