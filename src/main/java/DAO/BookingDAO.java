@@ -36,10 +36,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         int hrs = b.getHrs();
         int deposit = b.getDep();
         System.out.println(b);
-//        String sql = "UPDATE payments SET idu = " + idu + ", idp = " + idp + ", idk = " + idk + ",time = " + time + ", hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
-//        String sql = "UPDATE payments SET idu = '" + idu + "', idp = " + idp + ", idk = '" + idk + ",time = '" + time + "', hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
-        String sql = "UPDATE payments SET idp = " + idp + ", idk = '" + idk + "', hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
-        System.out.println(sql);
+        String sql = "UPDATE payments SET idp = " + idp + ", idk = '" + idk + "', time_book = '" + time + "', hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
         executeSQL(sql);
         System.out.println("Booking UPDATED Successfully!");
     }
@@ -71,7 +68,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
     public ObservableList<Booking> getAll() {
         Connection cn = getConnection();
         String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name "
-                + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE pay_date = CAST(GETDATE() AS DATE) AND time_book >= CAST(GETDATE() AS TIME)";
+                + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE pay_date = CAST(GETDATE() AS DATE)";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);

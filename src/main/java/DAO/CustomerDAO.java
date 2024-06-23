@@ -31,7 +31,7 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         String phone = t.getPhone();
         int point = t.getPoint();
 //        String mail = t.getMail();
-        String sql = "UPDATE customer SET name='"+name+"',phone='"+phone+"' WHERE idk='"+idk+"'";
+        String sql = "UPDATE khachhang SET name='"+name+"',phone='"+phone+"' WHERE idk='"+idk+"'";
         executeSQL(sql);
 
     }
@@ -43,13 +43,13 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         String phone = t.getPhone();
         int point = t.getPoint();
 //        String mail = t.getMail();
-        String sql = "INSERT INTO customer VALUES('" + idk + "','" + name + "','" + phone + "'," + point + ")";
+        String sql = "INSERT INTO khachhang VALUES('" + idk + "','" + name + "','" + phone + "'," + point + ")";
         executeSQL(sql);
     }
 
     @Override
     public void Delete(String id) {
-        String sql = "DELETE FROM customer WHERE idk='" + id + "'";
+        String sql = "DELETE FROM khachhang WHERE idk='" + id + "'";
         executeSQL(sql);
         System.out.println("Customer Deleted");
     }

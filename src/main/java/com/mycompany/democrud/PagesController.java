@@ -6,6 +6,7 @@ package com.mycompany.democrud;
 
 import DAO.*;
 import Entities.Booking;
+import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.User;
 
@@ -23,7 +24,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -32,19 +35,21 @@ import javafx.stage.Stage;
  *
  * @author ADMIN
  * <p>
- * hoi co lam sao để thiết lap đinh dang nhạp cho txt là time
  */
 public class PagesController implements Initializable {
 
     Alert alert;
     PitchDAO pDAO;
     UserDAO userDAO;
-    CustomerDAO cusDAO;
+    CustomerDAO cusDAO = new CustomerDAO();
     PaymentBillDAO pmDAO = new PaymentBillDAO();
     BookingDAO bkDAO = new BookingDAO();
     Optional<Booking> opBk;
     Booking bk = new Booking();
 
+    //===========================================================
+    //=============Manage Booking================================
+    //===========================================================
     @FXML
     private Button btnClose;
     @FXML
@@ -52,15 +57,7 @@ public class PagesController implements Initializable {
     @FXML
     private Button btnLogout;
     @FXML
-    private Button btnCusPage;
-    @FXML
-    private Button btnPitPage;
-    @FXML
-    private Button btnSerPage;
-    @FXML
     private Button btnBillPage;
-    @FXML
-    private Button btnPayPage;
     @FXML
     private TableColumn<Integer, Integer> colNoPitch_Booking;
     @FXML
@@ -113,7 +110,44 @@ public class PagesController implements Initializable {
     private TextField txtSearch_Booking;
     @FXML
     private Button btnStart_Booking;
-
+    //=========================End manage booking================
+    //===========================================================
+    //=============New Customer==================================
+    //===========================================================
+    @FXML
+    private Button btnEmployeePage;
+    @FXML
+    private Button btnCustomerPage;
+    @FXML
+    private Button btnSportPage;
+    @FXML
+    private Button btnServicePage;
+    @FXML
+    private Button btnCatePage;
+    @FXML
+    private ImageView ivEmployee;
+    @FXML
+    private Label tfEmployeeName;
+    @FXML
+    private TextField txtFullName_Cus;
+    @FXML
+    private TextField txtPhone_Cus;
+    @FXML
+    private Button btnReset_Booking1;
+    @FXML
+    private Button btnSave_Cus;
+    @FXML
+    private Button btnCancel_Cus;
+    @FXML
+    private Label lbIDP_hide_Booking1;
+    //=========================End manage booking================
+    //===========================================================
+    //=============New Customer==================================
+    //===========================================================
+    @FXML
+    private AnchorPane acNewCus_Page;
+    @FXML
+    private TextField txtMail_Cus;
 
     /**
      * Initializes the controller class.
@@ -123,6 +157,7 @@ public class PagesController implements Initializable {
 
         initialize_manageBooking();
     }
+
     //**initialize**
     public void initialize_manageBooking() {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
@@ -130,7 +165,6 @@ public class PagesController implements Initializable {
         setItem_cboIdk_Booking();
 
         //Disible Button_Booking
-
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
     }
@@ -225,10 +259,12 @@ public class PagesController implements Initializable {
 
     }
 
+    @FXML
     private void selectPitch_Booking(MouseEvent event) {
         selectPitch_Booking();
     }
 
+    @FXML
     void Click_spnHour_timeBook_Booking() {
         LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
@@ -260,7 +296,6 @@ public class PagesController implements Initializable {
     private void switchPage(ActionEvent event) {
     }
 
-    @FXML
     public void selectPitch_Booking() {
         Pitch itemSelect = tvBooked_PitchObservableList_Booking.getSelectionModel().getSelectedItem();
         lbNamePitch_Booking.setText(itemSelect.getName());
@@ -404,7 +439,6 @@ public class PagesController implements Initializable {
         bk.setIdp(Integer.parseInt(lbIDP_hide_Booking.getText()));
         int idb = Integer.parseInt(lbIdb_booking.getText());
         bkDAO.Update(idb, bk);
-        System.out.println("Updated Booking");
         showPitchObservableList_Booking(3);
 
         alert = new Alert(Alert.AlertType.INFORMATION);
@@ -425,7 +459,6 @@ public class PagesController implements Initializable {
         SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 18, crHours);
         spnHour_timeBook_Booking.setValueFactory(valueHour);
         Click_spnHour_timeBook_Booking();
-
 
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Message");
@@ -509,10 +542,55 @@ public class PagesController implements Initializable {
         }
     }
 
-    @FXML
     void Click_spnHour_timeBook_Booking(MouseEvent event) {
         Click_spnHour_timeBook_Booking();
     }
 
+    @FXML
+    private void signout(ActionEvent event) {
+    }
+
+    @FXML
+    private void editProfile(ActionEvent event) {
+    }
+
+    @FXML
+    private void Save_Cus(ActionEvent event) {
+        String fullname = txtFullName_Cus.getText();
+        String sdt = txtPhone_Cus.getText();
+        String mail = txtMail_Cus.getText();
+
+        if (fullname.isEmpty()) {
+            alert = new Alert(AlertType.ERROR);
+            System.out.println("Nam canot blank");
+        }
+//        if (mail.isEmpty()) {
+//            alert = new Alert(AlertType.ERROR);
+//            System.out.println("mail cannot blank");
+//        }
+        if (sdt.length() < 10) {
+            alert = new Alert(AlertType.ERROR);
+            System.out.println("sdt khong hop le");
+
+        } else {
+            Customer cus = new Customer(sdt, fullname, sdt, 0, mail);
+
+            cusDAO.Insert(cus);
+            alert = new Alert(AlertType.CONFIRMATION);
+            acNewCus_Page.setVisible(false);
+            setItem_cboIdk_Booking();
+
+        }
+    }
+
+    @FXML
+    private void Cancel_Cus(ActionEvent event) {
+        acNewCus_Page.setVisible(false);
+    }
+
+    @FXML
+    private void NewCus_Booking(ActionEvent event) {
+        acNewCus_Page.setVisible(true);
+    }
 
 }
