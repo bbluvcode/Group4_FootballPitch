@@ -30,8 +30,8 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         String name = t.getName();
         String phone = t.getPhone();
         int point = t.getPoint();
-//        String mail = t.getMail();
-        String sql = "UPDATE khachhang SET name='"+name+"',phone='"+phone+"' WHERE idk='"+idk+"'";
+        String mail = t.getMail();
+        String sql = "UPDATE khachhang SET name='" + name + "',phone='" + phone + "',mail='" + mail + "' WHERE idk='" + idk + "'";
         executeSQL(sql);
 
     }
@@ -42,8 +42,9 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         String name = t.getName();
         String phone = t.getPhone();
         int point = t.getPoint();
-//        String mail = t.getMail();
-        String sql = "INSERT INTO khachhang VALUES('" + idk + "','" + name + "','" + phone + "'," + point + ")";
+        String mail = t.getMail();
+        String sql = "INSERT INTO khachhang VALUES('" + idk + "','" + name + "','" + phone + "'," + point + " , '" + mail + "' )";
+        System.out.println("INSERTED SQL : " + sql);
         executeSQL(sql);
     }
 
@@ -77,6 +78,7 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         }
         return CusList;
     }
+
     public ObservableList<String> getAll_ID_Cus() {
         Connection cn = getConnection();
         String sql = "SELECT * FROM khachhang";

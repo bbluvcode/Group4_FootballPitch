@@ -8,6 +8,7 @@ import DAO.*;
 import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
+import Entities.Service;
 import Entities.User;
 
 import java.net.URL;
@@ -155,64 +156,76 @@ public class PagesController implements Initializable {
     private TextField txtMail_Cus;
     @FXML
     private BorderPane pBdpManagebooking_page;
+    //=========================End new Customer================
+    //===========================================================
+    //============= Bill ==================================
+    //===========================================================
     @FXML
     private BorderPane pBdpBillDetail_page;
     @FXML
-    private TextField txtSearch_Booking1;
-    @FXML
-    private TableView<?> tvBooked_PitchObservableList_Booking1;
-    @FXML
-    private TableColumn<?, ?> colNoPitch_Booking1;
-    @FXML
-    private TableColumn<?, ?> colNamePitch_Booking1;
-    @FXML
-    private TableColumn<?, ?> colSizePitch_Booking1;
-    @FXML
-    private TableColumn<?, ?> colPricePitch_Booking1;
-    @FXML
-    private TableColumn<?, ?> colPricePitch_Booking11;
-    @FXML
-    private Button btnBooking_Booking1;
-    @FXML
-    private Label lbNameTable_booking1;
-    @FXML
-    private Button btnComplete_Booking1;
-    @FXML
-    private ComboBox<?> cboIdk_Booking1;
-    @FXML
-    private Spinner<?> spnHour_timeBook_Booking1;
-    @FXML
-    private Spinner<?> spnMinute_timeBook_Booking1;
-    @FXML
-    private StackPane stpTimeBook_Booking1;
-    @FXML
-    private TextField txtTimeStart_Booking1;
-    @FXML
-    private Spinner<?> spnHrs_Booking1;
-    @FXML
-    private TextField txtDeposit_Booking1;
-    @FXML
-    private Button btnReset_Booking1;
-    @FXML
-    private Button btnAdd_Booking1;
-    @FXML
-    private Button btnDelete_Booking1;
-    @FXML
-    private Label lbNamePitch_Booking1;
-    @FXML
-    private Label lbIdb_booking1;
-    @FXML
-    private Label lbIdu_booking1;
-    @FXML
-    private Button btnUpdate_Booking1;
-    @FXML
-    private Button btnNew_Booking1;
-    @FXML
-    private Label lbIDP_hide_Booking2;
-    @FXML
-    private Button btnStart_Booking1;
-    @FXML
     private Button btnBillDetail_Booking;
+    @FXML
+    private TableView<Service> tvService_Bill;
+    @FXML
+    private TableColumn<Integer, Integer> colNoSer_Bill;
+    @FXML
+    private TableColumn<Service, String> colNameSer_Bill;
+    @FXML
+    private TableColumn<Service, Integer> colPriceSer_Bill;
+    @FXML
+    private TableColumn<Service, Integer> colQtySer_Bill;
+    @FXML
+    private TableColumn<Service, Integer> colTotalSer_Bill;
+    @FXML
+    private ComboBox<?> cboCus_Bill;
+    @FXML
+    private TextField txtTimeBook_Bill;
+    @FXML
+    private TextField txtDeposit_Bill;
+    @FXML
+    private TextField txtTimeStart_Bill;
+    @FXML
+    private TextField txtTimeEnd_Bill;
+    @FXML
+    private TextField txtHrsUsed_Bill;
+    @FXML
+    private Label lbPaytime_Bill;
+    @FXML
+    private Label lbStaffID_Bill;
+    @FXML
+    private Label lbSubtotal_Bill;
+    @FXML
+    private Label lbTax_Bill;
+    @FXML
+    private Label lbTotal_Bill;
+    @FXML
+    private Button btnCheckOut_Bill;
+    @FXML
+    private Button btnAddSer_Bill;
+    @FXML
+    private Button btnUpdate_Bill;
+    @FXML
+    private TextField txtSearch_Bill;
+    @FXML
+    private Button btnClearFilter_Bill;
+    @FXML
+    private TableView<PaymentBill> tvBillPayment_Bill;
+    @FXML
+    private TableColumn<PaymentBill, Integer> col_idb_Bill;
+    @FXML
+    private TableColumn<PaymentBill, Integer> col_idp_Bill;
+    @FXML
+    private TableColumn<PaymentBill, String> cod_idk_Bill;
+    @FXML
+    private TableColumn<PaymentBill, Integer> col_ttpay_Bill;
+    @FXML
+    private Label lb_paydate_Bill;
+    @FXML
+    private Label lb_idp_Bill;
+    @FXML
+    private Label lb_idb_Bill;
+    @FXML
+    private DatePicker dpk_DateFilter_Bill;
 
     /**
      * Initializes the controller class.
@@ -223,31 +236,6 @@ public class PagesController implements Initializable {
         initialize_manageBooking();
     }
 
-    //**initialize**
-    public void initialize_manageBooking() {
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
-        spnHrs_Booking.setValueFactory(valueFactory);
-        setItem_cboIdk_Booking();
-
-        //Disible Button_Booking
-        setBtnNOTvisible(btnBooking_Booking);
-        showPitchObservableList_Booking(3);
-
-        OnlyEnterNumber(txtDeposit_Booking);
-
-
-        // Kết nối sự kiện KeyTyped cho TextField
-/*        txtDeposit_Booking.addEventFilter(KeyEvent.KEY_TYPED, this::OnlyEnterNumber);
-
-        // Thêm ChangeListener để kiểm tra dữ liệu đầu vào
-        txtDeposit_Booking.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtDeposit_Booking.setText(newValue.replaceAll("[^\\d]", ""));
-                alert = new Alert(Alert.AlertType.ERROR, "Please enter a number", ButtonType.OK);
-                alert.showAndWait();
-            }
-        });*/
-    }
 
     private void OnlyEnterNumber(TextField name) {
         // Kết nối sự kiện KeyTyped cho TextField
@@ -266,6 +254,17 @@ public class PagesController implements Initializable {
     //================================================================================================================
     //==============================================**MANAGE BOOKING**==============================================
     //================================================================================================================
+    //**initialize**
+    public void initialize_manageBooking() {
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+        spnHrs_Booking.setValueFactory(valueFactory);
+        setItem_cboIdk_Booking(cboIdk_Booking);
+        //Disible Button_Booking
+        setBtnNOTvisible(btnBooking_Booking);
+        showPitchObservableList_Booking(3);
+        OnlyEnterNumber(txtDeposit_Booking);
+    }
+
     public void showPitchObservableList_Booking(int available) {
         String nameTableObservableList = available == 1 ? "Available" : available == 2 ? "Renting" : "Booking";
 
@@ -305,11 +304,11 @@ public class PagesController implements Initializable {
         lbIdb_booking.setText("");
     }
 
-    public void setItem_cboIdk_Booking() {
+    public void setItem_cboIdk_Booking(ComboBox combobox) {
         cusDAO = new CustomerDAO();
         ObservableList<String> ID_CusObservableList = cusDAO.getAll_ID_Cus();
-        cboIdk_Booking.setItems(ID_CusObservableList);
-        cboIdk_Booking.setPromptText(" Select...");
+        combobox.setItems(ID_CusObservableList);
+        combobox.setPromptText(" Select...");
     }
 
     public void setBtnVisible(Button fxid) {
@@ -355,7 +354,6 @@ public class PagesController implements Initializable {
 
     }
 
-
     @FXML
     public void selectPitch_Booking() {
         try {
@@ -397,7 +395,7 @@ public class PagesController implements Initializable {
         }
     }
 
-    @FXML
+
     void Click_spnHour_timeBook_Booking() {
         LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
@@ -444,7 +442,7 @@ public class PagesController implements Initializable {
             }
         }
     }
-
+    @FXML
     private void selectPitch_Booking(MouseEvent event) {
         selectPitch_Booking();
     }
@@ -579,7 +577,7 @@ public class PagesController implements Initializable {
         stpTimeBook_Booking.setVisible(false);
         LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
-        SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 18, crHours);
+        SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
         spnHour_timeBook_Booking.setValueFactory(valueHour);
         Click_spnHour_timeBook_Booking();
 
@@ -665,9 +663,21 @@ public class PagesController implements Initializable {
         }
     }
 
+    @FXML
     private void Click_spnHour_timeBook_Booking(MouseEvent event) {
         Click_spnHour_timeBook_Booking();
     }
+
+    @FXML
+    private void BillDetail_Booking(ActionEvent event) {
+        pBdpBillDetail_page.setVisible(true);
+        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
+
+        pBdpManagebooking_page.setVisible(false);
+        btnSportPage.setStyle("-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
+
+    }
+
     //==============================================**END MANAGE BOOKING**==============================================
     //================================================================================================================
     //==============================================**ADD CUSTOMER**==============================================
@@ -705,11 +715,10 @@ public class PagesController implements Initializable {
 
         } else {
             Customer cus = new Customer(sdt, fullname, sdt, 0, mail);
-
             cusDAO.Insert(cus);
             alert = new Alert(AlertType.CONFIRMATION);
             pAcNewCus_Page.setVisible(false);
-            setItem_cboIdk_Booking();
+            setItem_cboIdk_Booking(cboIdk_Booking);
 
         }
     }
@@ -735,19 +744,34 @@ public class PagesController implements Initializable {
         txtPhone_Cus.setText("");
         txtMail_Cus.setText("");
     }
+
     //==============================================**END ADD CUSTOMER**==============================================
     //================================================================================================================
     //==============================================**DETAIL BILL**==============================================
-
-    @FXML
-    private void BillDetail_Booking(ActionEvent event) {
-        pBdpBillDetail_page.setVisible(true);
-        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
-
-        pBdpManagebooking_page.setVisible(false);
-        btnSportPage.setStyle("-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
-
+    public void initialize_Bill() {
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+        spnHrs_Booking.setValueFactory(valueFactory);
+        //setItem_cboIdk_Booking();
+        //Disible Button_Booking
+        setBtnNOTvisible(btnBooking_Booking);
+        showPitchObservableList_Booking(3);
+        OnlyEnterNumber(txtDeposit_Booking);
     }
 
+    @FXML
+    private void CheckOut_Bill(ActionEvent event) {
+    }
+
+    @FXML
+    private void AddService_Bill(ActionEvent event) {
+    }
+
+    @FXML
+    private void Update_Bill(ActionEvent event) {
+    }
+
+    @FXML
+    private void ClearFilter_Bill(ActionEvent event) {
+    }
 
 }
