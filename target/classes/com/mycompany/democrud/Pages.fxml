@@ -151,7 +151,7 @@
       </AnchorPane>
       <StackPane layoutX="203.0" layoutY="53.0" prefHeight="646.0" prefWidth="1056.0">
          <children>
-              <BorderPane prefHeight="636.0" prefWidth="1050.0">
+              <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                   <center>
                       <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                           <children>
@@ -358,13 +358,14 @@
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Button>
+                              <Button fx:id="btnBillDetail_Booking" layoutX="52.0" layoutY="547.0" mnemonicParsing="false" onAction="#BillDetail_Booking" prefHeight="45.0" prefWidth="223.0" styleClass="purple-btn" stylesheets="@page.css" text="BILL DETAIL" visible="false" />
                                   </children>
                               </AnchorPane>
                           </children>
                       </AnchorPane>
                   </right>
               </BorderPane>
-            <AnchorPane fx:id="acNewCus_Page" layoutX="203.0" layoutY="53.0" prefHeight="646.0" prefWidth="1056.0">
+            <AnchorPane fx:id="pAcNewCus_Page" layoutX="203.0" layoutY="53.0" prefHeight="646.0" prefWidth="1056.0" visible="false">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="649.0" layoutX="699.0" layoutY="-4.0" stroke="WHITE" strokeType="INSIDE" width="354.0" />
                   <BorderPane prefHeight="636.0" prefWidth="1050.0">
@@ -424,7 +425,7 @@
                                        </children>
                                     </VBox>
                                     <Line endX="219.0" endY="3.0517578125E-5" layoutX="119.0" layoutY="448.0" startX="-117.69998931884766" stroke="#300d0d" />
-                                    <Button fx:id="btnReset_Booking1" layoutX="226.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnReset_Booking" prefHeight="48.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="Reset" />
+                                    <Button layoutX="226.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnReset_Cus" prefHeight="48.0" prefWidth="100.0" styleClass="clear-btn" stylesheets="@page.css" text="Reset" />
                                     <Button fx:id="btnSave_Cus" layoutX="56.0" layoutY="517.0" mnemonicParsing="false" onAction="#Save_Cus" prefHeight="45.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="SAVE" />
                                     <Button fx:id="btnCancel_Cus" layoutX="181.0" layoutY="516.0" mnemonicParsing="false" onAction="#Cancel_Cus" prefHeight="45.0" prefWidth="100.0" styleClass="delete-btn" stylesheets="@page.css" text="CANCEL" />
                                     <Label layoutX="21.0" layoutY="106.0" prefHeight="47.0" prefWidth="186.0" text="New Customer">
@@ -446,6 +447,255 @@
                   </BorderPane>
                </children>
             </AnchorPane>
+            <BorderPane fx:id="pBdpBillDetail_page" layoutX="10.0" layoutY="10.0" prefHeight="636.0" prefWidth="1050.0">
+               <center>
+                  <AnchorPane prefHeight="642.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane layoutX="7.2" layoutY="-1.0" prefHeight="635.0" prefWidth="679.0" stylesheets="@page.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="41.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <TableView fx:id="tvBooked_PitchObservableList_Booking1" layoutX="24.0" layoutY="241.0" onMouseClicked="#selectPitch_Booking" prefHeight="258.0" prefWidth="634.0">
+                                 <columns>
+                                    <TableColumn fx:id="colNoPitch_Booking1" prefWidth="64.13339614868164" text="No." />
+                                    <TableColumn fx:id="colNamePitch_Booking1" prefWidth="188.66664123535156" text="Item Description" />
+                                    <TableColumn fx:id="colSizePitch_Booking1" prefWidth="140.13333129882812" text="Price" />
+                                    <TableColumn fx:id="colPricePitch_Booking1" prefWidth="90.26666259765625" text="Qty." />
+                                    <TableColumn fx:id="colPricePitch_Booking11" prefWidth="149.60003662109375" text="Total" />
+                                 </columns>
+                              </TableView>
+                              <Label layoutX="23.0" layoutY="19.0" prefHeight="38.0" prefWidth="343.0" text="Bill Payment">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="30.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="383.0" layoutY="100.0" prefHeight="155.0" prefWidth="239.0" styleClass="label" stylesheets="@page.css">
+                                 <children>
+                                    <HBox prefHeight="44.0" prefWidth="283.0">
+                                       <children>
+                                          <Label prefHeight="30.0" prefWidth="94.0" text="Cus phone" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtTimeStart_Booking12" prefHeight="20.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="48.0" prefWidth="282.0">
+                                       <children>
+                                          <Label prefHeight="32.0" prefWidth="94.0" text="Time book" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtTimeStart_Booking1" prefHeight="20.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="25.0" prefWidth="282.0">
+                                       <children>
+                                          <Label prefHeight="32.0" prefWidth="95.0" text="Deposit" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtDeposit_Booking1" prefHeight="32.0" prefWidth="136.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox layoutX="516.0" layoutY="12.0" prefHeight="74.0" prefWidth="146.0">
+                                 <children>
+                                    <VBox prefHeight="74.0" prefWidth="166.0">
+                                       <children>
+                                          <HBox prefHeight="21.0" prefWidth="149.0">
+                                             <children>
+                                                <Label prefHeight="19.0" prefWidth="68.0" text="Pay date">
+                                                   <font>
+                                                      <Font name="Tahoma" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbIdb_booking1" prefHeight="25.0" prefWidth="66.0" text="...">
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="26.0" prefWidth="149.0">
+                                             <children>
+                                                <Label prefHeight="19.0" prefWidth="82.0" text="Pitch ID " textAlignment="RIGHT" textFill="#461111">
+                                                   <font>
+                                                      <Font name="Tahoma" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbIdu_booking1" prefHeight="32.0" prefWidth="91.0" text="...">
+                                                   <font>
+                                                      <Font name="Tahoma" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="31.0" prefHeight="26.0" prefWidth="149.0">
+                                             <children>
+                                                <Label prefHeight="18.0" prefWidth="81.0" text="Booking ID" textAlignment="RIGHT" textFill="#461111">
+                                                   <font>
+                                                      <Font name="Tahoma" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbIdu_booking12" prefHeight="32.0" prefWidth="91.0" text="0939966602">
+                                                   <font>
+                                                      <Font name="Tahoma" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="54.0" prefHeight="18.0" prefWidth="172.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox layoutX="33.0" layoutY="94.0" prefHeight="155.0" prefWidth="239.0" styleClass="label" stylesheets="@page.css">
+                                 <children>
+                                    <HBox prefHeight="44.0" prefWidth="283.0">
+                                       <children>
+                                          <Label prefHeight="30.0" prefWidth="94.0" text="Start time" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtTimeStart_Booking121" prefHeight="20.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="48.0" prefWidth="282.0">
+                                       <children>
+                                          <Label prefHeight="32.0" prefWidth="94.0" text="End time" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtTimeStart_Booking11" prefHeight="20.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="43.0" prefWidth="283.0">
+                                       <children>
+                                          <Label prefHeight="30.0" prefWidth="95.0" text="Hours used" textFill="#610a0a">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="txtTimeStart_Booking111" prefHeight="20.0" prefWidth="135.0" styleClass="textfield" stylesheets="@page.css">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="38.0" layoutY="520.0" prefHeight="45.0" prefWidth="166.0">
+                                 <children>
+                                    <HBox prefHeight="21.0" prefWidth="149.0">
+                                       <children>
+                                          <Label prefHeight="19.0" prefWidth="52.0" text="Pay time">
+                                             <font>
+                                                <Font name="Tahoma" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbIdb_booking11" prefHeight="25.0" prefWidth="66.0" text="...">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="54.0" prefHeight="18.0" prefWidth="172.0">
+                                       <children>
+                                          <Label prefHeight="18.0" prefWidth="50.0" text="Emp" textAlignment="RIGHT" textFill="#461111">
+                                             <font>
+                                                <Font name="Tahoma" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbIdu_booking1211" prefHeight="32.0" prefWidth="91.0" text="0939966602">
+                                             <font>
+                                                <Font name="Tahoma" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+               <right>
+                  <AnchorPane prefHeight="620.0" prefWidth="323.0" stylesheets="@page.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane layoutX="-32.0" layoutY="1.0" prefHeight="635.0" prefWidth="345.0" stylesheets="@page.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-32.0" AnchorPane.rightAnchor="10.0">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                           </styleClass>
+                           <children>
+                              <Line endX="219.0" endY="3.0517578125E-5" layoutX="119.0" layoutY="437.0" startX="-117.69998931884766" stroke="#300d0d" />
+                              <Button fx:id="btnAdd_Booking1" layoutX="50.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnAdd_Booking" prefHeight="45.0" prefWidth="100.0" styleClass="add-btn" stylesheets="@page.css" text="ADD" />
+                              <Button fx:id="btnDelete_Booking1" disable="true" layoutX="175.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnDelete_Booking" prefHeight="45.0" prefWidth="100.0" styleClass="delete-btn" stylesheets="@page.css" text="CANCEL" />
+                              <Button layoutX="49.0" layoutY="479.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" styleClass="update-btn" stylesheets="@page.css" text="SAVE" visible="false" />
+                              <Button fx:id="btnUpdate_Booking1" layoutX="52.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnUpdate_Booking" prefHeight="45.0" prefWidth="223.0" styleClass="update-btn" stylesheets="@page.css" text="UPDATE" />
+                              <Button fx:id="btnNew_Booking1" layoutX="47.0" layoutY="478.0" mnemonicParsing="false" onAction="#btnNew_Booking" prefHeight="48.0" prefWidth="104.0" styleClass="add-btn" stylesheets="@page.css" text="NEW">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="lbIDP_hide_Booking2" layoutX="49.0" layoutY="14.0" prefHeight="34.0" prefWidth="84.0" text="idp" visible="false">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtSearch_Booking1" layoutX="25.0" layoutY="24.0" prefHeight="30.0" prefWidth="170.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <FontAwesomeIcon glyphName="SEARCH" layoutX="32.0" layoutY="45.0" size="1.5em" />
+                              <Button fx:id="btnReset_Booking1" layoutX="239.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnReset_Booking" prefHeight="16.0" prefWidth="87.0" styleClass="clear-btn" stylesheets="@page.css" text="Reset" />
+                              <TableView layoutX="16.0" layoutY="70.0" prefHeight="251.0" prefWidth="322.0">
+                                <columns>
+                                  <TableColumn prefWidth="55.466609954833984" text="Bill code" />
+                                  <TableColumn prefWidth="91.33355712890625" text="Pitch" />
+                                    <TableColumn prefWidth="101.46656799316406" text="Cus code" />
+                                    <TableColumn prefWidth="68.53355407714844" text="Total" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </right>
+            </BorderPane>
          </children>
       </StackPane>
     </children>

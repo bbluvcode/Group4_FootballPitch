@@ -8,7 +8,6 @@ import java.sql.Date;
 import java.sql.Time;
 
 /**
- *
  * @author ADMIN
  */
 public class PaymentBill {

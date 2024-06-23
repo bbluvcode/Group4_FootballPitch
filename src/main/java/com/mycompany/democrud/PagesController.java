@@ -13,6 +13,8 @@ import Entities.User;
 import java.net.URL;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,12 +23,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -133,8 +140,6 @@ public class PagesController implements Initializable {
     @FXML
     private TextField txtPhone_Cus;
     @FXML
-    private Button btnReset_Booking1;
-    @FXML
     private Button btnSave_Cus;
     @FXML
     private Button btnCancel_Cus;
@@ -145,9 +150,69 @@ public class PagesController implements Initializable {
     //=============New Customer==================================
     //===========================================================
     @FXML
-    private AnchorPane acNewCus_Page;
+    private AnchorPane pAcNewCus_Page;
     @FXML
     private TextField txtMail_Cus;
+    @FXML
+    private BorderPane pBdpManagebooking_page;
+    @FXML
+    private BorderPane pBdpBillDetail_page;
+    @FXML
+    private TextField txtSearch_Booking1;
+    @FXML
+    private TableView<?> tvBooked_PitchObservableList_Booking1;
+    @FXML
+    private TableColumn<?, ?> colNoPitch_Booking1;
+    @FXML
+    private TableColumn<?, ?> colNamePitch_Booking1;
+    @FXML
+    private TableColumn<?, ?> colSizePitch_Booking1;
+    @FXML
+    private TableColumn<?, ?> colPricePitch_Booking1;
+    @FXML
+    private TableColumn<?, ?> colPricePitch_Booking11;
+    @FXML
+    private Button btnBooking_Booking1;
+    @FXML
+    private Label lbNameTable_booking1;
+    @FXML
+    private Button btnComplete_Booking1;
+    @FXML
+    private ComboBox<?> cboIdk_Booking1;
+    @FXML
+    private Spinner<?> spnHour_timeBook_Booking1;
+    @FXML
+    private Spinner<?> spnMinute_timeBook_Booking1;
+    @FXML
+    private StackPane stpTimeBook_Booking1;
+    @FXML
+    private TextField txtTimeStart_Booking1;
+    @FXML
+    private Spinner<?> spnHrs_Booking1;
+    @FXML
+    private TextField txtDeposit_Booking1;
+    @FXML
+    private Button btnReset_Booking1;
+    @FXML
+    private Button btnAdd_Booking1;
+    @FXML
+    private Button btnDelete_Booking1;
+    @FXML
+    private Label lbNamePitch_Booking1;
+    @FXML
+    private Label lbIdb_booking1;
+    @FXML
+    private Label lbIdu_booking1;
+    @FXML
+    private Button btnUpdate_Booking1;
+    @FXML
+    private Button btnNew_Booking1;
+    @FXML
+    private Label lbIDP_hide_Booking2;
+    @FXML
+    private Button btnStart_Booking1;
+    @FXML
+    private Button btnBillDetail_Booking;
 
     /**
      * Initializes the controller class.
@@ -167,9 +232,40 @@ public class PagesController implements Initializable {
         //Disible Button_Booking
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
+
+        OnlyEnterNumber(txtDeposit_Booking);
+
+
+        // Kết nối sự kiện KeyTyped cho TextField
+/*        txtDeposit_Booking.addEventFilter(KeyEvent.KEY_TYPED, this::OnlyEnterNumber);
+
+        // Thêm ChangeListener để kiểm tra dữ liệu đầu vào
+        txtDeposit_Booking.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtDeposit_Booking.setText(newValue.replaceAll("[^\\d]", ""));
+                alert = new Alert(Alert.AlertType.ERROR, "Please enter a number", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });*/
     }
 
-    //**MANAGE BOOKING**
+    private void OnlyEnterNumber(TextField name) {
+        // Kết nối sự kiện KeyTyped cho TextField
+        //name.addEventFilter(KeyEvent.KEY_TYPED, this::OnlyEnterNumber);
+
+        // Thêm ChangeListener để kiểm tra dữ liệu đầu vào
+        name.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                name.setText(newValue.replaceAll("[^\\d]", ""));
+                alert = new Alert(Alert.AlertType.ERROR, "Only enter numbers, Please!", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
+    }
+
+    //================================================================================================================
+    //==============================================**MANAGE BOOKING**==============================================
+    //================================================================================================================
     public void showPitchObservableList_Booking(int available) {
         String nameTableObservableList = available == 1 ? "Available" : available == 2 ? "Renting" : "Booking";
 
@@ -259,9 +355,46 @@ public class PagesController implements Initializable {
 
     }
 
+
     @FXML
-    private void selectPitch_Booking(MouseEvent event) {
-        selectPitch_Booking();
+    public void selectPitch_Booking() {
+        try {
+            Pitch itemSelect = tvBooked_PitchObservableList_Booking.getSelectionModel().getSelectedItem();
+            lbNamePitch_Booking.setText(itemSelect.getName());
+            lbIDP_hide_Booking.setText("" + itemSelect.getIdp());
+            btnBillDetail_Booking.setVisible(false);
+            btnStart_Booking.setVisible(false);
+
+            int stt;
+            if (itemSelect.getAvailable() != 1) {
+                stt = 1;
+                if (itemSelect.getAvailable() == 3) {
+                    btnStart_Booking.setVisible(true);
+                }
+                if (itemSelect.getAvailable() == 2) {
+                    stt = 2;
+                    btnBillDetail_Booking.setVisible(true);
+                }
+                bk = new Booking();
+                bkDAO = new BookingDAO();
+                bkDAO.getAll();
+                opBk = bkDAO.getBookingByPitch(itemSelect.getIdp(), stt);
+                if (opBk.isEmpty()) {
+                    System.out.println("Cannot found booking");
+                    reset_Booking();
+                    return;
+                }
+                bk = opBk.get();
+                txtDeposit_Booking.setText("" + bk.getDep());
+                txtTimeStart_Booking.setText(bk.getTime_book().toString());
+                spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
+                lbIdb_booking.setText("" + bk.getIdb());
+                cboIdk_Booking.setValue(bk.getIdk());
+                lbIdu_booking.setText(bk.getIdu());
+            }
+        } catch (Exception e) {
+            reset_Booking();
+        }
     }
 
     @FXML
@@ -294,36 +427,26 @@ public class PagesController implements Initializable {
 
     @FXML
     private void switchPage(ActionEvent event) {
+        //List<Node> pages = Arrays.asList(EmployeePage, CustomerPage, SportPage, ServicePage, CatePage, BillPage, PaymentPage, DashboardPage);
+        //List<Button> buttons = Arrays.asList(btnEmployeePage, btnCustomerPage, btnSportPage, btnServicePage, btnCatePage, btnBillPage);
+        List<Button> buttons = Arrays.asList(btnCustomerPage, btnSportPage, btnBillPage);
+        List<Node> pages = Arrays.asList(pAcNewCus_Page, pBdpManagebooking_page, pBdpBillDetail_page);
+
+        for (int i = 0; i < buttons.size(); i++) {
+            if (event.getSource() == buttons.get(i)) {
+                for (int j = 0; j < pages.size(); j++) {
+                    pages.get(j).setVisible(i == j);
+                    buttons.get(j).setStyle(i == j
+                            ? "-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;"
+                            : "-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
+                }
+                break;
+            }
+        }
     }
 
-    public void selectPitch_Booking() {
-        Pitch itemSelect = tvBooked_PitchObservableList_Booking.getSelectionModel().getSelectedItem();
-        lbNamePitch_Booking.setText(itemSelect.getName());
-        lbIDP_hide_Booking.setText("" + itemSelect.getIdp());
-        int stt;
-        if (itemSelect.getAvailable() != 1) {
-            stt = 2;
-            if (itemSelect.getAvailable() == 3) {
-                stt = 1;
-                btnStart_Booking.setVisible(true);
-            }
-            bk = new Booking();
-            bkDAO = new BookingDAO();
-            bkDAO.getAll();
-            opBk = bkDAO.getBookingByPitch(itemSelect.getIdp(), stt);
-            if (opBk.isEmpty()) {
-                System.out.println("Cannot found booking");
-                reset_Booking();
-                return;
-            }
-            bk = opBk.get();
-            txtDeposit_Booking.setText("" + bk.getDep());
-            txtTimeStart_Booking.setText(bk.getTime_book().toString());
-            spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
-            lbIdb_booking.setText("" + bk.getIdb());
-            cboIdk_Booking.setValue(bk.getIdk());
-            lbIdu_booking.setText(bk.getIdu());
-        }
+    private void selectPitch_Booking(MouseEvent event) {
+        selectPitch_Booking();
     }
 
     @FXML
@@ -399,7 +522,7 @@ public class PagesController implements Initializable {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Added Booking");
             alert.setHeaderText(null);
-            alert.setContentText("Booking Updated");
+            alert.setContentText("Booking Added Successfully!");
             alert.showAndWait();
 
             setBtnVisible(btnNew_Booking);
@@ -460,7 +583,7 @@ public class PagesController implements Initializable {
         spnHour_timeBook_Booking.setValueFactory(valueHour);
         Click_spnHour_timeBook_Booking();
 
-        Alert alert = new Alert(AlertType.ERROR);
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Message");
         alert.setHeaderText("Please select a available pitch from ObservableList!");
         alert.show();
@@ -542,9 +665,12 @@ public class PagesController implements Initializable {
         }
     }
 
-    void Click_spnHour_timeBook_Booking(MouseEvent event) {
+    private void Click_spnHour_timeBook_Booking(MouseEvent event) {
         Click_spnHour_timeBook_Booking();
     }
+    //==============================================**END MANAGE BOOKING**==============================================
+    //================================================================================================================
+    //==============================================**ADD CUSTOMER**==============================================
 
     @FXML
     private void signout(ActionEvent event) {
@@ -562,7 +688,10 @@ public class PagesController implements Initializable {
 
         if (fullname.isEmpty()) {
             alert = new Alert(AlertType.ERROR);
-            System.out.println("Nam canot blank");
+            alert.setTitle("Message");
+            alert.setHeaderText("Full name cannot blank");
+            alert.show();
+            return;
         }
 //        if (mail.isEmpty()) {
 //            alert = new Alert(AlertType.ERROR);
@@ -570,14 +699,16 @@ public class PagesController implements Initializable {
 //        }
         if (sdt.length() < 10) {
             alert = new Alert(AlertType.ERROR);
-            System.out.println("sdt khong hop le");
+            alert.setTitle("Message");
+            alert.setHeaderText("Phone number cannot blank");
+            alert.show();
 
         } else {
             Customer cus = new Customer(sdt, fullname, sdt, 0, mail);
 
             cusDAO.Insert(cus);
             alert = new Alert(AlertType.CONFIRMATION);
-            acNewCus_Page.setVisible(false);
+            pAcNewCus_Page.setVisible(false);
             setItem_cboIdk_Booking();
 
         }
@@ -585,12 +716,38 @@ public class PagesController implements Initializable {
 
     @FXML
     private void Cancel_Cus(ActionEvent event) {
-        acNewCus_Page.setVisible(false);
+        pAcNewCus_Page.setVisible(false);
     }
 
     @FXML
     private void NewCus_Booking(ActionEvent event) {
-        acNewCus_Page.setVisible(true);
+        pAcNewCus_Page.setVisible(true);
+        OnlyEnterNumber(txtPhone_Cus);
     }
+
+    @FXML
+    private void btnReset_Cus(ActionEvent event) {
+        btnReset_Cus();
+    }
+
+    private void btnReset_Cus() {
+        txtFullName_Cus.setText("");
+        txtPhone_Cus.setText("");
+        txtMail_Cus.setText("");
+    }
+    //==============================================**END ADD CUSTOMER**==============================================
+    //================================================================================================================
+    //==============================================**DETAIL BILL**==============================================
+
+    @FXML
+    private void BillDetail_Booking(ActionEvent event) {
+        pBdpBillDetail_page.setVisible(true);
+        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
+
+        pBdpManagebooking_page.setVisible(false);
+        btnSportPage.setStyle("-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
+
+    }
+
 
 }
