@@ -163,14 +163,11 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
     public ObservableList<Pitch> getByAvailable(int available) {
 
         Connection cn = getConnection();
-        //truy van
         String query = "SELECT sanbong.*, cat_san.size, cat_san.price "
                 + " FROM  sanbong"
                 + " INNER JOIN"
                 + " cat_san on sanbong.idcp = cat_san.idcp"
                 + " WHERE sanbong.available =" + available;
-        System.out.println("String query: " + query);
-        //thuc thi
         Statement st;
         ResultSet rs;
         try {

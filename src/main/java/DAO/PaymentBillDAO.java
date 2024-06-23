@@ -6,6 +6,7 @@ package DAO;
 
 import Entities.PaymentBill;
 import Entities.Service;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -16,19 +17,19 @@ import java.sql.Time;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
  * @author ADMIN
  */
 public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
     ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
-    ObservableList<Service> serObservableList =FXCollections.observableArrayList();
-    ObservableList<Service> serSell_ObservableList =FXCollections.observableArrayList();
-    ObservableList<Service> serRent_ObservableList =FXCollections.observableArrayList();
+    ObservableList<Service> serObservableList = FXCollections.observableArrayList();
+    ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
+    ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
 
     @Override
     public void Update(Integer id, PaymentBill t) {
@@ -97,7 +98,7 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     @Override
     public ObservableList<PaymentBill> getAll() {
         Connection cn = getConnection();
-        String query = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu]";
+        String query = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE payments.time_start IS NOT NULL";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -116,11 +117,15 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 int tt_service = rs.getInt("tt_service");
                 int tt_payment = rs.getInt("tt_payment");
                 boolean comp = rs.getBoolean("completed");
+                Time time_book = rs.getTime("time_book");
+                int hrs = rs.getInt("hrs");
+                int stt = rs.getInt("stt");
                 String khachhang_name = rs.getString("khachhang_name");
                 String qluser_name = rs.getString("qluser_name");
                 String sanbong_name = rs.getString("sanbong_name");
 
-                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, khachhang_name, qluser_name, sanbong_name);
+                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name);
+                //System.out.println(pb);
                 pbObservableList.add(pb);
             }
         } catch (SQLException ex) {
@@ -147,22 +152,25 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     }
 
     public ObservableList<Service> getAll_SellService(int idPaymentBill) {
-        String query = "SELECT hd_ser_sell.idb, hd_ser_sell.idss, hd_ser_sell.qty, ser_sell.name, ser_sell.price, ser_sell.img, ser_sell.qoh, cat_ser.idc, cat_ser.type FROM (cat_ser INNER JOIN ser_sell ON cat_ser.[idc] = ser_sell.[idc]) INNER JOIN hd_ser_sell ON ser_sell.[idss] = hd_ser_sell.[idss] WHERE hd_ser_sell.idss =" + idPaymentBill;
+        String query = "SELECT hd_ser_sell.idb, hd_ser_sell.idss, hd_ser_sell.qty, ser_sell.name, ser_sell.price, ser_sell.img, ser_sell.qoh, cat_ser.idc, cat_ser.type FROM (cat_ser INNER JOIN ser_sell ON cat_ser.[idc] = ser_sell.[idc]) INNER JOIN hd_ser_sell ON ser_sell.[idss] = hd_ser_sell.[idss] WHERE hd_ser_sell.idb =" + idPaymentBill;
+
         try {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
             Service s;
-
+            int no = 0;
             while (rs.next()) {
+                no++;
                 int ids = rs.getInt("idss");
                 String name = rs.getString("name");
                 int price = rs.getInt("price");
                 String img = rs.getString("img");
-                int qoh = rs.getInt("qoh");
+                int qoh = rs.getInt("qty");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
+                int total = price * qoh;
 
-                s = new Service(ids, name, price, img, qoh, idc, type);
+                s = new Service(ids, name, price, img, qoh, idc, type, no, total);
                 serSell_ObservableList.add(s);
                 serObservableList.add(s);
             }
@@ -174,23 +182,23 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     }
 
     public ObservableList<Service> getAll_RentService(int idPaymentBill) {
-        String query = "SELECT hd_ser_rent.idb, hd_ser_rent.idsr, hd_ser_rent.qty, ser_rent.name, ser_rent.price, ser_rent.img, ser_rent.qoh, cat_ser.idc, cat_ser.type FROM (cat_ser INNER JOIN ser_rent ON cat_ser.[idc] = ser_rent.[idc]) INNER JOIN hd_ser_rent ON ser_rent.[idsr] = hd_ser_rent.[idsr] WHERE hd_ser_rent.idsr = " + idPaymentBill;
-
+        String query = "SELECT hd_ser_rent.idb, hd_ser_rent.idsr, hd_ser_rent.qty, ser_rent.name, ser_rent.price, ser_rent.img, ser_rent.qoh, cat_ser.idc, cat_ser.type FROM (cat_ser INNER JOIN ser_rent ON cat_ser.[idc] = ser_rent.[idc]) INNER JOIN hd_ser_rent ON ser_rent.[idsr] = hd_ser_rent.[idsr] WHERE hd_ser_rent.idb = " + idPaymentBill;
         try {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
             Service s;
-
+            int no = 0;
             while (rs.next()) {
                 int ids = rs.getInt("idsr");
                 String name = rs.getString("name");
                 int price = rs.getInt("price");
                 String img = rs.getString("img");
-                int qoh = rs.getInt("qoh");
+                int qoh = rs.getInt("qty");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
-
-                s = new Service(ids, name, price, img, qoh, idc, type);
+                int total = price * qoh;
+                no++;
+                s = new Service(ids, name, price, img, qoh, idc, type, no, total);
                 serRent_ObservableList.add(s);
                 serObservableList.add(s);
             }
@@ -211,7 +219,16 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         return Optional.empty();
     }
 
-    public void UpdateTimeStart (int idPaymentBill) {
+    public Optional<PaymentBill> GetById(int idb) {
+        for (PaymentBill pm : pbObservableList) {
+            if (pm.getIdb() == idb) {
+                return Optional.of(pm);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public void UpdateTimeStart(int idPaymentBill) {
         String sql = "UPDATE payments set time_start = CAST(GETDATE() as TIME), stt = 2 WHERE idb = " + idPaymentBill;
         System.out.println("START BUTTON: " + sql);
         executeSQL(sql);

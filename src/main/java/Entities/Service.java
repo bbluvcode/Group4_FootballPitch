@@ -5,7 +5,6 @@
 package Entities;
 
 /**
- *
  * @author ADMIN
  */
 public class Service extends ServiceCategory {
@@ -15,17 +14,31 @@ public class Service extends ServiceCategory {
     int price;
     String img;
     int qoh;
+    int no;
+    int total;
 
     public Service() {
     }
 
-    public Service(int ids, String name, int price, String img, int qoh, int idc, String type) {
+    public Service(int ids, String name, int price, String img, int qoh, int idc, String type, int no) {
         super(idc, type);
         this.ids = ids;
         this.name = name;
         this.price = price;
         this.img = img;
         this.qoh = qoh;
+        this.no = no;
+    }
+
+    public Service(int ids, String name, int price, String img, int qoh, int idc, String type, int no, int total) {
+        super(idc, type);
+        this.ids = ids;
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.qoh = qoh;
+        this.no = no;
+        this.total = total;
     }
 
     public int getIds() {
@@ -84,13 +97,28 @@ public class Service extends ServiceCategory {
         this.type = type;
     }
 
-    @Override
-    public String toString() {        
-        return "Service{" + "ids=" + ids + ", name=" + name + ", price=" + price + ", img=" + img + ", qoh=" + qoh +  ", type=" + type +'}';
+
+    public int getNo() {
+        return no;
     }
-    
-    
-    
-    
-    
+
+    public void setNo(int no) {
+        this.no = no;
+    }
+
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" + "ids=" + ids + ", name=" + name + ", price=" + price + ", img=" + img + ", qoh=" + qoh + ", type=" + type + '}';
+    }
+
+
 }

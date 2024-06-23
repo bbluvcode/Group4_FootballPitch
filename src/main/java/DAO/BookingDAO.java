@@ -35,7 +35,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         Time time = b.getTime_book();
         int hrs = b.getHrs();
         int deposit = b.getDep();
-        System.out.println(b);
         String sql = "UPDATE payments SET idp = " + idp + ", idk = '" + idk + "', time_book = '" + time + "', hrs = " + hrs + ", deposit = " + deposit + " WHERE idb = " + idb;
         executeSQL(sql);
         System.out.println("Booking UPDATED Successfully!");
@@ -52,7 +51,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         int hrs = b.getHrs();
         int deposit = b.getDep();
         String sql = "INSERT INTO payments (idu, idp, idk, time_book, hrs, deposit, stt, pay_date) VALUES ('" + idu + "', " + idp + ", '" + idk + "', '" + time + "', " + hrs + ", " + deposit + ", 1 , CAST(GETDATE() AS DATE))";
-        System.out.println("SQL: " + sql);
         executeSQL(sql);
         System.out.println("Booking INSERTED Successfully!");
     }
@@ -104,13 +102,13 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
 
     public Optional<Booking> getBookingByPitch(int idp,int stt) {
         for (Booking bk : bkObservableList) {
-            System.out.println(bk);
             if (bk.getIdp() == idp && bk.getStt() == stt) {
                 return Optional.of(bk);
             }
         }
         return Optional.empty();
     }
+    
     // System.out.println("Search");
 //        Optional<User> user = uD.read(1);
 //        if (user.isPresent()) {

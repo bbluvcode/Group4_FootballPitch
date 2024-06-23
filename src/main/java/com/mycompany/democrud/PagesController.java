@@ -9,17 +9,18 @@ import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.Service;
-import Entities.User;
 
 import java.net.URL;
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,14 +30,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -47,13 +44,15 @@ import javafx.stage.Stage;
 public class PagesController implements Initializable {
 
     Alert alert;
-    PitchDAO pDAO;
-    UserDAO userDAO;
+    PitchDAO pDAO = new PitchDAO();
+    UserDAO userDAO = new UserDAO();
     CustomerDAO cusDAO = new CustomerDAO();
     PaymentBillDAO pmDAO = new PaymentBillDAO();
     BookingDAO bkDAO = new BookingDAO();
     Optional<Booking> opBk;
+    Optional<PaymentBill> opPm;
     Booking bk = new Booking();
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     //===========================================================
     //=============Manage Booking================================
@@ -177,7 +176,7 @@ public class PagesController implements Initializable {
     @FXML
     private TableColumn<Service, Integer> colTotalSer_Bill;
     @FXML
-    private ComboBox<?> cboCus_Bill;
+    private ComboBox<String> cboCus_Bill;
     @FXML
     private TextField txtTimeBook_Bill;
     @FXML
@@ -215,8 +214,6 @@ public class PagesController implements Initializable {
     @FXML
     private TableColumn<PaymentBill, Integer> col_idp_Bill;
     @FXML
-    private TableColumn<PaymentBill, String> cod_idk_Bill;
-    @FXML
     private TableColumn<PaymentBill, Integer> col_ttpay_Bill;
     @FXML
     private Label lb_paydate_Bill;
@@ -226,6 +223,8 @@ public class PagesController implements Initializable {
     private Label lb_idb_Bill;
     @FXML
     private DatePicker dpk_DateFilter_Bill;
+    @FXML
+    private TableColumn<PaymentBill, String> col_idk_Bill;
 
     /**
      * Initializes the controller class.
@@ -234,6 +233,7 @@ public class PagesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         initialize_manageBooking();
+        initialize_Bill();
     }
 
 
@@ -396,6 +396,7 @@ public class PagesController implements Initializable {
     }
 
 
+    @FXML
     void Click_spnHour_timeBook_Booking() {
         LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
@@ -442,7 +443,7 @@ public class PagesController implements Initializable {
             }
         }
     }
-    @FXML
+
     private void selectPitch_Booking(MouseEvent event) {
         selectPitch_Booking();
     }
@@ -663,7 +664,6 @@ public class PagesController implements Initializable {
         }
     }
 
-    @FXML
     private void Click_spnHour_timeBook_Booking(MouseEvent event) {
         Click_spnHour_timeBook_Booking();
     }
@@ -676,6 +676,9 @@ public class PagesController implements Initializable {
         pBdpManagebooking_page.setVisible(false);
         btnSportPage.setStyle("-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
 
+        initialize_Bill();
+        tvBillPayment_Bill.getSelectionModel().selectLast();
+        SelectBill_Bill();
     }
 
     //==============================================**END MANAGE BOOKING**==============================================
@@ -749,14 +752,16 @@ public class PagesController implements Initializable {
     //================================================================================================================
     //==============================================**DETAIL BILL**==============================================
     public void initialize_Bill() {
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+/*        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
         spnHrs_Booking.setValueFactory(valueFactory);
         //setItem_cboIdk_Booking();
         //Disible Button_Booking
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
-        OnlyEnterNumber(txtDeposit_Booking);
+        OnlyEnterNumber(txtDeposit_Booking);*/
+        Display_BillPaymentList_Bill();
     }
+
 
     @FXML
     private void CheckOut_Bill(ActionEvent event) {
@@ -774,4 +779,81 @@ public class PagesController implements Initializable {
     private void ClearFilter_Bill(ActionEvent event) {
     }
 
+    @FXML
+    private void SelectBill_Bill(MouseEvent event) {
+        SelectBill_Bill();
+    }
+
+    private void SelectBill_Bill() {
+        try {
+            PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
+            pmDAO = new PaymentBillDAO();
+            pmDAO.getAll();
+            opPm = pmDAO.GetById(pSelected.getIdb());
+            if (opPm.isEmpty()) {
+                System.out.println("Cannot found bill");
+                reset_Booking();
+                return;
+            }
+            PaymentBill pb = opPm.get();
+            LocalTime StartTime = pb.getTime_start().toLocalTime();
+            String end_time = String.valueOf(pb.getTime_end());
+            int hrs_used = pb.getHrs_used();
+            if (end_time.equals("null") || end_time.isEmpty()) {
+                end_time = "...";
+
+
+                LocalTime EndTime = LocalTime.now();
+                Duration duration = Duration.between(StartTime, EndTime);
+
+                hrs_used = (int) duration.toHours();
+                if (hrs_used == 0 || hrs_used > 0 && duration.toMinutes() >= 15) {
+                    hrs_used++;
+                }
+
+            }
+
+            lb_paydate_Bill.setText(String.valueOf(pb.getPay_date()));
+            lb_idb_Bill.setText(String.valueOf(pb.getIdb()));
+            lb_idp_Bill.setText(String.valueOf(pb.getIdp()));
+            cboCus_Bill.setValue(pb.getIdk());
+            lbTotal_Bill.setText(String.valueOf(pb.getTt_payment()));
+
+            txtTimeBook_Bill.setText(String.valueOf(pb.getTime_book()));
+            txtDeposit_Bill.setText(String.valueOf(pb.getDeposit()));
+            txtTimeStart_Bill.setText(StartTime.toString());
+            txtTimeEnd_Bill.setText(end_time);
+            txtHrsUsed_Bill.setText("" + hrs_used);
+            lbPaytime_Bill.setText(end_time);
+            lbStaffID_Bill.setText(pb.getQluser_name() + " - " + pb.getIdu());
+            lbSubtotal_Bill.setText(String.valueOf(pb.getTt_service()));
+            lbTax_Bill.setText(String.valueOf(pb.getTt_booking()));
+            lbTotal_Bill.setText(String.valueOf(pb.getTt_payment()));
+            Display_ServiceList_Bill(pb.getIdb());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Display_BillPaymentList_Bill() {
+        pmDAO = new PaymentBillDAO();
+        ObservableList<PaymentBill> bList = pmDAO.getAll();
+        col_idb_Bill.setCellValueFactory(new PropertyValueFactory<>("idb"));
+        col_idp_Bill.setCellValueFactory(new PropertyValueFactory<>("idp"));
+        col_idk_Bill.setCellValueFactory(new PropertyValueFactory<>("idk"));
+        col_ttpay_Bill.setCellValueFactory(new PropertyValueFactory<>("tt_payment"));
+
+        tvBillPayment_Bill.setItems(bList);
+    }
+
+    private void Display_ServiceList_Bill(int idb) {
+        pmDAO = new PaymentBillDAO();
+        ObservableList<Service> sList = pmDAO.getAllSerVice(idb);
+        colNoSer_Bill.setCellValueFactory(new PropertyValueFactory<>("no"));
+        colNameSer_Bill.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colPriceSer_Bill.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colQtySer_Bill.setCellValueFactory(new PropertyValueFactory<>("qoh"));
+        colTotalSer_Bill.setCellValueFactory(new PropertyValueFactory<>("total"));
+        tvService_Bill.setItems(sList);
+    }
 }

@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author ADMIN
  */
 public class ServiceDAO extends ConnectDB<Service, Integer> {
@@ -63,7 +62,7 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
             Service s;
-
+            int no = 0;
             while (rs.next()) {
                 int ids = rs.getInt("idss");
                 String name = rs.getString("name");
@@ -72,8 +71,8 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
                 int qoh = rs.getInt("qoh");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
-
-                s = new Service(ids, name, price, img, qoh, idc, type);
+                no++;
+                s = new Service(ids, name, price, img, qoh, idc, type, no);
                 serSell_ObservableList.add(s);
                 serObservableList.add(s);
             }
@@ -90,7 +89,7 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
             Service s;
-
+            int no = 0;
             while (rs.next()) {
                 int ids = rs.getInt("idsr");
                 String name = rs.getString("name");
@@ -99,8 +98,8 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
                 int qoh = rs.getInt("qoh");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
-
-                s = new Service(ids, name, price, img, qoh, idc, type);
+                no++;
+                s = new Service(ids, name, price, img, qoh, idc, type, no);
                 serRent_ObservableList.add(s);
                 serObservableList.add(s);
             }

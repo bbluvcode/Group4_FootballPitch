@@ -6,4 +6,6 @@ module com.mycompany.democrud {
          
     opens com.mycompany.democrud to javafx.fxml;
     exports com.mycompany.democrud;
+    exports Entities;
+    opens Entities to javafx.fxml;
 }

@@ -152,7 +152,7 @@
       </AnchorPane>
       <StackPane layoutX="203.0" layoutY="53.0" prefHeight="646.0" prefWidth="1056.0">
          <children>
-              <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
+              <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                   <center>
                       <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                           <children>
@@ -452,7 +452,7 @@
                   </BorderPane>
                </children>
             </AnchorPane>
-            <BorderPane fx:id="pBdpBillDetail_page" layoutX="10.0" layoutY="10.0" prefHeight="636.0" prefWidth="1050.0" visible="false">
+            <BorderPane fx:id="pBdpBillDetail_page" layoutX="10.0" layoutY="10.0" prefHeight="636.0" prefWidth="1050.0">
                <center>
                   <AnchorPane prefHeight="642.0" prefWidth="677.0" BorderPane.alignment="CENTER">
                      <children>
@@ -466,9 +466,9 @@
                                  <columns>
                                     <TableColumn fx:id="colNoSer_Bill" prefWidth="51.200016021728516" text="No." />
                                     <TableColumn fx:id="colNameSer_Bill" prefWidth="201.99998474121094" text="Item Description" />
-                                    <TableColumn fx:id="colPriceSer_Bill" prefWidth="140.13333129882812" text="Price" />
+                                    <TableColumn fx:id="colPriceSer_Bill" prefWidth="140.13333129882812" text="Price ($)" />
                                     <TableColumn fx:id="colQtySer_Bill" prefWidth="90.26666259765625" text="Qty." />
-                                    <TableColumn fx:id="colTotalSer_Bill" prefWidth="149.60003662109375" text="Total" />
+                                    <TableColumn fx:id="colTotalSer_Bill" prefWidth="149.60003662109375" text="Total ($)" />
                                  </columns>
                               </TableView>
                               <Label layoutX="23.0" layoutY="19.0" prefHeight="38.0" prefWidth="343.0" text="Bill Payment Detail">
@@ -518,18 +518,18 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <HBox layoutX="516.0" layoutY="12.0" prefHeight="74.0" prefWidth="146.0">
+                              <HBox layoutX="490.0" layoutY="9.0" prefHeight="74.0" prefWidth="181.0">
                                  <children>
-                                    <VBox prefHeight="56.0" prefWidth="146.0">
+                                    <VBox prefHeight="74.0" prefWidth="184.0">
                                        <children>
-                                          <HBox prefHeight="23.0" prefWidth="146.0">
+                                          <HBox prefHeight="23.0" prefWidth="164.0">
                                              <children>
-                                                <Label prefHeight="30.0" prefWidth="57.0" text="Date" textFill="#461111">
+                                                <Label prefHeight="23.0" prefWidth="62.0" text="Date" textFill="#461111">
                                                    <font>
                                                       <Font name="Tahoma" size="13.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lb_paydate_Bill" prefHeight="25.0" prefWidth="66.0" text="...">
+                                                <Label fx:id="lb_paydate_Bill" prefHeight="23.0" prefWidth="121.0" text="...">
                                                    <font>
                                                       <Font name="Tahoma" size="13.0" />
                                                    </font>
@@ -614,7 +614,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox layoutX="38.0" layoutY="475.0" prefHeight="45.0" prefWidth="166.0">
+                              <VBox layoutX="38.0" layoutY="475.0" prefHeight="45.0" prefWidth="300.0">
                                  <children>
                                     <HBox prefHeight="26.0" prefWidth="166.0">
                                        <children>
@@ -637,7 +637,7 @@
                                                 <Font name="Tahoma" size="13.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lbStaffID_Bill" prefHeight="32.0" prefWidth="91.0" text="0939966602">
+                                          <Label fx:id="lbStaffID_Bill" prefHeight="26.0" prefWidth="236.0" text="0939966602">
                                              <font>
                                                 <Font name="Tahoma" size="13.0" />
                                              </font>
@@ -664,7 +664,7 @@
                                     </HBox>
                                     <HBox prefHeight="32.0" prefWidth="166.0">
                                        <children>
-                                          <Label prefHeight="31.0" prefWidth="68.0" text="Tax rate" textAlignment="RIGHT" textFill="#461111">
+                                          <Label prefHeight="31.0" prefWidth="68.0" text="Pitch fee" textAlignment="RIGHT" textFill="#461111">
                                              <font>
                                                 <Font name="Tahoma" size="13.0" />
                                              </font>
@@ -721,12 +721,12 @@
                                  <font>
                                     <Font size="10.0" />
                                  </font></Button>
-                              <TableView fx:id="tvBillPayment_Bill" layoutX="14.0" layoutY="125.0" prefHeight="251.0" prefWidth="322.0">
+                              <TableView fx:id="tvBillPayment_Bill" layoutX="14.0" layoutY="125.0" onMouseClicked="#SelectBill_Bill" prefHeight="251.0" prefWidth="322.0">
                                 <columns>
                                   <TableColumn fx:id="col_idb_Bill" prefWidth="55.466609954833984" text="Bill code" />
                                   <TableColumn fx:id="col_idp_Bill" prefWidth="91.33355712890625" text="Pitch" />
-                                    <TableColumn fx:id="cod_idk_Bill" prefWidth="101.46656799316406" text="Cus code" />
-                                    <TableColumn fx:id="col_ttpay_Bill" prefWidth="68.53355407714844" text="Total" />
+                                    <TableColumn fx:id="col_idk_Bill" prefWidth="91.60011291503906" text="Cus code" />
+                                    <TableColumn fx:id="col_ttpay_Bill" prefWidth="76.40003967285156" text="Total $" />
                                 </columns>
                               </TableView>
                               <Label layoutX="18.0" layoutY="17.0" prefHeight="38.0" prefWidth="257.0" text="List of bill">

@@ -4,15 +4,12 @@
  */
 package DAO;
 
-import Entities.Service;
-import Entities.Service;
-import Entities.Service;
-import javafx.collections.ObservableList;
+import Entities.PaymentBill;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -29,9 +26,29 @@ public class TestDB {
 
 //        PitchDAO pitchDAO = new PitchDAO();
 
-        LocalTime crHrs = LocalTime.now().plusMinutes(15);
+/*        LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
         int crMinutes = crHrs.getMinute();
-        System.out.println(crHours +" va " + crMinutes);
+        System.out.println(crHours +" va " + crMinutes);*/
+
+        String start_time = "10:20:30";
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime startTime = LocalTime.parse(start_time, timeFormatter);
+
+        LocalTime end_time = LocalTime.parse("11:10:20", timeFormatter);
+
+        Duration duration = Duration.between(startTime, end_time);
+
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+
+        LocalTime time = LocalTime.of((int) hours, (int) minutes);
+
+        System.out.println(hours + " hours, " + minutes + " minutes, ");
+   /*     System.out.println(startTime);
+        System.out.println(end_time);
+        System.out.println(time);*/
+        int timedura = time.getHour();
+        System.out.println(timedura);
     }
 }
