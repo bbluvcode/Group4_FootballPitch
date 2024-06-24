@@ -929,9 +929,9 @@ public class PagesController implements Initializable {
         System.out.println("test search");
         FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
 
-/*        System.out.println(txtSearch_Bill.getText());
+        System.out.println(txtSearch_Bill.getText());
         String newValue = txtSearch_Bill.getText().toLowerCase();
-        ObservableList<PaymentBill> subList = filteredData.filtered(p -> {
+   /*     ObservableList<PaymentBill> subList = filteredData.filtered(p -> {
 //            return p.getIdb() == Integer.parseInt(txtSearch_Bill.getText());
             if (newValue == null || newValue.isEmpty()) {
                 return true;
@@ -945,7 +945,7 @@ public class PagesController implements Initializable {
             }
             return false;
         });*/
-        txtSearch_Bill.textProperty().addListener((observable, oldValue, newValue) -> {
+//        txtSearch_Bill.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(p -> {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -955,19 +955,22 @@ public class PagesController implements Initializable {
                 if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
                     return true;
                 }
-                if (p.getIdk().contains(lowerCaseFilter)) {
+                if (p.getIdk().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
 
                 return false;
             });
-        });
-        System.out.println(filteredData);
-        SortedList<PaymentBill> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tvBillPayment_Bill.comparatorProperty());
-        tvBillPayment_Bill.setItems(sortedData);
-        //System.out.println(sortedData);
+//        });
+
+
+//        SortedList<PaymentBill> sortedData = new SortedList<>(filteredData);
+//        sortedData.comparatorProperty().bind(tvBillPayment_Bill.comparatorProperty());
+//        tvBillPayment_Bill.setItems(sortedData);
+
+
         //tvBillPayment_Bill.setItems(subList);
+        tvBillPayment_Bill.setItems(filteredData);
     }
 
     @FXML
