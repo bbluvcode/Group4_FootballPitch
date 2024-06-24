@@ -231,6 +231,8 @@ public class PagesController implements Initializable {
     private TableColumn<PaymentBill, String> col_idk_Bill;
     @FXML
     private Button btnAddNew_Bill;
+    @FXML
+    private Label lb_pricePitch_Bill;
 
     /**
      * Initializes the controller class.
@@ -868,6 +870,7 @@ public class PagesController implements Initializable {
             lb_idb_Bill.setText(String.valueOf(pb.getIdb()));
             lb_idp_Bill.setText(String.valueOf(pb.getIdp()));
             cboCus_Bill.setValue(pb.getIdk());
+            lb_pricePitch_Bill.setText("$" + price_pitch);
             lbTotal_Bill.setText(String.valueOf(pb.getTt_payment()));
 
             txtTimeBook_Bill.setText(String.valueOf(pb.getTime_book()));
@@ -926,9 +929,8 @@ public class PagesController implements Initializable {
         System.out.println("test search");
         FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
 
-        System.out.println(txtSearch_Bill.getText());
+/*        System.out.println(txtSearch_Bill.getText());
         String newValue = txtSearch_Bill.getText().toLowerCase();
-//        ObservableList<PaymentBill> subList = filteredData.filtered(p -> p.getIdb() == Integer.parseInt(txtSearch_Bill.getText()));
         ObservableList<PaymentBill> subList = filteredData.filtered(p -> {
 //            return p.getIdb() == Integer.parseInt(txtSearch_Bill.getText());
             if (newValue == null || newValue.isEmpty()) {
@@ -941,37 +943,31 @@ public class PagesController implements Initializable {
             if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
                 return true;
             }
-
             return false;
+        });*/
+        txtSearch_Bill.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(p -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
+                    return true;
+                }
+                if (p.getIdk().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
         });
-//        txtSearch_Bill.textProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredData.setPredicate(p -> {
-//                System.out.println("search--");
-//                if (newValue == null || newValue.isEmpty()) {
-//                    return true;
-//                }
-//                String lowerCaseFilter = newValue.toLowerCase();
-////                if (p.getIdk().toLowerCase().contains(lowerCaseFilter)) {
-////                    return true;
-////                }
-//                if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
-//                    return true;
-//                }
-//                if (String.valueOf(p.getIdp()).equals(lowerCaseFilter)) {
-//                    return true;
-//                }
-////                if (String.valueOf(p.getTt_payment()).contains(lowerCaseFilter)) {
-////                    return true;
-////                }
-//                System.out.println("search: " + lowerCaseFilter);
-//
-//                return false;
-//
-//            });
-//        });
-        //SortedList<PaymentBill> sortedData = new SortedList<>(filteredData);
-        //sortedData.comparatorProperty().bind(tvBillPayment_Bill.comparatorProperty());
-        tvBillPayment_Bill.setItems(subList);
+        System.out.println(filteredData);
+        SortedList<PaymentBill> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tvBillPayment_Bill.comparatorProperty());
+        tvBillPayment_Bill.setItems(sortedData);
+        //System.out.println(sortedData);
+        //tvBillPayment_Bill.setItems(subList);
     }
 
     @FXML
