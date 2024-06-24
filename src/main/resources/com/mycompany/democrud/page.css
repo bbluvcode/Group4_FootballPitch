@@ -133,6 +133,15 @@ and open the template in the editor.
     -fx-scale-x: 1.11;
     -fx-scale-y: 1.11;
 }
+.search-date{
+    -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
+    -fx-background-radius: 4px;
+    -fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);
+    -fx-border-radius: 4px;
+    -fx-font-size: 13px;
+    -fx-font-family: Tahoma;
+    -fx-border-width: .8px;
+}
 .search{
     -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
     -fx-background-radius: 4px;
@@ -143,7 +152,7 @@ and open the template in the editor.
     -fx-padding: 0px 0px 0px 28px;
     -fx-border-width: .8px;
 }
-.search:focused, .search:hover{
+.search:focused, .search:hover,.search-date:focused, .search-date:hover{
     -fx-background-color: #fff;
     -fx-border-width: 1.8px;
     -fx-effect: dropshadow(gaussian, rgba(234, 76, 137, 0.1), 4, 0, 0, 0);

@@ -58,8 +58,6 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
             sql = "UPDATE sanbong SET available = 2 WHERE idp IN " + idpBookedList;
             executeSQL(sql);
         }
-
-        System.out.println("PitchDAO updateLists");
     }
 
     @Override

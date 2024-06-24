@@ -14,6 +14,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -58,6 +60,8 @@ public class PagesController implements Initializable {
     Booking bk = new Booking();
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+    //*****ObservableList
+    ObservableList<PaymentBill> pmObListForFilter = FXCollections.observableArrayList();
     //===========================================================
     //=============Manage Booking================================
     //===========================================================
@@ -689,6 +693,10 @@ public class PagesController implements Initializable {
         SelectBill_Bill();
     }
 
+    @FXML
+    private void SearchPitch_Booking(KeyEvent event) {
+    }
+
     //==============================================**END MANAGE BOOKING**==============================================
     //================================================================================================================
     //==============================================**ADD CUSTOMER**==============================================
@@ -811,6 +819,9 @@ public class PagesController implements Initializable {
 
     @FXML
     private void ClearFilter_Bill(ActionEvent event) {
+        Display_BillPaymentList_Bill();
+        txtSearch_Bill.clear();
+        dpk_DateFilter_Bill.setValue(null);
     }
 
     @FXML
@@ -821,7 +832,10 @@ public class PagesController implements Initializable {
     private void SelectBill_Bill() {
         try {
             btnCheckOut_Bill.setDisable(true);
+            btnAddSer_Bill.setDisable(true);
+            btnUpdate_Bill.setDisable(true);
             PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
+
             pmDAO = new PaymentBillDAO();
             pmDAO.getAll();
             opPm = pmDAO.GetById(pSelected.getIdb());
@@ -843,7 +857,8 @@ public class PagesController implements Initializable {
             int hrs_used = pb.getHrs_used();
             if (end_time.equals("null") || end_time.isEmpty()) {
                 btnCheckOut_Bill.setDisable(false);
-
+                btnAddSer_Bill.setDisable(false);
+                btnUpdate_Bill.setDisable(false);
                 end_time = "...";
 
                 LocalTime EndTime = LocalTime.now();
@@ -926,12 +941,20 @@ public class PagesController implements Initializable {
 
     @FXML
     private void Search_Bill(KeyEvent event) {
+        Search_Bill();
+
+    }
+
+    @FXML
+    private void Search_Bill() {
         FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
         String newValue = txtSearch_Bill.getText().toLowerCase();
+
         /*ObservableList<PaymentBill> subList = filteredData.filtered(p -> p.getIdb() == Integer.parseInt(txtSearch_Bill.getText()););
           tvBillPayment_Bill.setItems(subList);*/ //cách trả về list khaác
 
-            filteredData.setPredicate(p -> {
+        filteredData.setPredicate(p -> {
+            if (dpk_DateFilter_Bill.getValue() == null) {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
@@ -943,12 +966,59 @@ public class PagesController implements Initializable {
                 if (p.getIdk().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
-                return false;
-            });
+            } else {
+                String dateValue = dpk_DateFilter_Bill.getValue().toString();
+
+                if (newValue == null || newValue.isEmpty() && p.getPay_date().toString().equals(dateValue)) {
+                    return true;
+                }
+
+                if (String.valueOf(p.getIdb()).equals(newValue) && p.getPay_date().toString().equals(dateValue)) {
+                    return true;
+                }
+                if (p.getIdk().toLowerCase().contains(newValue) && p.getPay_date().toString().equals(dateValue)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+
         tvBillPayment_Bill.setItems(filteredData);
     }
 
     @FXML
-    private void SearchPitch_Booking(KeyEvent event) {
+    private void SearchByDate_Bill(ActionEvent event) {
+        FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
+        String newValue = txtSearch_Bill.getText().toLowerCase();
+        LocalDate dateSearch = dpk_DateFilter_Bill.getValue();
+        String dateValue;
+        if (dateSearch == null) {
+            dateValue = "";
+        } else {
+            dateValue = dateSearch.toString();
+        }
+        String finalDateValue = dateValue;
+        filteredData.setPredicate(p -> {
+
+            if (newValue == null || newValue.isEmpty()) {
+                if (dateSearch == null) {
+                    return true;
+                }
+                if (p.getPay_date().toString().equals(finalDateValue)) {
+                    return true;
+                }
+            } else {
+                if (dateSearch == null && (String.valueOf(p.getIdb()).equals(newValue) || p.getIdk().toLowerCase().contains(newValue))) {
+                    return true;
+                }
+                if (p.getPay_date().toString().equals(finalDateValue) && (String.valueOf(p.getIdb()).equals(newValue) || p.getIdk().toLowerCase().contains(newValue))) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+        tvBillPayment_Bill.setItems(filteredData);
     }
 }
