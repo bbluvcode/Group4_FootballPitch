@@ -5,6 +5,7 @@
 package DAO;
 
 import Entities.PaymentBill;
+import Entities.PitchCategory;
 import Entities.Service;
 
 import java.sql.Connection;
@@ -26,27 +27,38 @@ import javafx.collections.ObservableList;
  */
 public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
-    ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
+   public ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
 
+
+
     @Override
     public void Update(Integer id, PaymentBill t) {
         int idb = t.getIdb();
-        String idu = t.getIdu();
+//        String idu = t.getIdu();
         int idp = t.getIdp();
         String idk = t.getIdk();
         Time time_start = t.getTime_start();
+
         Time time_end = t.getTime_end();
+
+        String time_end_str = String.valueOf(time_end);
+        if(time_end != null) {
+            time_end_str = "'"+ time_end_str + "'";
+        }
+
         int hrs_used = t.getHrs_used();
         Date pay_date = t.getPay_date();
         int deposit = t.getDeposit();
         int tt_booking = t.getTt_booking();
         int tt_service = t.getTt_service();
         int tt_payment = t.getTt_payment();
-        boolean comp = t.isComp();
-        String sql = "UPDATE payments SET idu  = '" + idu + "'  , idp  = " + idp + "  , idk  = '" + idk + "'  , time_start  =  '" + time_start + "'  , time_end  = '" + time_end + "'  , hrs_used  = " + hrs_used + "  , pay_date  = '" + pay_date + "'  , deposit  = " + deposit + "  , tt_booking  = " + tt_booking + "  , tt_service  = " + tt_service + "  , tt_payment  = " + tt_payment + "  , completed  = " + comp + "WHERE idb = " + idb;
+        Time time_book = t.getTime_book();
+//        boolean comp = t.isComp();
+        String sql = "UPDATE payments SET time_book  = '" + time_book + "'  , idp  = " + idp + "  , idk  = '" + idk + "'  , time_start  =  '" + time_start + "'  , time_end  = " + time_end_str + "  , hrs_used  = " + hrs_used + "  , pay_date  = '" + pay_date + "'  , deposit  = " + deposit + "  , tt_booking  = " + tt_booking + "  , tt_service  = " + tt_service + "  , tt_payment  = " + tt_payment + " WHERE idb = " + idb;
+        System.out.println(sql);
         try {
             Statement st = getConnection().createStatement();
             executeSQL(sql);
@@ -99,6 +111,8 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     public ObservableList<PaymentBill> getAll() {
         Connection cn = getConnection();
         String query = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE payments.time_start IS NOT NULL";
+        PitchDAO pitchDAO = new PitchDAO();
+        pitchDAO.getAll();
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -123,8 +137,8 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 String khachhang_name = rs.getString("khachhang_name");
                 String qluser_name = rs.getString("qluser_name");
                 String sanbong_name = rs.getString("sanbong_name");
-
-                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name);
+                int price_pitch = pitchDAO.getPriceByID(idp);
+                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name, price_pitch);
                 //System.out.println(pb);
                 pbObservableList.add(pb);
             }

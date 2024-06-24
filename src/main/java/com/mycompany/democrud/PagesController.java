@@ -11,6 +11,7 @@ import Entities.PaymentBill;
 import Entities.Service;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +33,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -225,6 +229,8 @@ public class PagesController implements Initializable {
     private DatePicker dpk_DateFilter_Bill;
     @FXML
     private TableColumn<PaymentBill, String> col_idk_Bill;
+    @FXML
+    private Button btnAddNew_Bill;
 
     /**
      * Initializes the controller class.
@@ -773,6 +779,32 @@ public class PagesController implements Initializable {
 
     @FXML
     private void Update_Bill(ActionEvent event) {
+        int idb = Integer.parseInt(lb_idb_Bill.getText());
+        int idp = Integer.parseInt(lb_idp_Bill.getText());
+        String idk = cboCus_Bill.getValue();
+        Time time_start = Time.valueOf(txtTimeStart_Bill.getText());
+        Time time_end;
+        try {
+            time_end = Time.valueOf(txtTimeEnd_Bill.getText());
+            System.out.println("trong try");
+        } catch (Exception e) {
+            time_end = null;
+            System.out.println("torng catch");
+        }
+        int hrs_used = Integer.parseInt(txtHrsUsed_Bill.getText());
+        Date pay_date = Date.valueOf(lb_paydate_Bill.getText());
+        int deposit = Integer.parseInt(txtDeposit_Bill.getText());
+        int tt_booking = Integer.parseInt(lbTax_Bill.getText());
+        int tt_service = Integer.parseInt(lbSubtotal_Bill.getText());
+        int tt_payment = Integer.parseInt(lbTotal_Bill.getText());
+        Time time_book = Time.valueOf(txtTimeBook_Bill.getText());
+
+        PaymentBill pb = new PaymentBill(idb, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, time_book);
+        PaymentBillDAO pbDAO = new PaymentBillDAO();
+        pbDAO.Update(idb, pb);
+
+        Display_BillPaymentList_Bill();
+
     }
 
     @FXML
@@ -786,6 +818,7 @@ public class PagesController implements Initializable {
 
     private void SelectBill_Bill() {
         try {
+            btnCheckOut_Bill.setDisable(true);
             PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
             pmDAO = new PaymentBillDAO();
             pmDAO.getAll();
@@ -796,22 +829,40 @@ public class PagesController implements Initializable {
                 return;
             }
             PaymentBill pb = opPm.get();
+
+            int subtotalService = 0;
+//            int subtotalService = pb.getTt_service();
+            int subtotalPitchFee = pb.getTt_booking();
+            int total = pb.getTt_payment();
+
+            int price_pitch = pb.getPrice_pitch();
             LocalTime StartTime = pb.getTime_start().toLocalTime();
             String end_time = String.valueOf(pb.getTime_end());
             int hrs_used = pb.getHrs_used();
             if (end_time.equals("null") || end_time.isEmpty()) {
-                end_time = "...";
+                btnCheckOut_Bill.setDisable(false);
 
+                end_time = "...";
 
                 LocalTime EndTime = LocalTime.now();
                 Duration duration = Duration.between(StartTime, EndTime);
 
                 hrs_used = (int) duration.toHours();
+                hrs_used = Math.abs(hrs_used);
                 if (hrs_used == 0 || hrs_used > 0 && duration.toMinutes() >= 15) {
                     hrs_used++;
                 }
 
+//                subtotalService = Display_ServiceList_Bill(pb.getIdb());            ;
+//                subtotalPitchFee = price_pitch * hrs_used;
+//                total = subtotalService + subtotalPitchFee;
+//                System.out.println("total new: " + total);
             }
+
+            subtotalService = Display_ServiceList_Bill(pb.getIdb());
+            ;
+            subtotalPitchFee = price_pitch * hrs_used;
+            total = subtotalService + subtotalPitchFee;
 
             lb_paydate_Bill.setText(String.valueOf(pb.getPay_date()));
             lb_idb_Bill.setText(String.valueOf(pb.getIdb()));
@@ -821,15 +872,17 @@ public class PagesController implements Initializable {
 
             txtTimeBook_Bill.setText(String.valueOf(pb.getTime_book()));
             txtDeposit_Bill.setText(String.valueOf(pb.getDeposit()));
-            txtTimeStart_Bill.setText(StartTime.toString());
+            txtTimeStart_Bill.setText(String.valueOf(pb.getTime_start()));
             txtTimeEnd_Bill.setText(end_time);
             txtHrsUsed_Bill.setText("" + hrs_used);
             lbPaytime_Bill.setText(end_time);
             lbStaffID_Bill.setText(pb.getQluser_name() + " - " + pb.getIdu());
-            lbSubtotal_Bill.setText(String.valueOf(pb.getTt_service()));
-            lbTax_Bill.setText(String.valueOf(pb.getTt_booking()));
-            lbTotal_Bill.setText(String.valueOf(pb.getTt_payment()));
-            Display_ServiceList_Bill(pb.getIdb());
+
+            lbSubtotal_Bill.setText(String.valueOf(subtotalService));
+            lbTax_Bill.setText(String.valueOf(subtotalPitchFee));
+            lbTotal_Bill.setText(String.valueOf(total));
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -846,7 +899,7 @@ public class PagesController implements Initializable {
         tvBillPayment_Bill.setItems(bList);
     }
 
-    private void Display_ServiceList_Bill(int idb) {
+    private int Display_ServiceList_Bill(int idb) {
         pmDAO = new PaymentBillDAO();
         ObservableList<Service> sList = pmDAO.getAllSerVice(idb);
         colNoSer_Bill.setCellValueFactory(new PropertyValueFactory<>("no"));
@@ -855,5 +908,73 @@ public class PagesController implements Initializable {
         colQtySer_Bill.setCellValueFactory(new PropertyValueFactory<>("qoh"));
         colTotalSer_Bill.setCellValueFactory(new PropertyValueFactory<>("total"));
         tvService_Bill.setItems(sList);
+
+        int subtotal = 0;
+        for (Service s : sList) {
+            subtotal += s.getTotal();
+        }
+
+        return subtotal;
+    }
+
+    @FXML
+    private void AddNew_Bill(ActionEvent event) {
+    }
+
+    @FXML
+    private void Search_Bill(KeyEvent event) {
+        System.out.println("test search");
+        FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
+
+        System.out.println(txtSearch_Bill.getText());
+        String newValue = txtSearch_Bill.getText().toLowerCase();
+//        ObservableList<PaymentBill> subList = filteredData.filtered(p -> p.getIdb() == Integer.parseInt(txtSearch_Bill.getText()));
+        ObservableList<PaymentBill> subList = filteredData.filtered(p -> {
+//            return p.getIdb() == Integer.parseInt(txtSearch_Bill.getText());
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            String lowerCaseFilter = newValue;
+                if (p.getIdk().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+            if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
+                return true;
+            }
+
+            return false;
+        });
+//        txtSearch_Bill.textProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredData.setPredicate(p -> {
+//                System.out.println("search--");
+//                if (newValue == null || newValue.isEmpty()) {
+//                    return true;
+//                }
+//                String lowerCaseFilter = newValue.toLowerCase();
+////                if (p.getIdk().toLowerCase().contains(lowerCaseFilter)) {
+////                    return true;
+////                }
+//                if (String.valueOf(p.getIdb()).equals(lowerCaseFilter)) {
+//                    return true;
+//                }
+//                if (String.valueOf(p.getIdp()).equals(lowerCaseFilter)) {
+//                    return true;
+//                }
+////                if (String.valueOf(p.getTt_payment()).contains(lowerCaseFilter)) {
+////                    return true;
+////                }
+//                System.out.println("search: " + lowerCaseFilter);
+//
+//                return false;
+//
+//            });
+//        });
+        //SortedList<PaymentBill> sortedData = new SortedList<>(filteredData);
+        //sortedData.comparatorProperty().bind(tvBillPayment_Bill.comparatorProperty());
+        tvBillPayment_Bill.setItems(subList);
+    }
+
+    @FXML
+    private void SearchPitch_Booking(KeyEvent event) {
     }
 }

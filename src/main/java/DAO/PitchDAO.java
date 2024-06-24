@@ -202,6 +202,14 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
         return 0;
     }
 
+    public int getPriceByID(int id) {
+        for (Pitch f : fieldsObservableList) {
+            if (f.getIdp() == id) {
+                return f.getPrice();
+            }
+        }
+        return 0;
+    }
     public void UpdateAvailable(int idp, int available){
         //available: 1. trống, 2 khách đang thue, 3 sân co khach đặt
         String sql="UPDATE sanbong set available = "+available+" WHERE idp = " + idp;

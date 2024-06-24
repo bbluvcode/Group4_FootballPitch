@@ -28,12 +28,15 @@ public class PaymentBill {
     Time time_book;
     int hrs;
     int stt;
-    String khachhang_name, qluser_name, sanbong_name;
+    String khachhang_name;
+    String qluser_name;
+    String sanbong_name;
+    int price_pitch;
 
     public PaymentBill() {
     }
 
-    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, String khachhang_name, String qluser_name, String sanbong_name) {
+    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, String khachhang_name, String qluser_name, String sanbong_name,int price_pitch) {
         this.idb = idb;
         this.idu = idu;
         this.idp = idp;
@@ -50,10 +53,11 @@ public class PaymentBill {
         this.khachhang_name = khachhang_name;
         this.qluser_name = qluser_name;
         this.sanbong_name = sanbong_name;
+        this.price_pitch = price_pitch;
     }
 
 
-    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, Time time_book, int hrs, int stt, String khachhang_name, String qluser_name, String sanbong_name) {
+    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, Time time_book, int hrs, int stt, String khachhang_name, String qluser_name, String sanbong_name,int price_pitch) {
         this.idb = idb;
         this.idu = idu;
         this.idp = idp;
@@ -73,6 +77,24 @@ public class PaymentBill {
         this.khachhang_name = khachhang_name;
         this.qluser_name = qluser_name;
         this.sanbong_name = sanbong_name;
+        this.price_pitch = price_pitch;
+
+    }
+
+    public PaymentBill(int idb, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, Time time_book) {
+        this.idb = idb;
+        this.idp = idp;
+        this.idk = idk;
+        this.time_start = time_start;
+        this.time_end = time_end;
+        this.hrs_used = hrs_used;
+        this.pay_date = pay_date;
+        this.deposit = deposit;
+        this.tt_booking = tt_booking;
+        this.tt_service = tt_service;
+        this.tt_payment = tt_payment;
+        this.time_book = time_book;
+
     }
 
     @Override
@@ -97,6 +119,7 @@ public class PaymentBill {
                 ", khachhang_name='" + khachhang_name + '\'' +
                 ", qluser_name='" + qluser_name + '\'' +
                 ", sanbong_name='" + sanbong_name + '\'' +
+                ", price_pitch=" + price_pitch +
                 '}';
     }
 
@@ -250,5 +273,13 @@ public class PaymentBill {
 
     public void setSanbong_name(String sanbong_name) {
         this.sanbong_name = sanbong_name;
+    }
+
+    public int getPrice_pitch() {
+        return price_pitch;
+    }
+
+    public void setPrice_pitch(int price_pitch) {
+        this.price_pitch = price_pitch;
     }
 }
