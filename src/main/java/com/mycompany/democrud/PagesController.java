@@ -781,7 +781,28 @@ public class PagesController implements Initializable {
 
     @FXML
     private void CheckOut_Bill(ActionEvent event) {
+        alert = new Alert(AlertType.CONFIRMATION);
+
+        alert.setTitle("Message");
+        alert.setHeaderText("Are you sure you want to CheckOut?");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            int idb = Integer.parseInt(lb_idb_Bill.getText());
+
+            int hrs_used = Integer.parseInt(txtHrsUsed_Bill.getText());
+            int tt_payment = Integer.parseInt(lbTotal_Bill.getText());
+            int tt_booking = Integer.parseInt(lbTax_Bill.getText());
+            int tt_service = Integer.parseInt(lbSubtotal_Bill.getText());
+
+            PaymentBill p = new PaymentBill(idb,hrs_used, tt_payment, tt_booking, tt_service);
+            pmDAO.Update(idb, p);
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText("Payment Success!");
+            alert.show();
+        }
     }
+
 
     @FXML
     private void AddService_Bill(ActionEvent event) {
@@ -796,10 +817,8 @@ public class PagesController implements Initializable {
         Time time_end;
         try {
             time_end = Time.valueOf(txtTimeEnd_Bill.getText());
-            System.out.println("trong try");
         } catch (Exception e) {
             time_end = null;
-            System.out.println("torng catch");
         }
         int hrs_used = Integer.parseInt(txtHrsUsed_Bill.getText());
         Date pay_date = Date.valueOf(lb_paydate_Bill.getText());

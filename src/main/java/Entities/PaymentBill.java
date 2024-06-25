@@ -36,7 +36,7 @@ public class PaymentBill {
     public PaymentBill() {
     }
 
-    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, String khachhang_name, String qluser_name, String sanbong_name,int price_pitch) {
+    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, String khachhang_name, String qluser_name, String sanbong_name, int price_pitch) {
         this.idb = idb;
         this.idu = idu;
         this.idp = idp;
@@ -57,7 +57,7 @@ public class PaymentBill {
     }
 
 
-    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, Time time_book, int hrs, int stt, String khachhang_name, String qluser_name, String sanbong_name,int price_pitch) {
+    public PaymentBill(int idb, String idu, int idp, String idk, Time time_start, Time time_end, int hrs_used, Date pay_date, int deposit, int tt_booking, int tt_service, int tt_payment, boolean comp, Time time_book, int hrs, int stt, String khachhang_name, String qluser_name, String sanbong_name, int price_pitch) {
         this.idb = idb;
         this.idu = idu;
         this.idp = idp;
@@ -95,6 +95,14 @@ public class PaymentBill {
         this.tt_payment = tt_payment;
         this.time_book = time_book;
 
+    }
+
+    public PaymentBill(int idb, int hrs_used, int tt_payment, int tt_booking, int tt_service) {
+        this.idb = idb;
+        this.hrs_used = hrs_used;
+        this.tt_payment = tt_payment;
+        this.tt_booking = tt_booking;
+        this.tt_service = tt_service;
     }
 
     @Override

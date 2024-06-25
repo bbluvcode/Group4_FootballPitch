@@ -148,7 +148,14 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         return pbObservableList;
     }
 
-    public void UpdatePaymentCompleted(int idPaymentBill, boolean Completed) {
+    public void CheckOut_Bill(PaymentBill paymentBill) {
+        int idb = paymentBill.getIdb();
+        int hrs_used = paymentBill.getHrs_used();
+        int tt_payment = paymentBill.getTt_payment();
+        int tt_booking = paymentBill.getTt_booking();
+        int tt_service = paymentBill.getTt_service();
+
+
         String sql = "UPDATE payments SET completed = " + Completed + " WHERE idb = " + idPaymentBill;
         try {
             Statement st = getConnection().createStatement();
