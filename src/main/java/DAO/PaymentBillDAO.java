@@ -156,7 +156,8 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_service = paymentBill.getTt_service();
 
 
-        String sql = "UPDATE payments SET completed = " + Completed + " WHERE idb = " + idPaymentBill;
+        String sql = "UPDATE payments SET completed = " + 1 + ", hrs_used = " + hrs_used + ", tt_payment = " + tt_payment + ", tt_booking = " + tt_booking + ", tt_service = " + tt_service + ", time_end = CAST(GETDATE() AS TIME) WHERE idb = " + idb;
+        System.out.println(sql);
         try {
             Statement st = getConnection().createStatement();
             executeSQL(sql);

@@ -20,6 +20,16 @@ public class Service extends ServiceCategory {
     public Service() {
     }
 
+    public Service(int ids, String name, int price, String img, int qoh) {
+
+        this.ids = ids;
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.qoh = qoh;
+
+    }
+
     public Service(int ids, String name, int price, String img, int qoh, int idc, String type, int no) {
         super(idc, type);
         this.ids = ids;
@@ -97,7 +107,6 @@ public class Service extends ServiceCategory {
         this.type = type;
     }
 
-
     public int getNo() {
         return no;
     }
@@ -105,7 +114,6 @@ public class Service extends ServiceCategory {
     public void setNo(int no) {
         this.no = no;
     }
-
 
     public int getTotal() {
         return total;
@@ -119,6 +127,5 @@ public class Service extends ServiceCategory {
     public String toString() {
         return "Service{" + "ids=" + ids + ", name=" + name + ", price=" + price + ", img=" + img + ", qoh=" + qoh + ", type=" + type + '}';
     }
-
 
 }

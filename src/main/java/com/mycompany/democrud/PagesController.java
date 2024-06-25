@@ -39,6 +39,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -238,6 +239,27 @@ public class PagesController implements Initializable {
     @FXML
     private Label lb_pricePitch_Bill;
 
+    //=========================End Bill================
+    //===========================================================
+    //============= Menu Service page ==================================
+    //===========================================================
+    @FXML
+    private AnchorPane menuService_page;
+    @FXML
+    private ScrollPane menu_scrollPane_Ser;
+    @FXML
+    private GridPane menu_gridPane_Ser;
+    @FXML
+    private TableView<Service> menu_tvSerOfBill_Ser;
+    @FXML
+    private TableColumn<Service, String> colName_Ser;
+    @FXML
+    private TableColumn<Service, Integer> colQty_Ser;
+    @FXML
+    private TableColumn<Service, Integer> colPrice_Ser;
+
+    private ObservableList<Service> cardListData_Ser;
+
     /**
      * Initializes the controller class.
      */
@@ -247,7 +269,6 @@ public class PagesController implements Initializable {
         initialize_manageBooking();
         initialize_Bill();
     }
-
 
     private void OnlyEnterNumber(TextField name) {
         // Kết nối sự kiện KeyTyped cho TextField
@@ -407,10 +428,10 @@ public class PagesController implements Initializable {
         }
     }
 
-
     @FXML
     void Click_spnHour_timeBook_Booking() {
-        LocalTime crHrs = LocalTime.now().plusMinutes(15);
+        //LocalTime crHrs = LocalTime.now().plusMinutes(15);
+        LocalTime crHrs = LocalTime.now();
         int crHours = crHrs.getHour();
         int crMinutes = crHrs.getMinute();
 
@@ -690,7 +711,12 @@ public class PagesController implements Initializable {
 
         initialize_Bill();
         tvBillPayment_Bill.getSelectionModel().selectLast();
-        SelectBill_Bill();
+        try {
+            int idb = Integer.parseInt(lbIdb_booking.getText());
+            SelectBill_Bill(idb);
+        } catch (Exception e) {
+            System.out.println("Error BUTTON - BillDetail:" + e.getMessage());
+        }
     }
 
     @FXML
@@ -700,7 +726,6 @@ public class PagesController implements Initializable {
     //==============================================**END MANAGE BOOKING**==============================================
     //================================================================================================================
     //==============================================**ADD CUSTOMER**==============================================
-
     @FXML
     private void signout(ActionEvent event) {
     }
@@ -768,7 +793,7 @@ public class PagesController implements Initializable {
     //================================================================================================================
     //==============================================**DETAIL BILL**==============================================
     public void initialize_Bill() {
-/*        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+        /*        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
         spnHrs_Booking.setValueFactory(valueFactory);
         //setItem_cboIdk_Booking();
         //Disible Button_Booking
@@ -778,31 +803,41 @@ public class PagesController implements Initializable {
         Display_BillPaymentList_Bill();
     }
 
-
     @FXML
     private void CheckOut_Bill(ActionEvent event) {
-        alert = new Alert(AlertType.CONFIRMATION);
-
-        alert.setTitle("Message");
-        alert.setHeaderText("Are you sure you want to CheckOut?");
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.OK) {
-            int idb = Integer.parseInt(lb_idb_Bill.getText());
-
-            int hrs_used = Integer.parseInt(txtHrsUsed_Bill.getText());
-            int tt_payment = Integer.parseInt(lbTotal_Bill.getText());
-            int tt_booking = Integer.parseInt(lbTax_Bill.getText());
-            int tt_service = Integer.parseInt(lbSubtotal_Bill.getText());
-
-            PaymentBill p = new PaymentBill(idb,hrs_used, tt_payment, tt_booking, tt_service);
-            pmDAO.Update(idb, p);
+        if (lb_idb_Bill.getText().contains(".")) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText("Please select a booking!");
+            alert.show();
+        } else {
             alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Message");
-            alert.setHeaderText("Payment Success!");
-            alert.show();
+            alert.setHeaderText("Are you sure you want to CheckOut?");
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                int idb = Integer.parseInt(lb_idb_Bill.getText());
+
+                int hrs_used = Integer.parseInt(txtHrsUsed_Bill.getText());
+                int tt_payment = Integer.parseInt(lbTotal_Bill.getText());
+                int tt_booking = Integer.parseInt(lbTax_Bill.getText());
+                int tt_service = Integer.parseInt(lbSubtotal_Bill.getText());
+
+                PaymentBill p = new PaymentBill(idb, hrs_used, tt_payment, tt_booking, tt_service);
+                pmDAO.CheckOut_Bill(p);
+                LocalTime lt = LocalTime.now();
+                txtTimeEnd_Bill.setText(lt.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                lbPaytime_Bill.setText(lt.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText("Payment Success!");
+                alert.show();
+                Display_BillPaymentList_Bill();
+                btnCheckOut_Bill.setDisable(true);
+                btnAddSer_Bill.setDisable(true);
+            }
         }
     }
-
 
     @FXML
     private void AddService_Bill(ActionEvent event) {
@@ -845,19 +880,20 @@ public class PagesController implements Initializable {
 
     @FXML
     private void SelectBill_Bill(MouseEvent event) {
-        SelectBill_Bill();
+        PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
+
+        SelectBill_Bill(pSelected.getIdb());
     }
 
-    private void SelectBill_Bill() {
+    private void SelectBill_Bill(int idb) {
         try {
             btnCheckOut_Bill.setDisable(true);
             btnAddSer_Bill.setDisable(true);
             btnUpdate_Bill.setDisable(true);
-            PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
 
             pmDAO = new PaymentBillDAO();
             pmDAO.getAll();
-            opPm = pmDAO.GetById(pSelected.getIdb());
+            opPm = pmDAO.GetById(idb);
             if (opPm.isEmpty()) {
                 System.out.println("Cannot found bill");
                 reset_Booking();
@@ -869,7 +905,7 @@ public class PagesController implements Initializable {
 //            int subtotalService = pb.getTt_service();
             int subtotalPitchFee = pb.getTt_booking();
             int total = pb.getTt_payment();
-
+            int deposit = pb.getDeposit();
             int price_pitch = pb.getPrice_pitch();
             LocalTime StartTime = pb.getTime_start().toLocalTime();
             String end_time = String.valueOf(pb.getTime_end());
@@ -898,7 +934,7 @@ public class PagesController implements Initializable {
             subtotalService = Display_ServiceList_Bill(pb.getIdb());
             ;
             subtotalPitchFee = price_pitch * hrs_used;
-            total = subtotalService + subtotalPitchFee;
+            total = subtotalService + subtotalPitchFee - deposit;
 
             lb_paydate_Bill.setText(String.valueOf(pb.getPay_date()));
             lb_idb_Bill.setText(String.valueOf(pb.getIdb()));
@@ -908,7 +944,7 @@ public class PagesController implements Initializable {
             lbTotal_Bill.setText(String.valueOf(pb.getTt_payment()));
 
             txtTimeBook_Bill.setText(String.valueOf(pb.getTime_book()));
-            txtDeposit_Bill.setText(String.valueOf(pb.getDeposit()));
+            txtDeposit_Bill.setText(String.valueOf(deposit));
             txtTimeStart_Bill.setText(String.valueOf(pb.getTime_start()));
             txtTimeEnd_Bill.setText(end_time);
             txtHrsUsed_Bill.setText("" + hrs_used);
@@ -918,7 +954,6 @@ public class PagesController implements Initializable {
             lbSubtotal_Bill.setText(String.valueOf(subtotalService));
             lbTax_Bill.setText(String.valueOf(subtotalPitchFee));
             lbTotal_Bill.setText(String.valueOf(total));
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -971,7 +1006,6 @@ public class PagesController implements Initializable {
 
         /*ObservableList<PaymentBill> subList = filteredData.filtered(p -> p.getIdb() == Integer.parseInt(txtSearch_Bill.getText()););
           tvBillPayment_Bill.setItems(subList);*/ //cách trả về list khaác
-
         filteredData.setPredicate(p -> {
             if (dpk_DateFilter_Bill.getValue() == null) {
                 if (newValue == null || newValue.isEmpty()) {
@@ -1001,7 +1035,6 @@ public class PagesController implements Initializable {
             }
             return false;
         });
-
 
         tvBillPayment_Bill.setItems(filteredData);
     }
@@ -1040,4 +1073,9 @@ public class PagesController implements Initializable {
         });
         tvBillPayment_Bill.setItems(filteredData);
     }
+
+    //==========================================================================**END DETAIL BILL**==============================================
+    //============================================================================================================================================
+    //==========================================================================**MENU SERVICE**==============================================
+
 }

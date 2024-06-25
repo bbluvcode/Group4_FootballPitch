@@ -22,7 +22,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="700.0" stroke="WHITE" strokeType="INSIDE" width="1261.0" />
         <AnchorPane layoutX="2.0" prefHeight="45.0" prefWidth="1260.0">
