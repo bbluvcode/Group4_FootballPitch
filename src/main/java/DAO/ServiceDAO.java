@@ -125,4 +125,64 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
         return qoh;
     }
 
+    public ObservableList<Service> getAll_idb(int idb) {
+        getAll_RentService_idb(idb);
+        getAll_SellService_idb(idb);
+        return serObservableList;
+    }
+
+    public ObservableList<Service> getAll_SellService_idb(int idb) {
+        String query = "SELECT ser_sell.*, cat_ser.type FROM ser_sell INNER JOIN cat_ser ON ser_sell.idc = cat_ser.idc";
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            Service s;
+            int no = 0;
+            while (rs.next()) {
+                int ids = rs.getInt("idss");
+                String name = rs.getString("name");
+                int price = rs.getInt("price");
+                String img = rs.getString("img");
+                int qoh = rs.getInt("qoh");
+                int idc = rs.getInt("idc");
+                String type = rs.getString("type");
+                no++;
+                s = new Service(ids, name, price, img, qoh, idc, type, no, idb);
+                serSell_ObservableList.add(s);
+                serObservableList.add(s);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return serSell_ObservableList;
+    }
+
+    public ObservableList<Service> getAll_RentService_idb(int idb) {
+        String query = "SELECT ser_rent.*, cat_ser.type FROM ser_rent INNER JOIN cat_ser ON ser_rent.idc = cat_ser.idc";
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            Service s;
+            int no = 0;
+            while (rs.next()) {
+                int ids = rs.getInt("idsr");
+                String name = rs.getString("name");
+                int price = rs.getInt("price");
+                String img = rs.getString("img");
+                int qoh = rs.getInt("qoh");
+                int idc = rs.getInt("idc");
+                String type = rs.getString("type");
+                no++;
+                s = new Service(ids, name, price, img, qoh, idc, type, no, idb);
+                serRent_ObservableList.add(s);
+                serObservableList.add(s);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return serSell_ObservableList;
+    }
+
 }

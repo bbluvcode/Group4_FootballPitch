@@ -48,6 +48,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -58,13 +59,17 @@ import javafx.scene.layout.StackPane;
 public class PagesController implements Initializable {
 
     @FXML
-    private HBox Ser_changeQtyService;
+    private VBox Ser_changeQtyService_Vbox;
     @FXML
     private TableColumn<?, ?> Ser_col_IDC;
     @FXML
     private Label Ser_lbHide_IDC;
     @FXML
     private Label Ser_lbHide_IDS;
+    @FXML
+    private Button Ser_DeleteService;
+    @FXML
+    private HBox Ser_changeQtyService;
 
     public void ini() {
 
@@ -288,15 +293,13 @@ public class PagesController implements Initializable {
     @FXML
     private TableColumn<Service, Integer> Ser_colQOH;
     @FXML
-    private Label Ser_lbIDB;
+    public Label Ser_lbIDB;
     @FXML
     private Button Ser_btnSave;
     @FXML
     private Label Ser_lbServiceName;
     @FXML
     private Spinner<Integer> Ser_spnQty;
-    @FXML
-    private Button Ser_btnDelete;
     @FXML
     private Label Ser_lbPaydate;
     @FXML
@@ -502,8 +505,8 @@ public class PagesController implements Initializable {
     private void switchPage(ActionEvent event) {
         //List<Node> pages = Arrays.asList(EmployeePage, CustomerPage, SportPage, ServicePage, CatePage, BillPage, PaymentPage, DashboardPage);
         //List<Button> buttons = Arrays.asList(btnEmployeePage, btnCustomerPage, btnSportPage, btnServicePage, btnCatePage, btnBillPage);
-        List<Button> buttons = Arrays.asList(btnCustomerPage, btnSportPage, btnBillPage);
-        List<Node> pages = Arrays.asList(pAcNewCus_Page, pBdpManagebooking_page, pBdpBillDetail_page);
+        List<Button> buttons = Arrays.asList(btnCustomerPage, btnSportPage, btnBillPage, btnServicePage);
+        List<Node> pages = Arrays.asList(pAcNewCus_Page, pBdpManagebooking_page, pBdpBillDetail_page, menuService_page);
 
         for (int i = 0; i < buttons.size(); i++) {
             if (event.getSource() == buttons.get(i)) {
@@ -882,6 +885,23 @@ public class PagesController implements Initializable {
 
     @FXML
     private void AddService_Bill(ActionEvent event) {
+        if (lb_idb_Bill.getText().contains(".")) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText("Please select a booking!");
+            alert.show();
+        } else {
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText("Would you like to add service?");
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                int idb = Integer.parseInt(lb_idb_Bill.getText());
+                initialize_menuService(idb);
+                pBdpBillDetail_page.setVisible(false);
+                menuService_page.setVisible(true);
+            }
+        }
     }
 
     @FXML
@@ -1118,15 +1138,16 @@ public class PagesController implements Initializable {
     //============================================================================================================================================
     //==========================================================================**MENU SERVICE**==============================================
     public void initialize_menuService(int IDB) {
-        menuDisplayCard_Ser();
+        menuDisplayCard_Ser(IDB);
         Display_ServiceBill_Ser(IDB);
     }
 
-    public void menuDisplayCard_Ser() {
+    public void menuDisplayCard_Ser(int IDB) {
         serDAO = new ServiceDAO();
 
+
         cardListData_Ser.clear();
-        cardListData_Ser.addAll(serDAO.getAll());
+        cardListData_Ser.addAll(serDAO.getAll_idb(IDB));
         int row = 0;
         int column = 0;
         this.menu_gridPane_Ser.getChildren().clear();
@@ -1182,15 +1203,15 @@ public class PagesController implements Initializable {
     @FXML
     private void Select_Ser(MouseEvent event) {
         Service s = menu_tvSerOfBill_Ser.getSelectionModel().getSelectedItem();
-        String name = s.getName();
-        int qty = s.getQty();
-        int qoh = s.getQoh();
-        int ids = s.getIds();
-        int idc = s.getIdc();
 
         if (s != null) {
-            Ser_changeQtyService.setVisible(true);
-            Ser_lbServiceName.setText(s.getName());
+            String name = s.getName();
+            int qty = s.getQty();
+            int qoh = s.getQoh();
+            int ids = s.getIds();
+            int idc = s.getIdc();
+            Ser_changeQtyService_Vbox.setVisible(true);
+            Ser_lbServiceName.setText(name);
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh, qty);
             Ser_spnQty.setValueFactory(valueFactory);
             Ser_lbHide_IDC.setText("" + idc);
@@ -1202,23 +1223,30 @@ public class PagesController implements Initializable {
     @FXML
     private void Ser_SaveChangeService(ActionEvent event) {
         Ser_btnSave.setDisable(true);
-        Ser_changeQtyService.setVisible(false);
+        Ser_changeQtyService_Vbox.setVisible(false);
         int qty = Ser_spnQty.getValue();
         int ids = Integer.parseInt(Ser_lbHide_IDS.getText());
         int idc = Integer.parseInt(Ser_lbHide_IDC.getText());
         int idb = Integer.parseInt(Ser_lbIDB.getText());
         pmDAO.updateService(idb, ids, idc, qty);
         Display_ServiceBill_Ser(idb);
-        System.out.println("qty: " + qty + " ids: " + ids + " idc: " + idc + " idb: " + idb);
     }
 
     @FXML
     private void Ser_DeleteService(ActionEvent event) {
         Ser_btnSave.setDisable(true);
-        Ser_changeQtyService.setVisible(false);
+        Ser_changeQtyService_Vbox.setVisible(false);
         int ids = Integer.parseInt(Ser_lbHide_IDS.getText());
         int idc = Integer.parseInt(Ser_lbHide_IDC.getText());
         int idb = Integer.parseInt(Ser_lbIDB.getText());
-        //pmDAO.updateService(idb, ids, idc, qty);
+        pmDAO.deleteService(idb, ids, idc);
+        Display_ServiceBill_Ser(idb);
+
+    }
+
+    @FXML
+    private void Ser_NotChange(ActionEvent event) {
+        Ser_btnSave.setDisable(true);
+        Ser_changeQtyService_Vbox.setVisible(false);
     }
 }

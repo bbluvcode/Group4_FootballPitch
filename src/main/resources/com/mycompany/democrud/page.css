@@ -121,6 +121,16 @@ and open the template in the editor.
 .delete-btn{
     -fx-background-color: #dc3545;
 }
+
+.btn-fontawesome{
+    -fx-background-color: #dc3545;
+    -fx-background-radius: 8px;
+    -fx-font-size: 12px;
+    -fx-font-family: Arial;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+
+}
 .add-btn, .update-btn, .clear-btn, .delete-btn, .purple-btn{
     -fx-background-radius: 10px;
     -fx-font-size: 18px;
@@ -128,7 +138,7 @@ and open the template in the editor.
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
-.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover,.purple-btn:hover{
+.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover,.purple-btn:hover, .btn-fontawesome:hover{
     -fx-background-color: #007bff;
     -fx-scale-x: 1.11;
     -fx-scale-y: 1.11;

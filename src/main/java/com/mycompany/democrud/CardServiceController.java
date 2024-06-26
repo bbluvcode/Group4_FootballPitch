@@ -4,6 +4,7 @@
  */
 package com.mycompany.democrud;
 
+import DAO.PaymentBillDAO;
 import Entities.Service;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,9 @@ public class CardServiceController implements Initializable {
     @FXML
     private Button ser_addBtn;
 
+    private int idb;
+    private int idc;
+    private int ids;
     private Service ser_Data;
     private Image image;
     private final String IMAGE_DIR = "../src/main/resources/com/mycompany/imageView/";
@@ -46,6 +50,9 @@ public class CardServiceController implements Initializable {
         String path = "file:/" + IMAGE_DIR + ser.getImg();
         image = new Image(path, 176, 112, false, true);
         ser_imageView.setImage(image);
+        idb = ser.getIdb();
+        idc = ser.getIdc();
+        ids = ser.getIds();
     }
 
     /**
@@ -58,6 +65,10 @@ public class CardServiceController implements Initializable {
 
     @FXML
     private void addBtn(ActionEvent event) {
+        PaymentBillDAO pDAO = new PaymentBillDAO();
+        pDAO.addServiceToBill(idb, ids, idc);
+        //PagesController mainPage = new PagesController();
+       // mainPage.menuDisplayCard_Ser(idb);
     }
 
 }

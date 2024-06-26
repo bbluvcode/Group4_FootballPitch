@@ -239,6 +239,48 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         System.out.println("SERVICES OF BILL " + idb + " UPDATED!");
     }
 
+    public void deleteService(int idb, int ids, int idc) {
+        String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
+        String colName = idc == 3 ? "idsr" : "idss";
+        String sql = "DELETE FROM " + tableName + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
+        ;
+        System.out.println(sql);
+        executeSQL(sql);
+        System.out.println("SERVICES OF BILL " + idb + " DELETED!");
+    }
+
+    public void addServiceToBill(int idb, int ids, int idc) {
+        boolean idcCompare = idc == 3;
+        System.out.println("idc == " + idc);
+        System.out.println("idc == 3: " + idcCompare);
+        String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
+        String colName = idc == 3 ? "idsr" : "idss";
+        int qty = 0;
+
+        String query = "SELECT qty FROM " + tableName + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
+        executeSQL(query);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                qty = rs.getInt("qty");
+                qty++;
+            }
+            if (qty == 0) {
+                query = "INSERT INTO " + tableName + " VALUES(" + idb + "," + ids + ",1)";
+                executeSQL(query);
+            } else {
+                query = "UPDATE " + tableName + " SET qty = " + qty + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
+                executeSQL(query);
+            }
+            System.out.println("PaymentBillDAO: " + query);
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
     //làm thêm cái tìm kiếm theo ngày
     public Optional<PaymentBill> SearchByPitch(int idp) {
         for (PaymentBill pm : pbObservableList) {

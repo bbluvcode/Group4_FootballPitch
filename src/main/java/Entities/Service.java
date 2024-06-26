@@ -17,6 +17,7 @@ public class Service extends ServiceCategory {
     int no;
     int total;
     int qoh;
+    int idb;
 
     public Service() {
     }
@@ -39,6 +40,17 @@ public class Service extends ServiceCategory {
         this.img = img;
         this.qty = qty;
         this.no = no;
+    }
+
+    public Service(int ids, String name, int price, String img, int qty, int idc, String type, int no, int idb) {
+        super(idc, type);
+        this.ids = ids;
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.qty = qty;
+        this.no = no;
+        this.idb = idb;
     }
 
     public Service(int ids, String name, int price, String img, int qty, int idc, String type, int no, int total, int qoh) {
@@ -131,6 +143,15 @@ public class Service extends ServiceCategory {
 
     public void setQoh(int qoh) {
         this.qoh = qoh;
+    }
+
+
+    public int getIdb() {
+        return idb;
+    }
+
+    public void setIdb(int idb) {
+        this.idb = idb;
     }
 
     @Override
