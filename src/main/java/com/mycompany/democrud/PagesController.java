@@ -9,6 +9,7 @@ import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.Service;
+import java.io.IOException;
 
 import java.net.URL;
 import java.sql.Date;
@@ -22,6 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +32,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -51,6 +56,7 @@ import javafx.scene.layout.StackPane;
 public class PagesController implements Initializable {
 
     Alert alert;
+    ServiceDAO serDAO = new ServiceDAO();
     PitchDAO pDAO = new PitchDAO();
     UserDAO userDAO = new UserDAO();
     CustomerDAO cusDAO = new CustomerDAO();
@@ -258,7 +264,7 @@ public class PagesController implements Initializable {
     @FXML
     private TableColumn<Service, Integer> colPrice_Ser;
 
-    private ObservableList<Service> cardListData_Ser;
+    private ObservableList<Service> cardListData_Ser = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -266,8 +272,9 @@ public class PagesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        initialize_manageBooking();
-        initialize_Bill();
+//        initialize_manageBooking();
+//        initialize_Bill();
+        menuDisplayCard_Ser();
     }
 
     private void OnlyEnterNumber(TextField name) {
@@ -1077,5 +1084,40 @@ public class PagesController implements Initializable {
     //==========================================================================**END DETAIL BILL**==============================================
     //============================================================================================================================================
     //==========================================================================**MENU SERVICE**==============================================
+    public void menuDisplayCard_Ser() {
+        serDAO = new ServiceDAO();
 
+        cardListData_Ser.clear();
+        cardListData_Ser.addAll(serDAO.getAll());
+        System.out.println(cardListData_Ser);
+        int row = 0;
+        int column = 0;
+        this.menu_gridPane_Ser.getChildren().clear();
+        this.menu_gridPane_Ser.getRowConstraints().clear();
+        this.menu_gridPane_Ser.getColumnConstraints().clear();
+
+        for (int q = 0; q < cardListData_Ser.size(); q++) {
+            try {
+                FXMLLoader load = new FXMLLoader();
+//                load.getClass().getResource("cardService.fxml");
+                load.setLocation(this.getClass().getResource("cardService.fxml"));
+
+                AnchorPane pane = (AnchorPane) load.load();
+                CardServiceController card_Ser = (CardServiceController) load.getController();
+                card_Ser.setData(cardListData_Ser.get(q));
+                 if (column == 3) {
+                    column = 0;
+                    ++row;
+                }
+                  this.menu_gridPane_Ser.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(10.0));
+                 
+            } catch (IOException ex) {
+                Logger.getLogger(PagesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    //30:14
 }

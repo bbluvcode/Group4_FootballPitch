@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import Entities.PaymentBill;
+import Entities.Service;
 
 import java.sql.Time;
 import java.time.Duration;
@@ -19,9 +19,9 @@ import java.time.format.DateTimeFormatter;
 public class TestDB {
 
     public static void main(String[] args) {
-        PaymentBillDAO pb = new PaymentBillDAO();
-        pb.getAll();
-        for (PaymentBill p : pb.pbObservableList) {
+        ServiceDAO pb = new ServiceDAO();
+//        pb.getAll();
+        for (Service p : pb.getAll()) {
             System.out.println(p.toString());
         }
     }

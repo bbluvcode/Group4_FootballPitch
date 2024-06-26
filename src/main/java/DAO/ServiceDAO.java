@@ -19,9 +19,9 @@ import java.util.logging.Logger;
  */
 public class ServiceDAO extends ConnectDB<Service, Integer> {
 
-    ObservableList<Service> serObservableList = FXCollections.observableArrayList();
-    ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
-    ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
+    public ObservableList<Service> serObservableList = FXCollections.observableArrayList();
+    public ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
+    public ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
 
     @Override
     public void Update(Integer id, Service s) {

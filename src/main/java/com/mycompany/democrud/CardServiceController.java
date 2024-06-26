@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -33,33 +32,32 @@ public class CardServiceController implements Initializable {
     @FXML
     private ImageView ser_imageView;
     @FXML
-    private Spinner<Integer> ser_spinner;
-    @FXML
     private Button ser_addBtn;
 
     private Service ser_Data;
     private Image image;
-    
-    public void setData(Service ser){
+    private final String IMAGE_DIR = "../src/main/resources/com/mycompany/imageView/";
+
+    public void setData(Service ser) {
         ser_Data = ser;
-        
+
         ser_name.setText(ser.getName());
-        ser_price.setText(""+ser.getPrice());
-        image = new Image(ser.getImg(), 190, 94,false, true);
+        ser_price.setText("" + ser.getPrice());
+        String path = "file:/" + IMAGE_DIR + ser.getImg();
+        image = new Image(path, 176, 112, false, true);
         ser_imageView.setImage(image);
     }
-    
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void addBtn(ActionEvent event) {
     }
-    
+
 }
