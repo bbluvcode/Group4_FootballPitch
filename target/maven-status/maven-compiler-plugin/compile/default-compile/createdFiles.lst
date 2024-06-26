@@ -2,6 +2,7 @@ com\mycompany\democrud\PitchCategory.class
 DAO\CustomerDAO.class
 Entities\User.class
 com\mycompany\democrud\App.class
+com\mycompany\democrud\TestDB.class
 com\mycompany\democrud\PagesController.class
 Entities\UserCategory.class
 DAO\ServiceDAO.class
@@ -11,7 +12,6 @@ Entities\Booking.class
 Entities\Customer.class
 Entities\Service_Sell.class
 Entities\FieldCategory.class
-DAO\TestDB.class
 DAO\BookingDAO.class
 DAO\ConnectDB.class
 com\mycompany\democrud\CardServiceController.class

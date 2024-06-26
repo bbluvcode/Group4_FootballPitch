@@ -27,12 +27,10 @@ import javafx.collections.ObservableList;
  */
 public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
-   public ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
+    public ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
-
-
 
     @Override
     public void Update(Integer id, PaymentBill t) {
@@ -45,8 +43,8 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         Time time_end = t.getTime_end();
 
         String time_end_str = String.valueOf(time_end);
-        if(time_end != null) {
-            time_end_str = "'"+ time_end_str + "'";
+        if (time_end != null) {
+            time_end_str = "'" + time_end_str + "'";
         }
 
         int hrs_used = t.getHrs_used();
@@ -155,7 +153,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_booking = paymentBill.getTt_booking();
         int tt_service = paymentBill.getTt_service();
 
-
         String sql = "UPDATE payments SET completed = " + 1 + ", hrs_used = " + hrs_used + ", tt_payment = " + tt_payment + ", tt_booking = " + tt_booking + ", tt_service = " + tt_service + ", time_end = CAST(GETDATE() AS TIME) WHERE idb = " + idb;
         System.out.println(sql);
         try {
@@ -187,12 +184,13 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 String name = rs.getString("name");
                 int price = rs.getInt("price");
                 String img = rs.getString("img");
-                int qoh = rs.getInt("qty");
+                int qty = rs.getInt("qty");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
-                int total = price * qoh;
+                int qoh = rs.getInt("qoh");
+                int total = price * qty;
 
-                s = new Service(ids, name, price, img, qoh, idc, type, no, total);
+                s = new Service(ids, name, price, img, qty, idc, type, no, total, qoh);
                 serSell_ObservableList.add(s);
                 serObservableList.add(s);
             }
@@ -215,12 +213,13 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 String name = rs.getString("name");
                 int price = rs.getInt("price");
                 String img = rs.getString("img");
-                int qoh = rs.getInt("qty");
+                int qty = rs.getInt("qty");
                 int idc = rs.getInt("idc");
                 String type = rs.getString("type");
-                int total = price * qoh;
+                int qoh = rs.getInt("qoh");
+                int total = price * qty;
                 no++;
-                s = new Service(ids, name, price, img, qoh, idc, type, no, total);
+                s = new Service(ids, name, price, img, qty, idc, type, no, total, qoh);
                 serRent_ObservableList.add(s);
                 serObservableList.add(s);
             }
@@ -229,6 +228,15 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return serSell_ObservableList;
+    }
+
+    public void updateService(int idb, int ids, int idc, int qty) {
+        String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
+        String colName = idc == 3 ? "idsr" : "idss";
+        String sql = "UPDATE " + tableName + " SET qty = " + qty + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
+        System.out.println(sql);
+        executeSQL(sql);
+        System.out.println("SERVICES OF BILL " + idb + " UPDATED!");
     }
 
     //làm thêm cái tìm kiếm theo ngày
@@ -248,6 +256,28 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
             }
         }
         return Optional.empty();
+    }
+
+    public PaymentBill getBill_Ser(int idb) {
+
+        PaymentBill p = new PaymentBill();
+
+        String sql = "SELECT * FROM payments WHERE idb = " + idb;
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                p.setIdb(rs.getInt("idb"));
+                p.setIdp(rs.getInt("idp"));
+                p.setIdk(rs.getString("idk"));
+                p.setPay_date(rs.getDate("pay_date"));
+                p.setTime_start(rs.getTime("time_start"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
     }
 
     public void UpdateTimeStart(int idPaymentBill) {

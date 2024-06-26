@@ -13,42 +13,44 @@ public class Service extends ServiceCategory {
     String name;
     int price;
     String img;
-    int qoh;
+    int qty;
     int no;
     int total;
+    int qoh;
 
     public Service() {
     }
 
-    public Service(int ids, String name, int price, String img, int qoh) {
+    public Service(int ids, String name, int price, String img, int qty) {
 
         this.ids = ids;
         this.name = name;
         this.price = price;
         this.img = img;
-        this.qoh = qoh;
+        this.qty = qty;
 
     }
 
-    public Service(int ids, String name, int price, String img, int qoh, int idc, String type, int no) {
+    public Service(int ids, String name, int price, String img, int qty, int idc, String type, int no) {
         super(idc, type);
         this.ids = ids;
         this.name = name;
         this.price = price;
         this.img = img;
-        this.qoh = qoh;
+        this.qty = qty;
         this.no = no;
     }
 
-    public Service(int ids, String name, int price, String img, int qoh, int idc, String type, int no, int total) {
+    public Service(int ids, String name, int price, String img, int qty, int idc, String type, int no, int total, int qoh) {
         super(idc, type);
         this.ids = ids;
         this.name = name;
         this.price = price;
         this.img = img;
-        this.qoh = qoh;
+        this.qty = qty;
         this.no = no;
         this.total = total;
+        this.qoh = qoh;
     }
 
     public int getIds() {
@@ -83,12 +85,12 @@ public class Service extends ServiceCategory {
         this.img = img;
     }
 
-    public int getQoh() {
-        return qoh;
+    public int getQty() {
+        return qty;
     }
 
-    public void setQoh(int qoh) {
-        this.qoh = qoh;
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public int getIdc() {
@@ -123,9 +125,17 @@ public class Service extends ServiceCategory {
         this.total = total;
     }
 
+    public int getQoh() {
+        return qoh;
+    }
+
+    public void setQoh(int qoh) {
+        this.qoh = qoh;
+    }
+
     @Override
     public String toString() {
-        return "Service{" + "ids=" + ids + ", name=" + name + ", price=" + price + ", img=" + img + ", qoh=" + qoh + ", type=" + type + '}';
+        return "Service{" + "ids=" + ids + ", name=" + name + ", price=" + price + ", img=" + img + ", qty=" + qty + ", idc=" + idc + ", type=" + type + ", no=" + no + ", total=" + total + ", qoh=" + qoh + '}';
     }
 
 }

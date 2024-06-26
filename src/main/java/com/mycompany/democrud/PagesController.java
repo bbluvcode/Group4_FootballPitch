@@ -9,6 +9,7 @@ import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.Service;
+
 import java.io.IOException;
 
 import java.net.URL;
@@ -45,6 +46,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -54,6 +56,22 @@ import javafx.scene.layout.StackPane;
  * <p>
  */
 public class PagesController implements Initializable {
+
+    @FXML
+    private HBox Ser_changeQtyService;
+    @FXML
+    private TableColumn<?, ?> Ser_col_IDC;
+    @FXML
+    private Label Ser_lbHide_IDC;
+    @FXML
+    private Label Ser_lbHide_IDS;
+
+    public void ini() {
+
+//        initialize_manageBooking();
+//        initialize_Bill();
+        initialize_menuService(998);
+    }
 
     Alert alert;
     ServiceDAO serDAO = new ServiceDAO();
@@ -249,6 +267,8 @@ public class PagesController implements Initializable {
     //===========================================================
     //============= Menu Service page ==================================
     //===========================================================
+    private ObservableList<Service> cardListData_Ser = FXCollections.observableArrayList();
+
     @FXML
     private AnchorPane menuService_page;
     @FXML
@@ -258,23 +278,37 @@ public class PagesController implements Initializable {
     @FXML
     private TableView<Service> menu_tvSerOfBill_Ser;
     @FXML
-    private TableColumn<Service, String> colName_Ser;
+    private TableColumn<Service, String> Ser_colName;
     @FXML
-    private TableColumn<Service, Integer> colQty_Ser;
+    private TableColumn<Service, Integer> Ser_colQty;
     @FXML
-    private TableColumn<Service, Integer> colPrice_Ser;
+    private TableColumn<Service, Integer> Ser_colPrice;
+    @FXML
+    private TableColumn<Service, Integer> Ser_col_IDS;
+    @FXML
+    private TableColumn<Service, Integer> Ser_colQOH;
+    @FXML
+    private Label Ser_lbIDB;
+    @FXML
+    private Button Ser_btnSave;
+    @FXML
+    private Label Ser_lbServiceName;
+    @FXML
+    private Spinner<Integer> Ser_spnQty;
+    @FXML
+    private Button Ser_btnDelete;
+    @FXML
+    private Label Ser_lbPaydate;
+    @FXML
+    private Label Ser_lbIDP;
+    @FXML
+    private Label Ser_lbTimeStart;
+    @FXML
+    private Label Ser_lbIDK;
 
-    private ObservableList<Service> cardListData_Ser = FXCollections.observableArrayList();
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-//        initialize_manageBooking();
-//        initialize_Bill();
-        menuDisplayCard_Ser();
+        ini();
     }
 
     private void OnlyEnterNumber(TextField name) {
@@ -875,7 +909,6 @@ public class PagesController implements Initializable {
         pbDAO.Update(idb, pb);
 
         Display_BillPaymentList_Bill();
-
     }
 
     @FXML
@@ -984,7 +1017,7 @@ public class PagesController implements Initializable {
         colNoSer_Bill.setCellValueFactory(new PropertyValueFactory<>("no"));
         colNameSer_Bill.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPriceSer_Bill.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colQtySer_Bill.setCellValueFactory(new PropertyValueFactory<>("qoh"));
+        colQtySer_Bill.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colTotalSer_Bill.setCellValueFactory(new PropertyValueFactory<>("total"));
         tvService_Bill.setItems(sList);
 
@@ -1084,12 +1117,16 @@ public class PagesController implements Initializable {
     //==========================================================================**END DETAIL BILL**==============================================
     //============================================================================================================================================
     //==========================================================================**MENU SERVICE**==============================================
+    public void initialize_menuService(int IDB) {
+        menuDisplayCard_Ser();
+        Display_ServiceBill_Ser(IDB);
+    }
+
     public void menuDisplayCard_Ser() {
         serDAO = new ServiceDAO();
 
         cardListData_Ser.clear();
         cardListData_Ser.addAll(serDAO.getAll());
-        System.out.println(cardListData_Ser);
         int row = 0;
         int column = 0;
         this.menu_gridPane_Ser.getChildren().clear();
@@ -1105,13 +1142,13 @@ public class PagesController implements Initializable {
                 AnchorPane pane = (AnchorPane) load.load();
                 CardServiceController card_Ser = (CardServiceController) load.getController();
                 card_Ser.setData(cardListData_Ser.get(q));
-                 if (column == 3) {
+                if (column == 3) {
                     column = 0;
                     ++row;
                 }
-                  this.menu_gridPane_Ser.add(pane, column++, row);
+                this.menu_gridPane_Ser.add(pane, column++, row);
                 GridPane.setMargin(pane, new Insets(10.0));
-                 
+
             } catch (IOException ex) {
                 Logger.getLogger(PagesController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1119,5 +1156,69 @@ public class PagesController implements Initializable {
 
     }
 
-    //30:14
+    public void Display_ServiceBill_Ser(int IDB) {
+        PaymentBill p = pmDAO.getBill_Ser(IDB);
+
+        Ser_lbIDB.setText("" + IDB);
+        Ser_lbIDP.setText("" + p.getIdp());
+        Ser_lbIDK.setText("" + p.getIdk());
+        Ser_lbIDP.setText("" + p.getIdp());
+        Ser_lbPaydate.setText("" + p.getPay_date());
+        Ser_lbTimeStart.setText("" + p.getTime_start());
+
+        pmDAO = new PaymentBillDAO();
+        ObservableList<Service> sList = pmDAO.getAllSerVice(IDB);
+        //Ser_colName.setCellValueFactory(new PropertyValueFactory<>("no"));
+        Ser_colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        Ser_colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        Ser_colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        Ser_col_IDS.setCellValueFactory(new PropertyValueFactory<>("ids"));
+        Ser_col_IDC.setCellValueFactory(new PropertyValueFactory<>("idc"));
+        Ser_colQOH.setCellValueFactory(new PropertyValueFactory<>("qoh"));
+        menu_tvSerOfBill_Ser.setItems(sList);
+
+    }
+
+    @FXML
+    private void Select_Ser(MouseEvent event) {
+        Service s = menu_tvSerOfBill_Ser.getSelectionModel().getSelectedItem();
+        String name = s.getName();
+        int qty = s.getQty();
+        int qoh = s.getQoh();
+        int ids = s.getIds();
+        int idc = s.getIdc();
+
+        if (s != null) {
+            Ser_changeQtyService.setVisible(true);
+            Ser_lbServiceName.setText(s.getName());
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh, qty);
+            Ser_spnQty.setValueFactory(valueFactory);
+            Ser_lbHide_IDC.setText("" + idc);
+            Ser_lbHide_IDS.setText("" + ids);
+            Ser_btnSave.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void Ser_SaveChangeService(ActionEvent event) {
+        Ser_btnSave.setDisable(true);
+        Ser_changeQtyService.setVisible(false);
+        int qty = Ser_spnQty.getValue();
+        int ids = Integer.parseInt(Ser_lbHide_IDS.getText());
+        int idc = Integer.parseInt(Ser_lbHide_IDC.getText());
+        int idb = Integer.parseInt(Ser_lbIDB.getText());
+        pmDAO.updateService(idb, ids, idc, qty);
+        Display_ServiceBill_Ser(idb);
+        System.out.println("qty: " + qty + " ids: " + ids + " idc: " + idc + " idb: " + idb);
+    }
+
+    @FXML
+    private void Ser_DeleteService(ActionEvent event) {
+        Ser_btnSave.setDisable(true);
+        Ser_changeQtyService.setVisible(false);
+        int ids = Integer.parseInt(Ser_lbHide_IDS.getText());
+        int idc = Integer.parseInt(Ser_lbHide_IDC.getText());
+        int idb = Integer.parseInt(Ser_lbIDB.getText());
+        //pmDAO.updateService(idb, ids, idc, qty);
+    }
 }

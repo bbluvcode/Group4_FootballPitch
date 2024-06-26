@@ -110,4 +110,19 @@ public class ServiceDAO extends ConnectDB<Service, Integer> {
         return serSell_ObservableList;
     }
 
+    public int getQoh(int idc) {
+        String query = "SELECT qoh FROM ser_sell WHERE idc = " + idc;
+        int qoh = 0;
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                qoh = rs.getInt("qoh");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return qoh;
+    }
+
 }
