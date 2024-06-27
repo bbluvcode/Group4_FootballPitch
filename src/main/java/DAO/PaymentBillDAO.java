@@ -232,18 +232,76 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
     public void updateService(int idb, int ids, int idc, int qty) {
         String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
+        String tableName_stock = idc == 3 ? "ser_rent" : "ser_sell";
         String colName = idc == 3 ? "idsr" : "idss";
+        int qty_old = 0;
+        String getQty = "SELECT qty FROM " + tableName + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
+        executeSQL(getQty);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(getQty);
+            while (rs.next()) {
+                qty_old = rs.getInt("qty");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (qty_old == qty) {
+            return;
+        }
+
         String sql = "UPDATE " + tableName + " SET qty = " + qty + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
-        System.out.println(sql);
         executeSQL(sql);
         System.out.println("SERVICES OF BILL " + idb + " UPDATED!");
+
+        int qoh = 0;
+        String getQOH = "SELECT qoh FROM " + tableName_stock + " WHERE " + colName + " = " + ids;
+        executeSQL(getQOH);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(getQOH);
+            while (rs.next()) {
+                qoh = rs.getInt("qoh");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (qty > qty_old) {
+            qoh -= (qty - qty_old);
+
+        } else {
+            qoh += (qty_old - qty);
+        }
+        sql = "UPDATE " + tableName_stock + " SET qoh = " + qoh + " WHERE " + colName + " = " + ids;
+        executeSQL(sql);
     }
 
-    public void deleteService(int idb, int ids, int idc) {
+    public void deleteService(int idb, int ids, int idc, int qty) {
         String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
         String colName = idc == 3 ? "idsr" : "idss";
+        String tableName_stock = idc == 3 ? "ser_rent" : "ser_sell";
+        int qoh = 0;
+
+        String getQOH = "SELECT qoh FROM " + tableName_stock + " WHERE " + colName + " = " + ids;
+        executeSQL(getQOH);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(getQOH);
+            while (rs.next()) {
+                qoh = rs.getInt("qoh");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        qoh += qty;
+
+        String u_sql = "UPDATE " + tableName_stock + " SET qoh = " + qoh + " WHERE  " + colName + " = " + ids;
+        executeSQL(u_sql);
+        System.out.println(u_sql);
+
         String sql = "DELETE FROM " + tableName + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
-        ;
         System.out.println(sql);
         executeSQL(sql);
         System.out.println("SERVICES OF BILL " + idb + " DELETED!");
@@ -273,12 +331,26 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 query = "UPDATE " + tableName + " SET qty = " + qty + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
                 executeSQL(query);
             }
-            System.out.println("PaymentBillDAO: " + query);
         } catch (SQLException ex) {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
+        String tableName_stock = idc == 3 ? "ser_rent" : "ser_sell";
+        int qoh = 0;
+        String getQOH = "SELECT qoh FROM " + tableName_stock + " WHERE " + colName + " = " + ids;
+        executeSQL(getQOH);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(getQOH);
+            while (rs.next()) {
+                qoh = rs.getInt("qoh");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        qoh--;
+        String sql = "UPDATE " + tableName_stock + " SET qoh = " + qoh + " WHERE " + colName + " = " + ids;
+        executeSQL(sql);
     }
 
     //làm thêm cái tìm kiếm theo ngày

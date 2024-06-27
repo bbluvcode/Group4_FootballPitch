@@ -70,6 +70,8 @@ public class PagesController implements Initializable {
     private Button Ser_DeleteService;
     @FXML
     private HBox Ser_changeQtyService;
+    @FXML
+    private Label Ser_lbHide_qty;
 
     public void ini() {
 
@@ -1178,6 +1180,7 @@ public class PagesController implements Initializable {
     }
 
     public void Display_ServiceBill_Ser(int IDB) {
+        pmDAO = new PaymentBillDAO();
         PaymentBill p = pmDAO.getBill_Ser(IDB);
 
         Ser_lbIDB.setText("" + IDB);
@@ -1212,11 +1215,12 @@ public class PagesController implements Initializable {
             int idc = s.getIdc();
             Ser_changeQtyService_Vbox.setVisible(true);
             Ser_lbServiceName.setText(name);
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh, qty);
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh+qty, qty);
             Ser_spnQty.setValueFactory(valueFactory);
             Ser_lbHide_IDC.setText("" + idc);
             Ser_lbHide_IDS.setText("" + ids);
             Ser_btnSave.setDisable(false);
+            Ser_lbHide_qty.setText("" + qty);
         }
     }
 
@@ -1239,14 +1243,23 @@ public class PagesController implements Initializable {
         int ids = Integer.parseInt(Ser_lbHide_IDS.getText());
         int idc = Integer.parseInt(Ser_lbHide_IDC.getText());
         int idb = Integer.parseInt(Ser_lbIDB.getText());
-        pmDAO.deleteService(idb, ids, idc);
+        int qty = Integer.parseInt(Ser_lbHide_qty.getText());
+        pmDAO.deleteService(idb, ids, idc, qty);
         Display_ServiceBill_Ser(idb);
-
     }
 
     @FXML
     private void Ser_NotChange(ActionEvent event) {
         Ser_btnSave.setDisable(true);
         Ser_changeQtyService_Vbox.setVisible(false);
+    }
+
+    @FXML
+    private void Ser_RefreshServiceOfBill(ActionEvent event) {
+        Ser_btnSave.setDisable(true);
+        Ser_changeQtyService_Vbox.setVisible(false);
+
+        int idb = Integer.parseInt(Ser_lbIDB.getText());
+        Display_ServiceBill_Ser(idb);
     }
 }

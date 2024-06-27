@@ -67,8 +67,7 @@ public class CardServiceController implements Initializable {
     private void addBtn(ActionEvent event) {
         PaymentBillDAO pDAO = new PaymentBillDAO();
         pDAO.addServiceToBill(idb, ids, idc);
-        //PagesController mainPage = new PagesController();
-       // mainPage.menuDisplayCard_Ser(idb);
+
     }
 
 }
