@@ -26,7 +26,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.democrud.PagesController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="700.0" stroke="WHITE" strokeType="INSIDE" width="1261.0" />
         <AnchorPane layoutX="2.0" prefHeight="45.0" prefWidth="1260.0">
@@ -156,7 +156,7 @@
       </AnchorPane>
       <StackPane layoutX="203.0" layoutY="42.0" prefHeight="657.0" prefWidth="1056.0">
          <children>
-              <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
+              <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                   <center>
                       <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                           <children>
@@ -166,7 +166,13 @@
                                       <String fx:value="white-bg" />
                                   </styleClass>
                                   <children>
-                                      <TableView fx:id="tvBooked_PitchObservableList_Booking" layoutX="25.0" layoutY="306.0" onMouseClicked="#selectPitch_Booking" prefHeight="312.0" prefWidth="634.0">
+                                      <TextField fx:id="txtSearch_Booking" layoutX="490.0" layoutY="87.0" onKeyPressed="#SearchPitch_Booking" prefHeight="30.0" prefWidth="170.0" promptText="Search..." styleClass="search" stylesheets="@page.css">
+                                          <font>
+                                              <Font size="16.0" />
+                                          </font>
+                                      </TextField>
+                                      <FontAwesomeIcon glyphName="SEARCH" layoutX="497.0" layoutY="108.0" size="1.5em" />
+                                      <TableView fx:id="tvBooked_PitchObservableList_Booking" layoutX="25.0" layoutY="126.0" onMouseClicked="#selectPitch_Booking" prefHeight="492.0" prefWidth="634.0">
                                           <columns>
                                               <TableColumn fx:id="colNoPitch_Booking" prefWidth="92.39996337890625" text="No." />
                                               <TableColumn fx:id="colNamePitch_Booking" prefWidth="175.99996948242188" text="Name Pitch" />
@@ -750,7 +756,7 @@
                   </AnchorPane>
                </right>
             </BorderPane>
-            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0" visible="false">
+            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0">
                <children>
                   <AnchorPane layoutX="8.0" layoutY="9.0" prefHeight="630.0" prefWidth="758.0" stylesheets="@page.css">
                      <styleClass>
