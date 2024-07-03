@@ -59,6 +59,83 @@ import javafx.scene.layout.VBox;
 public class PagesController implements Initializable {
 
     @FXML
+    private Button bkPitch_btn_5;
+    @FXML
+    private AnchorPane bkPitch_6;
+    @FXML
+    private Label bkPitch_lbStatus_6;
+    @FXML
+    private Button bkPitch_btn_6;
+    @FXML
+    private AnchorPane bkPitch_7;
+    @FXML
+    private Label bkPitch_lbStatus_7;
+    @FXML
+    private Button bkPitch_btn_7;
+    @FXML
+    private AnchorPane bkPitch_8;
+    @FXML
+    private Label bkPitch_lbStatus_8;
+    @FXML
+    private Button bkPitch_btn_8;
+    @FXML
+    private AnchorPane bkPitch_9;
+    @FXML
+    private Label bkPitch_lbStatus_9;
+    @FXML
+    private Button bkPitch_btn_9;
+    @FXML
+    private AnchorPane bkPitch_10;
+    @FXML
+    private Label bkPitch_lbStatus_10;
+    @FXML
+    private Button bkPitch_btn_10;
+    @FXML
+    private AnchorPane bkPitch_11;
+    @FXML
+    private Label bkPitch_lbStatus_11;
+    @FXML
+    private Button bkPitch_btn_11;
+    @FXML
+    private AnchorPane bkPitch_12;
+    @FXML
+    private Label bkPitch_lbStatus_12;
+    @FXML
+    private Button bkPitch_btn_12;
+    @FXML
+    private Label bkPitch_lbName_1;
+    @FXML
+    private Label bkPitch_lbName_2;
+    @FXML
+    private Label bkPitch_lbName_3;
+    @FXML
+    private Label bkPitch_lbName_4;
+    @FXML
+    private Label bkPitch_lbName_5;
+    @FXML
+    private Label bkPitch_lbName_6;
+    @FXML
+    private Label bkPitch_lbName_7;
+    @FXML
+    private Label bkPitch_lbName_8;
+    @FXML
+    private Label bkPitch_lbName_9;
+    @FXML
+    private Label bkPitch_lbName_10;
+    @FXML
+    private Label bkPitch_lbName_11;
+    @FXML
+    private Label bkPitch_lbName_12;
+
+    public void ini() {
+
+        initialize_manageBooking();
+        initialize_Bill();
+        initialize_menuService(998);
+    }
+
+
+    @FXML
     private VBox Ser_changeQtyService_Vbox;
     @FXML
     private TableColumn<?, ?> Ser_col_IDC;
@@ -72,13 +149,35 @@ public class PagesController implements Initializable {
     private HBox Ser_changeQtyService;
     @FXML
     private Label Ser_lbHide_qty;
+    @FXML
+    private AnchorPane bkPitch_1;
+    @FXML
+    private Label bkPitch_lbStatus_1;
+    @FXML
+    private Button bkPitch_btn_1;
+    @FXML
+    private AnchorPane bkPitch_2;
+    @FXML
+    private Label bkPitch_lbStatus_2;
+    @FXML
+    private Button bkPitch_btn_2;
+    @FXML
+    private AnchorPane bkPitch_3;
+    @FXML
+    private Label bkPitch_lbStatus_3;
+    @FXML
+    private Button bkPitch_btn_3;
+    @FXML
+    private AnchorPane bkPitch_4;
+    @FXML
+    private Label bkPitch_lbStatus_4;
+    @FXML
+    private Button bkPitch_btn_4;
+    @FXML
+    private AnchorPane bkPitch_5;
+    @FXML
+    private Label bkPitch_lbStatus_5;
 
-    public void ini() {
-
-//        initialize_manageBooking();
-//        initialize_Bill();
-        initialize_menuService(998);
-    }
 
     Alert alert;
     ServiceDAO serDAO = new ServiceDAO();
@@ -153,8 +252,6 @@ public class PagesController implements Initializable {
     private Button btnReset_Booking;
     @FXML
     private Label lbIDP_hide_Booking;
-    @FXML
-    private TextField txtSearch_Booking;
     @FXML
     private Button btnStart_Booking;
     //=========================End manage booking================
@@ -342,7 +439,9 @@ public class PagesController implements Initializable {
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
         OnlyEnterNumber(txtDeposit_Booking);
+        showPitchStatus_Booking();
     }
+
 
     public void showPitchObservableList_Booking(int available) {
         String nameTableObservableList = available == 1 ? "Available" : available == 2 ? "Renting" : "Booking";
@@ -371,6 +470,29 @@ public class PagesController implements Initializable {
         }
 
     }
+
+    public void showPitchStatus_Booking() {
+        List<Label> PitchStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
+        List<Label> PitchName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
+        pDAO = new PitchDAO();
+
+        ObservableList<Pitch> plist = pDAO.getAll();
+        for (int i = 0; i < plist.size(); i++) {
+            PitchName.get(i).setText(plist.get(i).getName());
+            System.out.println(plist.get(i).getName());
+            if (plist.get(i).getAvailable() == 1) {
+                PitchStatus.get(i).setText("Available");
+                PitchStatus.get(i).setStyle("-fx-background-color: #3d7e3d");
+            } else if (plist.get(i).getAvailable() == 2) {
+                PitchStatus.get(i).setText("Occupied");
+                PitchStatus.get(i).setStyle("-fx-background-color: #ff0000");
+            } else if (plist.get(i).getAvailable() == 3) {
+                PitchStatus.get(i).setText("Reserved");
+                PitchStatus.get(i).setStyle("-fx-background-color: #cdcd03");
+            }
+        }
+    }
+
 
     public void reset_Booking() {
         txtDeposit_Booking.clear();
@@ -491,6 +613,7 @@ public class PagesController implements Initializable {
         }
     }
 
+
     //====FXML ACTION====================================================================================================
     //====FXML ====================================================================================================
     @FXML
@@ -564,7 +687,6 @@ public class PagesController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please select pitch");
             alert.showAndWait();
-            return;
         } else {
             int idp = Integer.parseInt(lbIDP_hide_Booking.getText());
             String idu = lbIdu_booking.getText();
@@ -593,9 +715,10 @@ public class PagesController implements Initializable {
             bk.setStt(stt);
 
             bkDAO.Insert(bk);
+            pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 3);
+            showPitchStatus_Booking();
 
             System.out.println("ADDED BOOOKING");
-            showPitchObservableList_Booking(3);
 
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Added Booking");
@@ -765,9 +888,6 @@ public class PagesController implements Initializable {
         }
     }
 
-    @FXML
-    private void SearchPitch_Booking(KeyEvent event) {
-    }
 
     //==============================================**END MANAGE BOOKING**==============================================
     //================================================================================================================
@@ -1147,7 +1267,6 @@ public class PagesController implements Initializable {
     public void menuDisplayCard_Ser(int IDB) {
         serDAO = new ServiceDAO();
 
-
         cardListData_Ser.clear();
         cardListData_Ser.addAll(serDAO.getAll_idb(IDB));
         int row = 0;
@@ -1215,7 +1334,7 @@ public class PagesController implements Initializable {
             int idc = s.getIdc();
             Ser_changeQtyService_Vbox.setVisible(true);
             Ser_lbServiceName.setText(name);
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh+qty, qty);
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, qoh + qty, qty);
             Ser_spnQty.setValueFactory(valueFactory);
             Ser_lbHide_IDC.setText("" + idc);
             Ser_lbHide_IDS.setText("" + ids);
@@ -1262,4 +1381,87 @@ public class PagesController implements Initializable {
         int idb = Integer.parseInt(Ser_lbIDB.getText());
         Display_ServiceBill_Ser(idb);
     }
+
+    @FXML
+    private void bkPitch_btn(ActionEvent event) {
+        try {
+            List<Button> buttons = Arrays.asList(bkPitch_btn_1, bkPitch_btn_2, bkPitch_btn_3, bkPitch_btn_4, bkPitch_btn_5, bkPitch_btn_6, bkPitch_btn_7, bkPitch_btn_8, bkPitch_btn_9, bkPitch_btn_10, bkPitch_btn_11, bkPitch_btn_12);
+            List<Integer> idp = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+            List<Label> lbStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
+            List<Label> lbName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
+
+            int index = buttons.indexOf(event.getSource());
+
+            System.out.println("press pitch :" + idp.get(index));
+
+            int stt = lbStatus.get(index).getText().equals("Available") ? 1 : lbStatus.get(index).getText().equals("Occupied") ? 2 : 3;
+            String name = lbName.get(index).getText();
+            reset_Booking();
+            lbNamePitch_Booking.setText(name);
+            lbIDP_hide_Booking.setText("" + index);
+            btnBillDetail_Booking.setVisible(false);
+            btnStart_Booking.setVisible(false);
+
+            int sttBK = 0;
+            if (stt != 1) {
+
+                if (stt == 3) {
+                    sttBK = 1;
+                    btnStart_Booking.setVisible(true);
+                    btnUpdate_Booking.setDisable(false);
+                }
+                if (stt == 2) {
+                    sttBK = 2;
+                    btnBillDetail_Booking.setVisible(true);
+                }
+                bk = new Booking();
+                bkDAO = new BookingDAO();
+                bkDAO.getAll();
+                opBk = bkDAO.getBookingByPitch(idp.get(index), sttBK);
+                if (opBk.isEmpty()) {
+                    System.out.println("Cannot found booking");
+                    reset_Booking();
+                    return;
+                }
+                bk = opBk.get();
+                txtDeposit_Booking.setText("" + bk.getDep());
+                txtTimeStart_Booking.setText(bk.getTime_book().toString());
+                spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
+                lbIdb_booking.setText("" + bk.getIdb());
+                cboIdk_Booking.setValue(bk.getIdk());
+                lbIdu_booking.setText(bk.getIdu());
+
+
+            } else {
+                /*lbNamePitch_Booking.setText(name);
+                lbIDP_hide_Booking.setText("" + index);*/
+
+                stpTimeBook_Booking.setVisible(false);
+                LocalTime crHrs = LocalTime.now().plusMinutes(15);
+                int crHours = crHrs.getHour();
+                SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
+                spnHour_timeBook_Booking.setValueFactory(valueHour);
+                Click_spnHour_timeBook_Booking();
+
+             /*   Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText("Please select a available pitch!");
+                alert.show();*/
+
+
+
+                txtTimeStart_Booking.focusTraversableProperty();
+                setBtnDisible_Booking();
+                btnAdd_Booking.setDisable(false);
+
+                setBtnNOTvisible(btnNew_Booking);
+                setBtnVisible(btnAdd_Booking);
+                setDisableInput_Booking(false);
+            }
+
+        } catch (Exception e) {
+            reset_Booking();
+        }
+    }
+
 }

@@ -52,6 +52,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         int deposit = b.getDep();
         String sql = "INSERT INTO payments (idu, idp, idk, time_book, hrs, deposit, stt, pay_date) VALUES ('" + idu + "', " + idp + ", '" + idk + "', '" + time + "', " + hrs + ", " + deposit + ", 1 , CAST(GETDATE() AS DATE))";
         executeSQL(sql);
+        System.out.println(sql);
         System.out.println("Booking INSERTED Successfully!");
     }
 

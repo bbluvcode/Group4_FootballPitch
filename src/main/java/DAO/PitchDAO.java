@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 
 /**
- *
  * @author ADMIN
  */
 public class PitchDAO extends ConnectDB<Pitch, Integer> {
@@ -38,12 +38,12 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
         updateLists();
     }
 
-    public void updateLists(){
+    public void updateLists() {
         String sql = "UPDATE sanbong SET available = 1";
         executeSQL(sql);
 
         BookingDAO bkDAO = new BookingDAO();
-        if (!bkDAO.getAll_idpBookingToDay().isEmpty()){
+        if (!bkDAO.getAll_idpBookingToDay().isEmpty()) {
             String idpBookedList = bkDAO.getAll_idpBookingToDay().toString();
             idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
 
@@ -51,7 +51,7 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
             executeSQL(sql);
         }
 
-        if (!bkDAO.getAll_idpBookingComplete_ToDay().isEmpty()){
+        if (!bkDAO.getAll_idpBookingComplete_ToDay().isEmpty()) {
             String idpBookedList = bkDAO.getAll_idpBookingComplete_ToDay().toString();
             idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
 
@@ -208,9 +208,10 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
         }
         return 0;
     }
-    public void UpdateAvailable(int idp, int available){
+
+    public void UpdateAvailable(int idp, int available) {
         //available: 1. trống, 2 khách đang thue, 3 sân co khach đặt
-        String sql="UPDATE sanbong set available = "+available+" WHERE idp = " + idp;
+        String sql = "UPDATE sanbong set available = " + available + " WHERE idp = " + idp;
         System.out.println("PitchDAO: updated Vailable " + available + "for " + idp);
         executeSQL(sql);
     }
