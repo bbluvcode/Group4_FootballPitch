@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
-    <artifactId>Group4_FootballPitch</artifactId>
+    <artifactId>Group4_Project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +29,17 @@
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx</artifactId>
             <version>8.2</version>
-        </dependency>   
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -46,7 +56,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.mycompany.democrud.App</mainClass>
+                    <mainClass>com.mycompany.group4_project.App</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -90,5 +100,4 @@
             </plugin>
         </plugins>
     </build>
-    <name>Group4_FootballPitch</name>
 </project>

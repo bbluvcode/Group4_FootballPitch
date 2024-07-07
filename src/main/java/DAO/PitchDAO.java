@@ -5,7 +5,7 @@
 package DAO;
 
 import Entities.Booking;
-import com.mycompany.democrud.Pitch;
+import com.mycompany.group4_project.Pitch;
 
 import java.net.PortUnreachableException;
 import java.sql.Connection;
@@ -13,16 +13,9 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
+
 
 /**
  * @author ADMIN
