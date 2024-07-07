@@ -134,7 +134,6 @@ public class PagesController implements Initializable {
         initialize_menuService(998);
     }
 
-
     @FXML
     private VBox Ser_changeQtyService_Vbox;
     @FXML
@@ -177,7 +176,6 @@ public class PagesController implements Initializable {
     private AnchorPane bkPitch_5;
     @FXML
     private Label bkPitch_lbStatus_5;
-
 
     Alert alert;
     ServiceDAO serDAO = new ServiceDAO();
@@ -280,8 +278,6 @@ public class PagesController implements Initializable {
     private Button btnSave_Cus;
     @FXML
     private Button btnCancel_Cus;
-    @FXML
-    private Label lbIDP_hide_Booking1;
     //=========================End manage booking================
     //===========================================================
     //=============New Customer==================================
@@ -442,7 +438,6 @@ public class PagesController implements Initializable {
         showPitchStatus_Booking();
     }
 
-
     public void showPitchObservableList_Booking(int available) {
         String nameTableObservableList = available == 1 ? "Available" : available == 2 ? "Renting" : "Booking";
 
@@ -468,7 +463,6 @@ public class PagesController implements Initializable {
             alert.setContentText("Something wrong, try again!");
             alert.show();
         }
-
     }
 
     public void showPitchStatus_Booking() {
@@ -492,7 +486,6 @@ public class PagesController implements Initializable {
             }
         }
     }
-
 
     public void reset_Booking() {
         txtDeposit_Booking.clear();
@@ -612,7 +605,6 @@ public class PagesController implements Initializable {
             spnMinute_timeBook_Booking.setValueFactory(valueMinute);
         }
     }
-
 
     //====FXML ACTION====================================================================================================
     //====FXML ====================================================================================================
@@ -887,7 +879,6 @@ public class PagesController implements Initializable {
             System.out.println("Error BUTTON - BillDetail:" + e.getMessage());
         }
     }
-
 
     //==============================================**END MANAGE BOOKING**==============================================
     //================================================================================================================
@@ -1431,7 +1422,6 @@ public class PagesController implements Initializable {
                 cboIdk_Booking.setValue(bk.getIdk());
                 lbIdu_booking.setText(bk.getIdu());
 
-
             } else {
                 /*lbNamePitch_Booking.setText(name);
                 lbIDP_hide_Booking.setText("" + index);*/
@@ -1443,13 +1433,10 @@ public class PagesController implements Initializable {
                 spnHour_timeBook_Booking.setValueFactory(valueHour);
                 Click_spnHour_timeBook_Booking();
 
-             /*   Alert alert = new Alert(AlertType.INFORMATION);
+                /*   Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText("Please select a available pitch!");
                 alert.show();*/
-
-
-
                 txtTimeStart_Booking.focusTraversableProperty();
                 setBtnDisible_Booking();
                 btnAdd_Booking.setDisable(false);
