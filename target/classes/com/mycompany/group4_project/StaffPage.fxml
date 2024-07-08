@@ -59,7 +59,7 @@
       <AnchorPane layoutY="40.0" prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #e41841;" styleClass="nav-form" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Line endX="69.59999084472656" endY="-1.52587890625E-5" layoutX="116.0" layoutY="183.0" startX="-100.0" stroke="#f5eded" strokeWidth="3.0" />
-            <Button alignment="CENTER" layoutX="9.0" layoutY="214.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="181.0" styleClass="nav-btn" stylesheets="@page.css" text="Booking" textAlignment="CENTER">
+            <Button alignment="CENTER" layoutX="9.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="45.0" prefWidth="181.0" styleClass="nav-btn" stylesheets="@page.css" text="Home" textAlignment="CENTER">
                <graphic>
                   <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -404,7 +404,7 @@
                   </AnchorPane>
                </left>
             </BorderPane>
-            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
+            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
                <center>
                   <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                      <children>
@@ -422,12 +422,12 @@
                                     <TableColumn fx:id="colPricePitch_Booking" prefWidth="163.60003662109375" text="Price / hour" />
                                  </columns>
                               </TableView>
-                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="69.0" prefHeight="38.0" prefWidth="343.0" text="Manage Pitches">
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="36.0" prefHeight="38.0" prefWidth="343.0" text="Manage Pitches" visible="false">
                                  <font>
                                     <Font name="Tahoma Bold" size="30.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnBooking_Booking" layoutX="506.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBooking_Booking" prefHeight="34.0" prefWidth="174.0" styleClass="update-btn" stylesheets="@page.css" text="Update Booking">
+                              <Button fx:id="btnBooking_Booking" layoutX="506.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBooking_Booking" prefHeight="34.0" prefWidth="174.0" styleClass="update-btn" stylesheets="@page.css" text="Update Booking" visible="false">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -441,12 +441,12 @@
                                     <String fx:value="label-text-center" />
                                  </styleClass>
                               </Label>
-                              <Button fx:id="btnComplete_Booking" layoutX="505.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnComplete_Booking" prefHeight="34.0" prefWidth="175.0" styleClass="delete-btn" stylesheets="@page.css" text="Complete Booking">
+                              <Button fx:id="btnComplete_Booking" layoutX="505.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnComplete_Booking" prefHeight="34.0" prefWidth="175.0" styleClass="delete-btn" stylesheets="@page.css" text="Complete Booking" visible="false">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Button>
-                              <AnchorPane fx:id="bkPitch_1" layoutX="61.0" layoutY="141.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_1" layoutX="55.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -470,7 +470,7 @@
                                     <Button fx:id="bkPitch_btn_1" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_2" layoutX="276.0" layoutY="141.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_2" layoutX="266.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -494,7 +494,7 @@
                                     <Button fx:id="bkPitch_btn_2" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_3" layoutX="486.0" layoutY="141.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_3" layoutX="476.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -518,7 +518,7 @@
                                     <Button fx:id="bkPitch_btn_3" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_4" layoutX="61.0" layoutY="267.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_4" layoutX="55.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -542,7 +542,7 @@
                                     <Button fx:id="bkPitch_btn_4" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_5" layoutX="276.0" layoutY="267.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_5" layoutX="266.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -566,7 +566,7 @@
                                     <Button fx:id="bkPitch_btn_5" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_6" layoutX="486.0" layoutY="267.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_6" layoutX="476.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -590,7 +590,7 @@
                                     <Button fx:id="bkPitch_btn_6" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_7" layoutX="61.0" layoutY="385.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_7" layoutX="55.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -614,7 +614,7 @@
                                     <Button fx:id="bkPitch_btn_7" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_8" layoutX="276.0" layoutY="385.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_8" layoutX="266.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -638,7 +638,7 @@
                                     <Button fx:id="bkPitch_btn_8" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_9" layoutX="486.0" layoutY="385.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_9" layoutX="477.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -662,7 +662,7 @@
                                     <Button fx:id="bkPitch_btn_9" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_10" layoutX="61.0" layoutY="502.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_10" layoutX="55.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -686,7 +686,7 @@
                                     <Button fx:id="bkPitch_btn_10" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_11" layoutX="276.0" layoutY="502.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_11" layoutX="266.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -710,7 +710,7 @@
                                     <Button fx:id="bkPitch_btn_11" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_12" layoutX="486.0" layoutY="502.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_12" layoutX="478.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
@@ -1283,7 +1283,7 @@
                   </AnchorPane>
                </right>
             </BorderPane>
-            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0">
+            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0" visible="false">
                <children>
                   <AnchorPane layoutX="8.0" layoutY="9.0" prefHeight="630.0" prefWidth="758.0" stylesheets="@page.css">
                      <styleClass>
@@ -1334,7 +1334,7 @@
                         </HBox>
                         <Button fx:id="Ser_btnSave" disable="true" layoutX="63.0" layoutY="552.0" mnemonicParsing="false" onAction="#Ser_SaveChangeService" prefHeight="36.0" prefWidth="158.0" styleClass="add-btn" text="SAVE" />
                         <Separator layoutY="507.0" prefHeight="3.0" prefWidth="274.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="507.0" />
-                        <VBox fx:id="Ser_changeQtyService_Vbox" layoutX="17.0" layoutY="455.0" prefHeight="17.0" prefWidth="237.0">
+                        <VBox fx:id="Ser_changeQtyService_Vbox" layoutX="17.0" layoutY="455.0" prefHeight="17.0" prefWidth="237.0" visible="false">
                            <children>
                               <HBox fx:id="Ser_changeQtyService" prefHeight="33.0" prefWidth="234.0">
                                  <children>

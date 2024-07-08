@@ -116,7 +116,6 @@ public class AdminPageController implements Initializable {
     private BorderPane CustomerPage;
     @FXML
     private BorderPane SportPage;
-    private BorderPane ServicePage;
     @FXML
     private ImageView ivEmployee;
     @FXML
@@ -441,8 +440,6 @@ public class AdminPageController implements Initializable {
     @FXML
     private BorderPane SellServicePage;
     @FXML
-    private BorderPane CateSerivcePage;
-    @FXML
     private BorderPane RentServicePage;
     @FXML
     private BorderPane CatePitchPage;
@@ -522,6 +519,8 @@ public class AdminPageController implements Initializable {
     private TableColumn<Service_Rent, Integer> colQoh_RentService;
     @FXML
     private TextField tfSearch_Payment;
+    @FXML
+    private BorderPane CateServicePage;
 
     public AdminPageController() {
         this.categoryDAO = new CategoryDAO();
@@ -574,69 +573,48 @@ public class AdminPageController implements Initializable {
 
     @FXML
     public void switchPage(ActionEvent event) {
-        // List of Node pages
+        EditProfilePage.setVisible(false);
+
         List<Node> pages = Arrays.asList(
                 EmployeePage, CustomerPage, SportPage, PaymentPage, DashboardPage,
-                SellServicePage, RentServicePage, CateSerivcePage, CatePitchPage
+                SellServicePage, RentServicePage, CateServicePage, CatePitchPage
         );
 
-        // List of Buttons
         List<Button> buttons = Arrays.asList(
                 btnEmployeePage, btnCustomerPage, btnSportPage, btnPaymentPage, btnDashboardPage
         );
 
-        // List of MenuItems
         List<MenuItem> menuItems = Arrays.asList(
                 btnSellServicePage, btnRentServicePage, btnCateServicePage, btnCatePitchPage
         );
 
-        // List of MenuButtons
         List<MenuButton> menuButtons = Arrays.asList(
                 btnServicePage, btnCatePage
         );
 
-        // Function to apply CSS style to Button and MenuButton
-        Consumer<Control> applyControlStyle = (control) -> {
-            String selectedStyle = "-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;";
-            String defaultStyle = "-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;";
+        String selectedStyle = "-fx-background-color: linear-gradient(to bottom right, #753036, #3c8256); -fx-scale-x: 1.1; -fx-scale-y: 1.1;";
+        String defaultStyle = "-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;";
 
-            if (control instanceof Button) {
-                ((Button) control).setStyle(control == event.getSource() ? selectedStyle : defaultStyle);
-            } else if (control instanceof MenuButton) {
-                ((MenuButton) control).setStyle(control == event.getSource() ? selectedStyle : defaultStyle);
-            }
-        };
-
-        // Hide all pages initially
         pages.forEach(page -> page.setVisible(false));
-
-        // Handle Buttons
-        for (int i = 0; i < buttons.size(); i++) {
-            if (event.getSource() == buttons.get(i)) {
-                pages.get(i).setVisible(true);
-                applyControlStyle.accept(buttons.get(i));
-                return;
+        buttons.forEach(button -> button.setStyle(defaultStyle));
+        menuButtons.forEach(menuButton -> menuButton.setStyle(defaultStyle));
+        if (event.getSource() instanceof Button) {
+            int index = buttons.indexOf(event.getSource());
+            if (index != -1) {
+                pages.get(index).setVisible(true);
+                buttons.get(index).setStyle(selectedStyle);
             }
-        }
-
-        // Handle MenuItems
-        for (int i = 0; i < menuItems.size(); i++) {
-            if (event.getSource() == menuItems.get(i)) {
-                int pageIndex = buttons.size() + i;
-                pages.get(pageIndex).setVisible(true);
-                // Apply style to corresponding MenuButton
-                applyControlStyle.accept(menuButtons.get(0)); // Assuming btnServicePage is first for SellService/RentService
-                return;
+        } else if (event.getSource() instanceof MenuItem) {
+            int index = menuItems.indexOf(event.getSource());
+            if (index != -1) {
+                pages.get(buttons.size() + index).setVisible(true);
+                menuButtons.get(0).setStyle(selectedStyle);
             }
-        }
-
-        // Handle MenuButtons
-        for (int i = 0; i < menuButtons.size(); i++) {
-            if (event.getSource() == menuButtons.get(i)) {
-                int pageIndex = buttons.size() + menuItems.size() + i;
-                pages.get(pageIndex).setVisible(true);
-                applyControlStyle.accept(menuButtons.get(i));
-                return;
+        } else if (event.getSource() instanceof MenuButton) {
+            int index = menuButtons.indexOf(event.getSource());
+            if (index != -1) {
+                pages.get(buttons.size() + menuItems.size() + index).setVisible(true);
+                menuButtons.get(index).setStyle(selectedStyle);
             }
         }
     }
@@ -924,12 +902,11 @@ public class AdminPageController implements Initializable {
         SportPage.setVisible(false);
         SellServicePage.setVisible(false);
         RentServicePage.setVisible(false);
-        CateSerivcePage.setVisible(false);
+        CateServicePage.setVisible(false);
         CatePitchPage.setVisible(false);
         PaymentPage.setVisible(false);
         EditProfilePage.setVisible(false);
         DetailPage.setVisible(false);
-
         DashboardPage.setVisible(true);
     }
 
@@ -1923,15 +1900,7 @@ public class AdminPageController implements Initializable {
     //---------------------------------------DETAIL OF PAYMENT-------------------------------------//
     private void setOpenDetailOfPayment() {
         if (paySSI != null) {
-            EmployeePage.setVisible(false);
-            CustomerPage.setVisible(false);
-            SportPage.setVisible(false);
-            PaymentPage.setVisible(false);
-            SellServicePage.setVisible(false);
-            RentServicePage.setVisible(false);
-            CateSerivcePage.setVisible(false);
-            CatePitchPage.setVisible(false);
-            EditProfilePage.setVisible(false);
+            setOpenPage();
             DashboardPage.setVisible(false);
             DetailPage.setVisible(true);
             detailOfPaymentBill();

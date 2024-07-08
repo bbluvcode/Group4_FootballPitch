@@ -189,7 +189,7 @@
       <StackPane layoutX="201.0" layoutY="47.0" prefHeight="652.0" prefWidth="1062.0">
          <children>
             <BorderPane fx:id="SportPage" prefHeight="609.0" prefWidth="1042.0" visible="false" />
-            <BorderPane fx:id="CateSerivcePage" prefHeight="609.0" prefWidth="1042.0" visible="false" />
+            <BorderPane fx:id="CateServicePage" prefHeight="609.0" prefWidth="1042.0" visible="false" />
             <BorderPane fx:id="DetailPage" prefHeight="609.0" prefWidth="1042.0" visible="false">
                <left>
                   <AnchorPane prefHeight="615.0" prefWidth="521.0" BorderPane.alignment="CENTER">

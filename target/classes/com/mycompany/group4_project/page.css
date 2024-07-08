@@ -43,7 +43,7 @@
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
     /*-fx-background-color: #B22222;*/
-    -fx-background-color:linear-gradient(to bottom right, #753036, #3c8256)
+    -fx-background-color:linear-gradient(to bottom right, #753036, #3c8256);
 }
 
 .logout{
@@ -93,6 +93,10 @@
     -fx-background-color: #ffc107;
 }
 
+.purple-btn{
+    -fx-background-color: #d207ff;
+}
+
 .clear-btn{
     -fx-background-color: #6c757d;
 }
@@ -100,14 +104,25 @@
 .delete-btn{
     -fx-background-color: #dc3545;
 }
-.add-btn, .update-btn, .clear-btn, .delete-btn{
+
+.btn-fontawesome{
+    -fx-background-color: #dc3545;
+    -fx-background-radius: 8px;
+    -fx-font-size: 12px;
+    -fx-font-family: Arial;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+
+}
+
+.add-btn, .update-btn, .clear-btn, .delete-btn, .purple-btn, .purple-btn:hover, .btn-fontawesome:hover,.btn-css:hover{
     -fx-background-radius: 10px;
     -fx-font-size: 18px;
     -fx-font-family: Arial;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
-.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover{
+.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover, .btn-css:hover{
     -fx-background-color: #007bff;
     -fx-scale-x: 1.11;
     -fx-scale-y: 1.11;
@@ -121,11 +136,6 @@
     -fx-font-family: Tahoma;
     -fx-padding: 0px 0px 0px 28px;
     -fx-border-width: .8px;
-}
-.search:focused, .search:hover{
-    -fx-background-color: #fff;
-    -fx-border-width: 1.8px;
-    -fx-effect: dropshadow(gaussian, rgba(234, 76, 137, 0.1), 4, 0, 0, 0);
 }
 
 .table-view{
@@ -155,4 +165,35 @@
     -fx-font-size: 15px;
 }
 
+.label-text-center{
+    -fx-alignment: CENTER;
+}
+.pitch-status{
+    -fx-background-radius: 0 0 10px 10px;
+    -fx-text-fill: #fff;
+    -fx-background-color: #e74c3c;
+}
 
+.search-date{
+    -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
+    -fx-background-radius: 4px;
+    -fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);
+    -fx-border-radius: 4px;
+    -fx-font-size: 13px;
+    -fx-font-family: Tahoma;
+    -fx-border-width: .8px;
+}
+
+.search:focused, .search:hover, .search-date:focused, .search-date:hover{
+    -fx-background-color: #fff;
+    -fx-border-width: 1.8px;
+    -fx-effect: dropshadow(gaussian, rgba(234, 76, 137, 0.1), 4, 0, 0, 0);
+}
+
+.btn-css{
+    -fx-background-radius: 10px;
+    -fx-font-size: 18px;
+    -fx-font-family: Arial;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+}

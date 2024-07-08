@@ -561,7 +561,7 @@ public class StaffPageController implements Initializable {
                 double radius = Math.min(fitWidth, fitHeight) / 2;
                 Circle clip = new Circle(fitWidth / 2, fitHeight / 2, radius);
                 ivEmployee.setClip(clip);
-                
+
                 Emp.setIdt(rs.getInt("idt"));
                 Emp.setImg(ivEmployee);
                 Emp.setPhone(phone);
@@ -1447,7 +1447,7 @@ public class StaffPageController implements Initializable {
     @FXML
     private void BillDetail_Booking(ActionEvent event) {
         pBdpBillDetail_page.setVisible(true);
-        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
+//        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
 
         pBdpManagebooking_page.setVisible(false);
         //btnSportPage.setStyle("-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
@@ -1458,7 +1458,7 @@ public class StaffPageController implements Initializable {
             int idb = Integer.parseInt(lbIdb_booking.getText());
             SelectBill_Bill(idb);
         } catch (Exception e) {
-            System.out.println("Error BUTTON - BillDetail:" + e.getMessage());
+            System.err.println("Error BUTTON - BillDetail:" + e.getMessage());
         }
     }
 
@@ -2015,6 +2015,29 @@ public class StaffPageController implements Initializable {
 
         } catch (Exception e) {
             reset_Booking();
+        }
+    }
+
+    @FXML
+    private void switchPage(ActionEvent event) {
+        //List<Node> pages = Arrays.asList(EmployeePage, CustomerPage, SportPage, ServicePage, CatePage, BillPage, PaymentPage, DashboardPage);
+        //List<Button> buttons = Arrays.asList(btnEmployeePage, btnCustomerPage, btnSportPage, btnServicePage, btnCatePage, btnBillPage);
+        //List<Button> buttons = Arrays.asList(btnCustomerPage, btnSportPage, btnBillPage, btnServicePage);
+        List<Node> pages = Arrays.asList(pAcNewCus_Page, pBdpBillDetail_page, menuService_page);
+
+//        for (int i = 0; i < buttons.size(); i++) {
+//            if (event.getSource() == buttons.get(i)) {
+//                for (int j = 0; j < pages.size(); j++) {
+//                    pages.get(j).setVisible(i == j);
+//                    buttons.get(j).setStyle(i == j
+//                            ? "-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;"
+//                            : "-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
+//                }
+//                break;
+//            }
+//        }
+        for (int j = 0; j < pages.size(); j++) {
+            pages.get(j).setVisible(false);
         }
     }
 }
