@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -36,6 +37,7 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
         executeSQL(sql);
 
         BookingDAO bkDAO = new BookingDAO();
+        bkDAO.getAll();
         if (!bkDAO.getAll_idpBookingToDay().isEmpty()) {
             String idpBookedList = bkDAO.getAll_idpBookingToDay().toString();
             idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");

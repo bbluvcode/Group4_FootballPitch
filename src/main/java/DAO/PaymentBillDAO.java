@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import Entities.Booking;
 import Entities.PaymentBill;
 import Entities.PitchCategory;
 import Entities.Service;
@@ -357,6 +358,15 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     public Optional<PaymentBill> SearchByPitch(int idp) {
         for (PaymentBill pm : pbObservableList) {
             if (pm.getIdp() == idp) {
+                return Optional.of(pm);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<PaymentBill> getBillByPitch(int idp, int stt) {
+        for (PaymentBill pm : pbObservableList) {
+            if (pm.getIdp() == idp && pm.getStt() == stt) {
                 return Optional.of(pm);
             }
         }

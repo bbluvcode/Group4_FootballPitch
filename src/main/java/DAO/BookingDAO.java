@@ -43,8 +43,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
 
     @Override
     public void Insert(Booking b) {
-        //String idu = b.getIdu();
-        String idu = "0939966602";
+        String idu = b.getIdu();
         int idp = b.getIdp();
         String idk = b.getIdk();
         Time time = b.getTime_book();
@@ -52,7 +51,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         int deposit = b.getDep();
         String sql = "INSERT INTO payments (idu, idp, idk, time_book, hrs, deposit, stt, pay_date) VALUES ('" + idu + "', " + idp + ", '" + idk + "', '" + time + "', " + hrs + ", " + deposit + ", 1 , CAST(GETDATE() AS DATE))";
         executeSQL(sql);
-        System.out.println(sql);
+        
         System.out.println("Booking INSERTED Successfully!");
     }
 
@@ -96,12 +95,12 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
     }
 
     public void UpdateSTT(Integer idb, int stt) { //update status
-        String sql = "UPDATE payments SET stt = " + stt + " WHERE idb = " + idb;
+        String sql = "UPDATE payments SET stt = " + stt + " , completed = 1 WHERE idb = " + idb;
         executeSQL(sql);
         System.out.println("Booking Status UPDATED Successfully!");
     }
 
-    public Optional<Booking> getBookingByPitch(int idp,int stt) {
+    public Optional<Booking> getBookingByPitch(int idp, int stt) {
         for (Booking bk : bkObservableList) {
             if (bk.getIdp() == idp && bk.getStt() == stt) {
                 return Optional.of(bk);
@@ -109,7 +108,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         }
         return Optional.empty();
     }
-    
+
     // System.out.println("Search");
 //        Optional<User> user = uD.read(1);
 //        if (user.isPresent()) {
@@ -122,7 +121,8 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND time_book >= CAST(GETDATE() AS TIME)";
+        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND time_book >= CAST(GETDATE() AS TIME) AND completed IS NULL";
+
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -141,7 +141,8 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL";
+        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL AND completed IS NULL";
+        
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);

@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Period;
+
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -40,6 +41,7 @@ import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.Service;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -52,6 +54,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -490,7 +493,8 @@ public class StaffPageController implements Initializable {
         ini();
 
     }
-    private final String IMAGE_DIR = "C:/2308/HK2/Project/Group4_Project/src/main/resources/com/mycompany/images/";
+
+    private final String IMAGE_DIR = "../src/main/resources/com/mycompany/images/";
     private String selectImageName_EditUser;
     private String selectImageURL_EditUser;
     private String imageURL_EditUser;
@@ -534,6 +538,7 @@ public class StaffPageController implements Initializable {
             if (rs.next()) {
                 Emp.setName(rs.getString("name"));
                 Emp.setMail(rs.getString("mail"));
+                Emp.setIdu(rs.getString("idu"));
                 tfEmployeeName.setText(Emp.getName());
                 //image
                 imageURL_EditUser = rs.getString("img");
@@ -1081,11 +1086,9 @@ public class StaffPageController implements Initializable {
         List<Label> PitchStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
         List<Label> PitchName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
         pDAO = new PitchDAO();
-
         ObservableList<Pitch> plist = pDAO.getAll();
         for (int i = 0; i < plist.size(); i++) {
             PitchName.get(i).setText(plist.get(i).getName());
-            System.out.println(plist.get(i).getName());
             if (plist.get(i).getAvailable() == 1) {
                 PitchStatus.get(i).setText("Available");
                 PitchStatus.get(i).setStyle("-fx-background-color: #3d7e3d");
@@ -1236,7 +1239,14 @@ public class StaffPageController implements Initializable {
         int minutes = spnMinute_timeBook_Booking.getValue();
 
         txtTimeStart_Booking.setText(hrstimebook + ":" + minutes + ":" + "00");
-
+        if (lbIDP_hide_Booking.getText().equals("")) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select pitch");
+            alert.showAndWait();
+            return;
+        }
         if (cboIdk_Booking.getValue().equals("")) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -1245,21 +1255,11 @@ public class StaffPageController implements Initializable {
             alert.showAndWait();
             return;
         }
-
         if (txtDeposit_Booking.getText().equals("") || txtDeposit_Booking.getText().equals("0")) {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please enter deposit");
-            alert.showAndWait();
-            return;
-        }
-
-        if (lbIDP_hide_Booking.getText().equals("")) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select pitch");
             alert.showAndWait();
         } else {
             int idp = Integer.parseInt(lbIDP_hide_Booking.getText());
@@ -1271,6 +1271,34 @@ public class StaffPageController implements Initializable {
             Time time_book;
             try {
                 time_book = Time.valueOf(txtTimeStart_Booking.getText());
+
+                bk = new Booking();
+                bk.setIdp(idp);
+                bk.setIdk(idk);
+                bk.setIdu(idu);
+                bk.setDep(deposit);
+                bk.setTime_book(time_book);
+                bk.setHrs(hrs);
+                bk.setStt(stt);
+
+                bkDAO.Insert(bk);
+                pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 3);
+                showPitchStatus_Booking();
+
+                System.out.println("ADDED BOOOKING");
+
+                initialize_manageBooking();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Added Booking");
+                alert.setHeaderText(null);
+                alert.setContentText("Booking Added Successfully!");
+                alert.showAndWait();
+
+                setBtnVisible(btnNew_Booking);
+                setBtnNOTvisible(btnAdd_Booking);
+
+                stpTimeBook_Booking.setVisible(true);
             } catch (Exception ex) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -1278,33 +1306,8 @@ public class StaffPageController implements Initializable {
                 alert.setContentText("Please select time");
                 alert.showAndWait();
                 return;
+
             }
-            bk = new Booking();
-            bk.setIdp(idp);
-            bk.setIdk(idk);
-            bk.setIdu(idu);
-            bk.setDep(deposit);
-            bk.setTime_book(time_book);
-            bk.setHrs(hrs);
-            bk.setStt(stt);
-
-            bkDAO.Insert(bk);
-            pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 3);
-            showPitchStatus_Booking();
-
-            System.out.println("ADDED BOOOKING");
-
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Added Booking");
-            alert.setHeaderText(null);
-            alert.setContentText("Booking Added Successfully!");
-            alert.showAndWait();
-
-            setBtnVisible(btnNew_Booking);
-            setBtnNOTvisible(btnAdd_Booking);
-            showPitchObservableList_Booking(3);
-            stpTimeBook_Booking.setVisible(true);
-
         }
     }
 
@@ -1322,9 +1325,11 @@ public class StaffPageController implements Initializable {
             pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 1);
             System.out.println("Deleted Booking");
             showPitchObservableList_Booking(3);
+            initialize_manageBooking();
         } else {
             System.out.println("Cancel Delete Booking");
         }
+
     }
 
     @FXML
@@ -1367,6 +1372,7 @@ public class StaffPageController implements Initializable {
         lbNameTable_booking.getStyleClass().removeAll("update-btn");
         lbNameTable_booking.getStyleClass().removeAll("complete-btn");
         lbNameTable_booking.getStyleClass().add("add-btn");
+        lbIdu_booking.setText(Emp.getIdu());
 
         txtTimeStart_Booking.focusTraversableProperty();
         setBtnDisible_Booking();
@@ -1559,6 +1565,7 @@ public class StaffPageController implements Initializable {
                 Display_BillPaymentList_Bill();
                 btnCheckOut_Bill.setDisable(true);
                 btnAddSer_Bill.setDisable(true);
+                initialize_manageBooking();
             }
         }
     }
@@ -1956,21 +1963,25 @@ public class StaffPageController implements Initializable {
             String name = lbName.get(index).getText();
             reset_Booking();
             lbNamePitch_Booking.setText(name);
-            lbIDP_hide_Booking.setText("" + index);
+
+            lbIDP_hide_Booking.setText("" + idp.get(index));
+            lbIdu_booking.setText(Emp.getIdu());
             btnBillDetail_Booking.setVisible(false);
             btnStart_Booking.setVisible(false);
 
             int sttBK = 0;
             if (stt != 1) {
-
                 if (stt == 3) {
                     sttBK = 1;
                     btnStart_Booking.setVisible(true);
                     btnUpdate_Booking.setDisable(false);
+                    btnDelete_Booking.setDisable(false);
+                    btnNew_Booking.setVisible(true);
                 }
                 if (stt == 2) {
                     sttBK = 2;
                     btnBillDetail_Booking.setVisible(true);
+                    btnNew_Booking.setVisible(true);
                 }
                 bk = new Booking();
                 bkDAO = new BookingDAO();
@@ -1990,8 +2001,6 @@ public class StaffPageController implements Initializable {
                 lbIdu_booking.setText(bk.getIdu());
 
             } else {
-                /*lbNamePitch_Booking.setText(name);
-                lbIDP_hide_Booking.setText("" + index);*/
 
                 stpTimeBook_Booking.setVisible(false);
                 LocalTime crHrs = LocalTime.now().plusMinutes(15);
@@ -2000,10 +2009,6 @@ public class StaffPageController implements Initializable {
                 spnHour_timeBook_Booking.setValueFactory(valueHour);
                 Click_spnHour_timeBook_Booking();
 
-                /*   Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText("Please select a available pitch!");
-                alert.show();*/
                 txtTimeStart_Booking.focusTraversableProperty();
                 setBtnDisible_Booking();
                 btnAdd_Booking.setDisable(false);
@@ -2036,8 +2041,10 @@ public class StaffPageController implements Initializable {
 //                break;
 //            }
 //        }
+        pBdpManagebooking_page.setVisible(true);
         for (int j = 0; j < pages.size(); j++) {
             pages.get(j).setVisible(false);
         }
+
     }
 }
