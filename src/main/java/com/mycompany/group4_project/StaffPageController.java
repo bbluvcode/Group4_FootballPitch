@@ -1853,7 +1853,6 @@ public class StaffPageController implements Initializable {
                     return true;
                 }
             }
-
             return false;
         });
         tvBillPayment_Bill.setItems(filteredData);
