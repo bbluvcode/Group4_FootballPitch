@@ -2043,23 +2043,6 @@ public class StaffPageController implements Initializable {
                 cboIdk_Booking.setValue(pb.getIdk());
                 lbIdu_booking.setText(pb.getIdu());
 
-                /*bk = new Booking();
-                bkDAO = new BookingDAO();
-                bkDAO.getAll();
-                opBk = bkDAO.getBookingByPitch(idp.get(index), sttBK);
-                if (opBk.isEmpty()) {
-                    System.out.println("Cannot found booking");
-                    reset_Booking();
-                    return;
-                }
-                bk = opBk.get();
-                txtDeposit_Booking.setText("" + bk.getDep());
-                txtTimeStart_Booking.setText(bk.getTime_book().toString());
-                spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
-                lbIdb_booking.setText("" + bk.getIdb());
-                cboIdk_Booking.setValue(bk.getIdk());
-                lbIdu_booking.setText(bk.getIdu());*/
-
 
             } else {
 
