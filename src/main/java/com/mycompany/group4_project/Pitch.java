@@ -59,30 +59,6 @@ public class Pitch extends PitchCategory {
         this.available = available;
     }
 
-    public int getIdcp() {
-        return idcp;
-    }
-
-    public void setIdcp(int idcp) {
-        this.idcp = idcp;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
         return "Pitch{" + "idp=" + idp + ", name=" + name + ", available=" + available + ", idcp=" + idcp + ", size=" + size + ", price=" + price + '}';

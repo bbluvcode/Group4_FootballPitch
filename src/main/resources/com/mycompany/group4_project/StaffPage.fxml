@@ -44,7 +44,7 @@
                   <FontAwesomeIcon fill="#200202" glyphName="MINUS" size="2em" />
                </graphic>
             </Button>
-            <ImageView fitHeight="46.0" fitWidth="56.0" layoutX="213.0" layoutY="2.0" opacity="0.72" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="46.0" fitWidth="56.0" layoutX="213.0" layoutY="2.0" onMouseClicked="#goToManagementPage" opacity="0.72" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imageView/onlyLogo.jpg" />
                </image>
@@ -58,8 +58,8 @@
       </AnchorPane>
       <AnchorPane layoutY="40.0" prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #e41841;" styleClass="nav-form" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Line endX="69.59999084472656" endY="-1.52587890625E-5" layoutX="116.0" layoutY="183.0" startX="-100.0" stroke="#f5eded" strokeWidth="3.0" />
-            <Button alignment="CENTER" layoutX="9.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="45.0" prefWidth="181.0" styleClass="nav-btn" stylesheets="@page.css" text="Home" textAlignment="CENTER">
+            <Line endX="69.59999084472656" endY="-1.52587890625E-5" layoutX="116.0" layoutY="217.0" startX="-100.0" stroke="#f5eded" strokeWidth="3.0" />
+            <Button alignment="CENTER" layoutX="9.0" layoutY="248.0" mnemonicParsing="false" onAction="#switchPage" prefHeight="45.0" prefWidth="181.0" styleClass="nav-btn" stylesheets="@page.css" text="Home" textAlignment="CENTER">
                <graphic>
                   <ImageView blendMode="SCREEN" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -103,6 +103,11 @@
                   </ImageView>
                </graphic>
             </MenuButton>
+            <Label fx:id="tfEmployeePosition" alignment="CENTER" layoutX="2.0" layoutY="161.0" prefHeight="46.0" prefWidth="194.0" textFill="#fafafa">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <StackPane layoutX="201.0" layoutY="47.0" prefHeight="652.0" prefWidth="1062.0">
@@ -870,7 +875,7 @@
                                                       <Font name="Tahoma" size="13.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lbIdu_booking" prefHeight="32.0" prefWidth="91.0" text="id staff">
+                                                <Label fx:id="lbIdu_booking" prefHeight="32.0" prefWidth="91.0" text="0939966602">
                                                    <font>
                                                       <Font name="Tahoma" size="13.0" />
                                                    </font>
@@ -888,7 +893,7 @@
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Button>
-                              <Label fx:id="lbIDP_hide_Booking" layoutX="49.0" layoutY="14.0" prefHeight="34.0" prefWidth="84.0" text="idp hide" visible="false">
+                              <Label fx:id="lbIDP_hide_Booking" layoutX="49.0" layoutY="14.0" prefHeight="34.0" prefWidth="84.0" text="idp" visible="false">
                                  <font>
                                     <Font name="Tahoma Bold" size="18.0" />
                                  </font>

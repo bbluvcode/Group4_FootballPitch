@@ -52,8 +52,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -228,6 +231,8 @@ public class StaffPageController implements Initializable {
     private Label bkPitch_lbName_11;
     @FXML
     private Label bkPitch_lbName_12;
+    @FXML
+    private Label tfEmployeePosition;
 
     public void ini() {
 
@@ -282,7 +287,7 @@ public class StaffPageController implements Initializable {
     Alert alert;
     ServiceDAO serDAO = new ServiceDAO();
     PitchDAO pDAO = new PitchDAO();
-    UserDAO userDAO = new UserDAO();
+    //UserDAO userDAO = new UserDAO();
     CustomerDAO cusDAO = new CustomerDAO();
     PaymentBillDAO pmDAO = new PaymentBillDAO();
     BookingDAO bkDAO = new BookingDAO();
@@ -488,7 +493,7 @@ public class StaffPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setOpenPage();
         //Edit profile
-        infomationUser();
+        informationUser();
         //Booking
         ini();
 
@@ -519,7 +524,7 @@ public class StaffPageController implements Initializable {
 
     private User Emp = App.getLoggedInUser();
 
-    private void infomationUser() {
+    private void informationUser() {
         String phone = Emp.getPhone();
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
@@ -579,6 +584,7 @@ public class StaffPageController implements Initializable {
                     rdMale.setDisable(true);
                 }
                 tfPosition_EditProfile.setText(rs.getString("type"));
+                tfEmployeePosition.setText("Position: " + rs.getString("type"));
             } else {
                 showAlert(Alert.AlertType.ERROR, "User not found", "User with phone number " + phone + " not found.");
             }
@@ -606,6 +612,18 @@ public class StaffPageController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void goToManagementPage(MouseEvent event) {
+        if(Emp.getIdt() < 2){
+            try {
+                App.setRoot("AdminPage");
+                showAlert(AlertType.INFORMATION, "Redirect to Management Page", "Redirect to Management Page Successfully!");
+            } catch (IOException ex) {
+                Logger.getLogger(StaffPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
@@ -752,8 +770,17 @@ public class StaffPageController implements Initializable {
         if (hasErr) {
             return;
         }
-        String imageNameToUse = (selectImageName_EditUser != null) ? selectImageName_EditUser : imageURL_EditUser;
 
+        String imageNameToUse = (selectImageName_EditUser != null) ? selectImageName_EditUser : imageURL_EditUser;
+        boolean isChanged = !Objects.equals(name, Emp.getName())
+                || !Objects.equals(birth, convertToLocalDate(Emp.getBirthday()))
+                || !Objects.equals(mail, Emp.getMail())
+                || !Objects.equals(imageNameToUse, getNameofImageView(Emp.getImg()));
+
+        if (!isChanged) {
+            showAlert(AlertType.INFORMATION, "No Changes", "No changes In Your Profile.\nCannot Update Your Profile!");
+            return;
+        }
         //sql
         String sql = "UPDATE qluser SET "
                 + "name='" + name + "',"
@@ -763,7 +790,7 @@ public class StaffPageController implements Initializable {
                 + "WHERE phone='" + phone + "'";
         try {
             Alert alert;
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Paradise Sport");
             alert.setHeaderText(null);
             alert.setContentText("Are you sure you want to UPDATE your Profile?");
@@ -771,13 +798,24 @@ public class StaffPageController implements Initializable {
             if (option.get().equals(ButtonType.OK)) {
                 executeSQL(sql);
                 //alert
-                showAlert(Alert.AlertType.INFORMATION, "Paradise Sport", "Successfully Updated your Profile!");
-                infomationUser();
+                showAlert(AlertType.INFORMATION, "Paradise Sport", "Successfully Updated your Profile!");
+                informationUser();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private String getNameofImageView(ImageView a) {
+        String name = null;
+        Image image = a.getImage();
+
+        if (image != null) {
+            String imageUrl = image.getUrl();
+            name = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        }
+        return name;
     }
 
     @FXML
@@ -959,7 +997,7 @@ public class StaffPageController implements Initializable {
                 executeSQL(sql);
                 //alert
                 showAlert(Alert.AlertType.INFORMATION, "Paradise Sport", "Successfully Change Password!");
-                infomationUser();
+                informationUser();
                 setOpenPage();
             }
         } catch (Exception e) {
@@ -1956,6 +1994,7 @@ public class StaffPageController implements Initializable {
             List<Label> lbName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
 
             int index = buttons.indexOf(event.getSource());
+            Time timeStart = null;
 
             System.out.println("press pitch :" + idp.get(index));
 
@@ -1971,6 +2010,7 @@ public class StaffPageController implements Initializable {
 
             int sttBK = 0;
             if (stt != 1) {
+
                 if (stt == 3) {
                     sttBK = 1;
                     btnStart_Booking.setVisible(true);
@@ -1982,8 +2022,28 @@ public class StaffPageController implements Initializable {
                     sttBK = 2;
                     btnBillDetail_Booking.setVisible(true);
                     btnNew_Booking.setVisible(true);
+                    ///here need edit
+                    timeStart = Time.valueOf("20:49:21");
                 }
-                bk = new Booking();
+
+
+                pmDAO = new PaymentBillDAO();
+                pmDAO.getAll();
+                opPm = pmDAO.getBookingOrBillByPitch(idp.get(index), sttBK, timeStart);
+                if (opPm.isEmpty()) {
+                    System.out.println("Cannot found booking/bill");
+                    reset_Booking();
+                    return;
+                }
+                PaymentBill pb = opPm.get();
+                txtDeposit_Booking.setText("" + pb.getDeposit());
+                txtTimeStart_Booking.setText(pb.getTime_book().toString());
+                spnHrs_Booking.getValueFactory().setValue(pb.getHrs());
+                lbIdb_booking.setText("" + pb.getIdb());
+                cboIdk_Booking.setValue(pb.getIdk());
+                lbIdu_booking.setText(pb.getIdu());
+
+                /*bk = new Booking();
                 bkDAO = new BookingDAO();
                 bkDAO.getAll();
                 opBk = bkDAO.getBookingByPitch(idp.get(index), sttBK);
@@ -1998,7 +2058,8 @@ public class StaffPageController implements Initializable {
                 spnHrs_Booking.getValueFactory().setValue(bk.getHrs());
                 lbIdb_booking.setText("" + bk.getIdb());
                 cboIdk_Booking.setValue(bk.getIdk());
-                lbIdu_booking.setText(bk.getIdu());
+                lbIdu_booking.setText(bk.getIdu());*/
+
 
             } else {
 
@@ -2047,4 +2108,5 @@ public class StaffPageController implements Initializable {
         }
 
     }
+
 }

@@ -103,6 +103,8 @@ public class LoginController implements Initializable {
         newPassForm.setVisible(false);
         tfPass.setVisible(false);
         tfPass.setManaged(false);
+        tfPhone.setText("staff");
+        tfPass.setText("123");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -327,7 +329,7 @@ public class LoginController implements Initializable {
     private String verificationCode;
     private String mailUser;
     private long codeExpirationTime;
-    private final int CODE_DURATION = 1 * 20 * 1000;
+    private final int CODE_DURATION = 1 * 60 * 1000;
 
     private boolean validateMail(String mail) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";

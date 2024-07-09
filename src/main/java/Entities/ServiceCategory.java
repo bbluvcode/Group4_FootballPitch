@@ -16,6 +16,10 @@ public class ServiceCategory {
     public ServiceCategory() {
     }
 
+    public ServiceCategory(String type) {
+        this.type = type;
+    }
+
     public ServiceCategory(int idc, String type) {
         this.idc = idc;
         this.type = type;
@@ -41,6 +45,5 @@ public class ServiceCategory {
     public String toString() {
         return "ServiceCategory{" + "idc=" + idc + ", type=" + type + '}';
     }
-    
-    
+
 }

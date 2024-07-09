@@ -17,9 +17,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: white;" stylesheets="@login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.LoginController">
+<AnchorPane fx:id="loginPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: white;" stylesheets="@login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.LoginController">
    <children>
-      <Pane fx:id="loginForm" layoutX="451.0" layoutY="72.0" prefHeight="360.0" prefWidth="332.0" style="-fx-background-color: black; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;" visible="false">
+      <Pane fx:id="loginForm" layoutX="450.0" layoutY="46.0" prefHeight="360.0" prefWidth="332.0" style="-fx-background-color: black; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;" visible="false">
          <children>
             <Label layoutX="20.0" layoutY="14.0" prefHeight="50.0" prefWidth="90.0" text="Phone" textFill="white">
                <font>
@@ -118,8 +118,8 @@
             </Button>
          </children>
       </Pane>
-      <Line endX="300.0" endY="24.20001220703125" fill="BLACK" layoutX="124.0" layoutY="55.0" opacity="0.14" startX="300.0" startY="373.0" strokeWidth="2.0" />
-      <ImageView blendMode="MULTIPLY" fitHeight="266.0" fitWidth="354.0" layoutX="39.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+      <Line endX="300.0" endY="24.20001220703125" fill="BLACK" layoutX="123.0" layoutY="38.0" opacity="0.14" startX="300.0" startY="373.0" strokeWidth="2.0" />
+      <ImageView blendMode="MULTIPLY" fitHeight="289.0" fitWidth="381.0" layoutX="20.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imageView/onlyLogo.jpg" />
          </image></ImageView>
@@ -133,17 +133,12 @@
             <FontAwesomeIcon fill="#6b6060" glyphName="MINUS" selectionFill="#d40c0c" size="2em" textAlignment="CENTER" />
          </graphic>
       </Button>
-      <ImageView blendMode="MULTIPLY" fitHeight="86.0" fitWidth="392.0" layoutX="44.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView blendMode="MULTIPLY" fitHeight="95.0" fitWidth="392.0" layoutX="21.0" layoutY="318.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imageView/name_red.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="72.0" fitWidth="374.0" layoutX="213.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../imageView/banner.jpg" />
-         </image>
-      </ImageView>
-      <Pane fx:id="forgotPassForm" layoutX="438.0" layoutY="71.0" prefHeight="360.0" prefWidth="346.0" style="-fx-background-color: #0D0D0D; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;">
+      <Pane fx:id="forgotPassForm" layoutX="437.0" layoutY="54.0" prefHeight="360.0" prefWidth="346.0" style="-fx-background-color: #0D0D0D; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;">
          <children>
             <Label layoutX="7.0" layoutY="116.0" prefHeight="40.0" prefWidth="65.0" text="Email" textFill="white">
                <font>
@@ -213,7 +208,7 @@
                   <Font name="Showcard Gothic" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="btnVerify" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="197.0" layoutY="246.0" mnemonicParsing="false" onAction="#verifyCode" prefHeight="45.0" prefWidth="132.0" styleClass="btn-forgot" stylesheets="@login.css" text="Verify" textFill="WHITE">
+            <Button fx:id="btnVerify" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="194.0" layoutY="246.0" mnemonicParsing="false" onAction="#verifyCode" prefHeight="45.0" prefWidth="140.0" styleClass="btn-forgot" stylesheets="@login.css" text="Verify" textFill="WHITE">
                <font>
                   <Font name="Showcard Gothic" size="18.0" />
                </font>
@@ -235,14 +230,14 @@
                   <Image url="@../imageView/forgot.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="lbCountDown" contentDisplay="RIGHT" layoutX="275.0" layoutY="254.0" prefHeight="30.0" prefWidth="50.0" style="-fx-text-fill: red;" textAlignment="RIGHT" textFill="RED">
+            <Label fx:id="lbCountDown" contentDisplay="RIGHT" layoutX="273.0" layoutY="254.0" prefHeight="30.0" prefWidth="60.0" style="-fx-text-fill: red;" textAlignment="RIGHT" textFill="RED">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="newPassForm" layoutX="439.0" layoutY="74.0" prefHeight="360.0" prefWidth="346.0" style="-fx-background-color: #0D0D0D; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;" visible="false">
+      <Pane fx:id="newPassForm" layoutX="438.0" layoutY="48.0" prefHeight="360.0" prefWidth="346.0" style="-fx-background-color: #0D0D0D; -fx-border-color: grey; -fx-background-radius: 5%; -fx-border-radius: 5%;" visible="false">
          <children>
             <Label layoutX="7.0" layoutY="89.0" prefHeight="40.0" prefWidth="137.0" style="-fx-text-fill: #30D303;" text="New Password" textFill="#3ab70c">
                <font>

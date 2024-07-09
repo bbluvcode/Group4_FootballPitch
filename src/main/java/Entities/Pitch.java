@@ -13,12 +13,33 @@ public class Pitch extends PitchCategory {
     int idp;
     String name;
     int available; //1. available, 2. not available, 3. booked
+    public int no;
+
+    public Pitch() {
+        super(0, null, 0);
+    }
 
     public Pitch(int idp, String name, int available, int idcp, String size, int price) {
         super(idcp, size, price);
         this.idp = idp;
         this.name = name;
         this.available = available;
+    }
+
+    public Pitch(int idp, String name, int available, int idcp, String size, int price, int no) {
+        super(idcp, size, price);
+        this.idp = idp;
+        this.name = name;
+        this.available = available;
+        this.no = no;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public int getIdp() {
@@ -43,30 +64,6 @@ public class Pitch extends PitchCategory {
 
     public void setAvailable(int available) {
         this.available = available;
-    }
-
-    public int getIdcp() {
-        return idcp;
-    }
-
-    public void setIdcp(int idcp) {
-        this.idcp = idcp;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     @Override

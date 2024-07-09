@@ -22,10 +22,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -45,7 +45,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -54,7 +53,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -70,7 +68,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -234,8 +231,6 @@ public class AdminPageController implements Initializable {
     private TableColumn<PaymentBill, Integer> colHrsUse_Payment;
     @FXML
     private TableColumn<PaymentBill, Boolean> colCompleted_Payment;
-    @FXML
-    private TableColumn<PaymentBill, Integer> colStatus_Payment;
     @FXML
     private TableColumn<PaymentBill, Integer> colDeposit_Payment;
     @FXML
@@ -521,6 +516,10 @@ public class AdminPageController implements Initializable {
     private TextField tfSearch_Payment;
     @FXML
     private BorderPane CateServicePage;
+    @FXML
+    private Label tfEmployeePosition;
+    @FXML
+    private DatePicker dpSelectDate_Payment;
 
     public AdminPageController() {
         this.categoryDAO = new CategoryDAO();
@@ -531,7 +530,7 @@ public class AdminPageController implements Initializable {
 
         setOpenPage();
         //Edit profile
-        infomationUser();
+        informationUser();
         //PaymentBill
         setupOpenPaymentBill();
         //Employee
@@ -603,26 +602,63 @@ public class AdminPageController implements Initializable {
             if (index != -1) {
                 pages.get(index).setVisible(true);
                 buttons.get(index).setStyle(selectedStyle);
+                clearPage(index);
             }
         } else if (event.getSource() instanceof MenuItem) {
             int index = menuItems.indexOf(event.getSource());
             if (index != -1) {
                 pages.get(buttons.size() + index).setVisible(true);
                 menuButtons.get(0).setStyle(selectedStyle);
+                clearPage(buttons.size() + index);
             }
         } else if (event.getSource() instanceof MenuButton) {
             int index = menuButtons.indexOf(event.getSource());
             if (index != -1) {
                 pages.get(buttons.size() + menuItems.size() + index).setVisible(true);
                 menuButtons.get(index).setStyle(selectedStyle);
+                clearPage(buttons.size() + menuItems.size() + index);
             }
+        }
+    }
+
+    private void clearPage(int pageIndex) {
+        switch (pageIndex) {
+            case 0:
+                clearInEmployeePage();
+                break;
+            case 1:
+                clearInCustomerPage();
+                break;
+            case 2:
+                clearInSportPage();
+                break;
+            case 3:
+                clearInPaymentPage();
+                break;
+            case 4:
+                clearInDashboardPage();
+                break;
+            case 5:
+                clearInSellServicePage();
+                break;
+            case 6:
+                clearInRentServicePage();
+                break;
+            case 7:
+                clearInCateServicePage();
+                break;
+            case 8:
+                clearInCatePitchPage();
+                break;
+            default:
+                break;
         }
     }
 
     //----------------------------------EDIT PROFILE---------------------------------------------//
     private User Emp = App.getLoggedInUser();
 
-    private void infomationUser() {
+    private void informationUser() {
         String phone = Emp.getPhone();
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
@@ -681,6 +717,7 @@ public class AdminPageController implements Initializable {
                     rdMale.setDisable(true);
                 }
                 tfPosition_EditProfile.setText(rs.getString("type"));
+                tfEmployeePosition.setText("Position: " + rs.getString("type"));
             } else {
                 showAlert(Alert.AlertType.ERROR, "User not found", "User with phone number " + phone + " not found.");
             }
@@ -708,6 +745,16 @@ public class AdminPageController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void goToBookingPage(MouseEvent event) {
+        try {
+            App.setRoot("StaffPage");
+            showAlert(AlertType.INFORMATION, "Redirect to Booking Page", "Redirect to Booking Page Successfully!");
+        } catch (IOException ex) {
+            Logger.getLogger(AdminPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -831,8 +878,17 @@ public class AdminPageController implements Initializable {
         if (hasErr) {
             return;
         }
-        String imageNameToUse = (selectImageName_EditUser != null) ? selectImageName_EditUser : imageURL_EditUser;
 
+        String imageNameToUse = (selectImageName_EditUser != null) ? selectImageName_EditUser : imageURL_EditUser;
+        boolean isChanged = !Objects.equals(name, Emp.getName())
+                || !Objects.equals(birth, convertToLocalDate(Emp.getBirthday()))
+                || !Objects.equals(mail, Emp.getMail())
+                || !Objects.equals(imageNameToUse, getNameofImageView(Emp.getImg()));
+
+        if (!isChanged) {
+            showAlert(AlertType.INFORMATION, "No Changes", "No changes In Your Profile.\nCannot Update Your Profile!");
+            return;
+        }
         //sql
         String sql = "UPDATE qluser SET "
                 + "name='" + name + "',"
@@ -851,7 +907,7 @@ public class AdminPageController implements Initializable {
                 executeSQL(sql);
                 //alert
                 showAlert(AlertType.INFORMATION, "Paradise Sport", "Successfully Updated your Profile!");
-                infomationUser();
+                informationUser();
                 setOpenPage();
                 //Update emplist
                 refreshEmployeeList();
@@ -860,6 +916,17 @@ public class AdminPageController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    private String getNameofImageView(ImageView a) {
+        String name = null;
+        Image image = a.getImage();
+
+        if (image != null) {
+            String imageUrl = image.getUrl();
+            name = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        }
+        return name;
     }
 
     @FXML
@@ -1045,7 +1112,7 @@ public class AdminPageController implements Initializable {
                 executeSQL(sql);
                 //alert
                 showAlert(AlertType.INFORMATION, "Paradise Sport", "Successfully Change Password!");
-                infomationUser();
+                informationUser();
                 setOpenPage();
             }
         } catch (Exception e) {
@@ -1128,6 +1195,8 @@ public class AdminPageController implements Initializable {
     }
 
     private void setupOpenPaymentBill() {
+        btnAdd_Payment.setDisable(true);
+        btnDelete_Payment.setDisable(true);
         ObservableList<String> sttList = FXCollections.observableArrayList("Pending", "Completed", "Cancel");
         cbStt_Payment.setItems(sttList);
         categoryDAO = new CategoryDAO();
@@ -1140,9 +1209,16 @@ public class AdminPageController implements Initializable {
         rdYes_Payment.setUserData("Yes");
         rdNo_Payment.setUserData("No");
         setDateFormat(dpDate_Payment);
+        setDateFormat(dpSelectDate_Payment);
         showPaymentBills();
         clearInPaymentPage();
         tfSearch_Payment.textProperty().addListener((observable, oldValue, newValue) -> searchInBillPayment());
+        dpSelectDate_Payment.setOnAction(event -> {
+            searchInBillPayment();
+        });
+        btnCloseSearch_Payment.setVisible(false);
+        btnCloseDate_Payment.setVisible(false);
+
     }
 
     public ObservableList getPaymentBills() {
@@ -1198,6 +1274,7 @@ public class AdminPageController implements Initializable {
                 Time start = rs.getTime("time_start");
                 Time end = rs.getTime("time_end");
                 Date date = rs.getDate("pay_date");
+
                 p = new PaymentBill(idb, start, end, hrs_used, date, deposit, ttbooking, ttservice, ttpayment, completed, timebooking, hrs, stt, cusName, empName, pitchName);
                 plist.add(p);
             }
@@ -1254,46 +1331,44 @@ public class AdminPageController implements Initializable {
         colPayment_Payment.setCellValueFactory(new PropertyValueFactory<>("tt_payment"));
         //date
         colDate_Payment.setCellValueFactory(new PropertyValueFactory<>("pay_date"));
+        colDate_Payment.setCellFactory(new DateCellFactory("dd/MM/yyyy"));
+
         colHrsBooking_Payment.setCellValueFactory(new PropertyValueFactory<>("hrs"));
         colTimeBooking_Payment.setCellValueFactory(new PropertyValueFactory<>("time"));
         colStart_Payment.setCellValueFactory(new PropertyValueFactory<>("time_start"));
         colEnd_Payment.setCellValueFactory(new PropertyValueFactory<>("time_end"));
         colHrsUse_Payment.setCellValueFactory(new PropertyValueFactory<>("hrs_used"));
         colCompleted_Payment.setCellValueFactory(new PropertyValueFactory<>("completed"));
-        colStatus_Payment.setCellValueFactory(new PropertyValueFactory<>("stt"));
-        //Set integer -> String
-        colStatus_Payment.setCellFactory(new Callback<TableColumn<PaymentBill, Integer>, TableCell<PaymentBill, Integer>>() {
-            @Override
-            public TableCell<PaymentBill, Integer> call(TableColumn<PaymentBill, Integer> param) {
-                return new TableCell<PaymentBill, Integer>() {
-                    @Override
-                    protected void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
-                            setText(null);
-                        } else {
-                            setText(getStatusDetail(item));
-                        }
-                    }
-                };
-            }
-        });
         tvPayment.setItems(plist);
     }
 
-    private ObservableList<PaymentBill> filterPaymentBills(String search) {
+    private ObservableList<PaymentBill> filterPaymentBillsByDate(LocalDate date) {
         ObservableList<PaymentBill> allPayments = getPaymentBills();
-        if (search == null || search.isEmpty()) {
+        if (date == null) {
             return allPayments;
+        }
+        ObservableList<PaymentBill> filterList = FXCollections.observableArrayList();
+
+        for (PaymentBill bill : allPayments) {
+            if (bill.getPay_date().toLocalDate().equals(date)) {
+                filterList.add(bill);
+            }
+        }
+        return filterList;
+    }
+
+    private ObservableList<PaymentBill> filterPaymentBills(String search, LocalDate date) {
+        ObservableList<PaymentBill> filteredByDate = filterPaymentBillsByDate(date);
+        if (search == null || search.isEmpty()) {
+            return filteredByDate;
         }
         ObservableList<PaymentBill> filterList = FXCollections.observableArrayList();
         String lowerCaseFilter = search.toLowerCase();
 
-        for (PaymentBill bill : allPayments) {
+        for (PaymentBill bill : filteredByDate) {
             if (bill.getQluser_name().toLowerCase().contains(lowerCaseFilter)
                     || bill.getSanbong_name().toLowerCase().contains(lowerCaseFilter)
-                    || bill.getKhachhang_name().toLowerCase().contains(lowerCaseFilter)
-                    || bill.getPay_date().toString().contains(lowerCaseFilter)) {
+                    || bill.getKhachhang_name().toLowerCase().contains(lowerCaseFilter)) {
                 filterList.add(bill);
             }
         }
@@ -1303,8 +1378,50 @@ public class AdminPageController implements Initializable {
     @FXML
     private void searchInBillPayment() {
         String searchText = tfSearch_Payment.getText();
-        ObservableList<PaymentBill> filterList = filterPaymentBills(searchText);
-        tvPayment.setItems(filterList);
+        LocalDate selectedDate = dpSelectDate_Payment.getValue();
+
+        LocalDate storedDate = dpSelectDate_Payment.getUserData() instanceof LocalDate
+                ? (LocalDate) dpSelectDate_Payment.getUserData() : null;
+
+        if (selectedDate != null) {
+            btnCloseDate_Payment.setVisible(true);
+        } else {
+            btnCloseDate_Payment.setVisible(false);
+        }
+
+        if (searchText != null && !searchText.isEmpty()) {
+            btnCloseSearch_Payment.setVisible(true);
+        } else {
+            btnCloseSearch_Payment.setVisible(false);
+        }
+
+        if (!Objects.equals(selectedDate, storedDate)) {
+            dpSelectDate_Payment.setUserData(selectedDate);
+            ObservableList<PaymentBill> filterListByDate = filterPaymentBillsByDate(selectedDate);
+            tvPayment.setItems(filterListByDate);
+        } else {
+            ObservableList<PaymentBill> filterList = filterPaymentBills(searchText, selectedDate);
+            tvPayment.setItems(filterList);
+        }
+    }
+    @FXML
+    private Button btnCloseSearch_Payment;
+    @FXML
+    private Button btnCloseDate_Payment;
+
+    @FXML
+    private void clearPayDateInPayment(ActionEvent event) {
+        dpSelectDate_Payment.setValue(null);
+        dpSelectDate_Payment.setUserData(null);
+        btnCloseDate_Payment.setVisible(false);
+        searchInBillPayment();
+    }
+
+    @FXML
+    private void clearFieldSearchInPayment(ActionEvent event) {
+        tfSearch_Payment.clear();
+        btnCloseSearch_Payment.setVisible(false);
+        searchInBillPayment();
     }
 
     private Time ConverttoTime(TextField textField, Label error) {
@@ -1575,6 +1692,16 @@ public class AdminPageController implements Initializable {
             showAlert(AlertType.ERROR, "Error", "No Payment Bill selected!");
             return;
         }
+        PaymentBill selectedBill = tvPayment.getSelectionModel().getSelectedItem();
+        if (selectedBill == null) {
+            showAlert(AlertType.ERROR, "Error", "No Payment Bill selected!");
+            return;
+        }
+
+        // Lấy dữ liệu cũ của hóa đơn từ biến paySSI
+        if (paySSI == null) {
+            paySSI = selectedBill;
+        }
         String empName = cbEmpName_Payment.getSelectionModel().getSelectedItem();
         String pitchName = cbPitchName_Payment.getSelectionModel().getSelectedItem();
         String cusName = cbCusName_Payment.getSelectionModel().getSelectedItem();
@@ -1605,6 +1732,7 @@ public class AdminPageController implements Initializable {
             showAlert(AlertType.ERROR, "Error", "No Payment Bill selected!");
             return;
         }
+
         Time timebooking = ConverttoTime(tfTimeBooking_Payment, lbTimeBooking_Payment);
         Time start = ConverttoTime(tfStart_Payment, lbStart_Payment);
         Time end = ConverttoTime(tfEnd_Payment, lbEnd_Payment);
@@ -1674,6 +1802,21 @@ public class AdminPageController implements Initializable {
             hasErr = true;
         } else {
             pay_date = Date.valueOf(date);
+        }
+        boolean isChanged = !Objects.equals(selectedBill.getQluser_name(), empName)
+                || !Objects.equals(selectedBill.getSanbong_name(), pitchName)
+                || !Objects.equals(selectedBill.getKhachhang_name(), cusName)
+                || selectedBill.getStt() != Status
+                || selectedBill.getDeposit() != validateInput(deposit, lbDeposit_Payment, "Deposit")
+                || selectedBill.isComp() != completed
+                || !Objects.equals(selectedBill.getPay_date(), (date != null ? Date.valueOf(date) : null))
+                || !Objects.equals(selectedBill.getTime_start(), start)
+                || !Objects.equals(selectedBill.getTime_end(), end)
+                || !Objects.equals(selectedBill.getTime(), timebooking)
+                || selectedBill.getHrs() != spHrsBooking_Payment.getValue();
+        if (!isChanged) {
+            showAlert(AlertType.INFORMATION, "No Changes In Payment", "No Changes In Payment!\nCannot Update Payment!");
+            return;
         }
         if (hasErr) {
             return;
@@ -4374,5 +4517,4 @@ public class AdminPageController implements Initializable {
 
         return list;
     }
-
 }

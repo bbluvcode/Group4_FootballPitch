@@ -5,6 +5,7 @@
 package Entities;
 
 import java.sql.Date;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -88,22 +89,6 @@ public class User extends UserCategory {
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public int getIdt() {
-        return idt;
-    }
-
-    public void setIdt(int idt) {
-        this.idt = idt;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override

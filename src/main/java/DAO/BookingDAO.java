@@ -132,7 +132,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
                 idpBookingToDay.add(idp);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idpBookingToDay;
     }
@@ -141,7 +141,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL AND completed IS NULL";
+        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL";
         
         try {
             Statement st = cn.createStatement();
@@ -152,7 +152,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
                 idpBookingToDay.add(idp);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idpBookingToDay;
     }

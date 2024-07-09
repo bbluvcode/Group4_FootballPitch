@@ -122,7 +122,12 @@
     -fx-text-fill: #fff;
     -fx-cursor: hand;
 }
-.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover, .btn-css:hover{
+.add-btn:hover, .update-btn:hover, .delete-btn:hover, .clear-btn:hover{
+    -fx-background-color: #007bff;
+    -fx-scale-x: 1.11;
+    -fx-scale-y: 1.11;
+}
+.btn-css:hover{
     -fx-scale-x: 1.11;
     -fx-scale-y: 1.11;
 }

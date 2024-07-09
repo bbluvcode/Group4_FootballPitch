@@ -92,7 +92,7 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
                 CusID_String_List.add(idk);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return CusID_String_List;
     }

@@ -28,7 +28,10 @@ import javafx.collections.ObservableList;
  */
 public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
+
     public ObservableList<PaymentBill> pbObservableList = FXCollections.observableArrayList();
+    public ObservableList<PaymentBill> pbObservableListByDate = FXCollections.observableArrayList();
+
     ObservableList<Service> serObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serSell_ObservableList = FXCollections.observableArrayList();
     ObservableList<Service> serRent_ObservableList = FXCollections.observableArrayList();
@@ -145,6 +148,47 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return pbObservableList;
+    }
+
+    public ObservableList<PaymentBill> getByDate() {
+        Connection cn = getConnection();
+        String query = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] WHERE pay_date = CAST(GETDATE() AS DATE)";
+        System.out.println("paymentbillDAO" + query);
+        PitchDAO pitchDAO = new PitchDAO();
+        pitchDAO.getAll();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                int idb = rs.getInt("idb");
+                String idu = rs.getString("idu");
+                int idp = rs.getInt("idp");
+                String idk = rs.getString("idk");
+                Time time_start = rs.getTime("time_start");
+                Time time_end = rs.getTime("time_end");
+                int hrs_used = rs.getInt("hrs_used");
+                Date pay_date = rs.getDate("pay_date");
+                int deposit = rs.getInt("deposit");
+                int tt_booking = rs.getInt("tt_booking");
+                int tt_service = rs.getInt("tt_service");
+                int tt_payment = rs.getInt("tt_payment");
+                boolean comp = rs.getBoolean("completed");
+                Time time_book = rs.getTime("time_book");
+                int hrs = rs.getInt("hrs");
+                int stt = rs.getInt("stt");
+                String khachhang_name = rs.getString("khachhang_name");
+                String qluser_name = rs.getString("qluser_name");
+                String sanbong_name = rs.getString("sanbong_name");
+                int price_pitch = pitchDAO.getPriceByID(idp);
+                PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name, price_pitch);
+                //System.out.println(pb);
+                pbObservableListByDate.add(pb);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pbObservableListByDate;
     }
 
     public void CheckOut_Bill(PaymentBill paymentBill) {
@@ -364,15 +408,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         return Optional.empty();
     }
 
-    public Optional<PaymentBill> getBillByPitch(int idp, int stt) {
-        for (PaymentBill pm : pbObservableList) {
-            if (pm.getIdp() == idp && pm.getStt() == stt) {
-                return Optional.of(pm);
-            }
-        }
-        return Optional.empty();
-    }
-
     public Optional<PaymentBill> GetById(int idb) {
         for (PaymentBill pm : pbObservableList) {
             if (pm.getIdb() == idb) {
@@ -406,7 +441,36 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
     public void UpdateTimeStart(int idPaymentBill) {
         String sql = "UPDATE payments set time_start = CAST(GETDATE() as TIME), stt = 2 WHERE idb = " + idPaymentBill;
-        System.out.println("START BUTTON: " + sql);
         executeSQL(sql);
+    }
+
+    public Optional<PaymentBill> getBookingOrBillByPitch(int idp, int stt, Time timestart) {
+        getByDate();
+        int hr, hrpb, minutes, minutespb;
+        boolean check;
+        if (timestart == null) {
+            for (PaymentBill pb : pbObservableListByDate) {
+                if (pb.getIdp() == idp && pb.getStt() == stt && pb.getTime_start() == timestart) {
+                    return Optional.of(pb);
+                }
+            }
+        } else {
+            hr = timestart.getHours();
+            minutes = timestart.getMinutes();
+            for (PaymentBill pb : pbObservableListByDate) {
+                if (pb.getTime_start() == null) continue;
+                else {
+                    if (pb.getIdp() == idp && pb.getStt() == stt) {
+                        hrpb = pb.getTime_start().getHours();
+                        minutespb = pb.getTime_start().getMinutes();
+                        check = (hr == hrpb && minutes == minutespb);
+                        if (check) {
+                            return Optional.of(pb);
+                        }
+                    }
+                }
+            }
+        }
+        return Optional.empty();
     }
 }
