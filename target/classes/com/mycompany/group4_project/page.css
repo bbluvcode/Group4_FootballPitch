@@ -173,8 +173,8 @@
     -fx-alignment: CENTER;
 }
 .pitch-status{
-    -fx-background-radius: 0 0 10px 10px;
-    -fx-text-fill: #fff;
+    -fx-background-radius: 13px;
+    -fx-text-fill: rgba(255, 255, 255, 0);
     -fx-background-color: #e74c3c;
 }
 

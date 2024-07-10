@@ -30,7 +30,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
+<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
     <children>
       <AnchorPane layoutX="2.4" prefHeight="45.0" prefWidth="1260.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0">
          <children>
@@ -451,19 +451,35 @@
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Button>
-                              <AnchorPane fx:id="bkPitch_1" layoutX="55.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
+                              <HBox layoutX="486.0" layoutY="22.0" prefHeight="24.0" prefWidth="180.0">
+                                 <children>
+                                    <ComboBox fx:id="bkPitch_cboTime_from" prefHeight="30.0" prefWidth="83.0">
+                                       <styleClass>
+                                          <String fx:value="filter" />
+                                          <String fx:value="textfield" />
+                                       </styleClass>
+                                    </ComboBox>
+                                    <Label alignment="CENTER" prefHeight="36.0" prefWidth="20.0" text="-" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="bkPitch_cboTime_to" prefHeight="30.0" prefWidth="83.0">
+                                       <styleClass>
+                                          <String fx:value="filter" />
+                                          <String fx:value="textfield" />
+                                       </styleClass>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <AnchorPane fx:id="bkPitch_1" layoutX="39.0" layoutY="89.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_1" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_1" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_1" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -471,23 +487,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_1" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_1" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_1" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_1" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_2" layoutX="266.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_2" layoutX="253.0" layoutY="89.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_2" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_2" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_2" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -495,23 +521,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_2" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_2" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_2" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_2" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_3" layoutX="476.0" layoutY="80.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_3" layoutX="467.0" layoutY="89.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_3" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_3" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_3" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -519,23 +555,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_3" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_3" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_3" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_3" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_4" layoutX="55.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_4" layoutX="39.0" layoutY="218.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_4" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_4" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_4" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -543,23 +589,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_4" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_4" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_4" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_4" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_5" layoutX="266.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_5" layoutX="253.0" layoutY="218.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_5" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_5" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_5" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -567,23 +623,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_5" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_5" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_5" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_5" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_6" layoutX="476.0" layoutY="212.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_6" layoutX="467.0" layoutY="218.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_6" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_6" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_6" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -591,23 +657,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_6" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_6" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_6" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_6" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_7" layoutX="55.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_7" layoutX="39.0" layoutY="347.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_7" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_7" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_7" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -615,23 +691,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_7" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_7" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_7" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_7" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_8" layoutX="266.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_8" layoutX="253.0" layoutY="347.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_8" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_8" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_8" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -639,23 +725,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_8" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_8" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_8" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_8" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_9" layoutX="477.0" layoutY="345.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_9" layoutX="467.0" layoutY="347.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_9" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_9" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_9" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -663,23 +759,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_9" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_9" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_9" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_9" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_10" layoutX="55.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_10" layoutX="39.0" layoutY="476.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_10" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_10" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_10" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -687,23 +793,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_10" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_10" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_10" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_10" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_11" layoutX="266.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_11" layoutX="253.0" layoutY="476.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_11" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_11" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_11" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -711,23 +827,33 @@
                                           <String fx:value="label-text-center" />
                                           <String fx:value="pitch-status" />
                                        </styleClass>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbName_11" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
                                     </Label>
                                     <Button fx:id="bkPitch_btn_11" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_11" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_11" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="bkPitch_12" layoutX="478.0" layoutY="479.0" prefHeight="102.0" prefWidth="166.0">
+                              <AnchorPane fx:id="bkPitch_12" layoutX="467.0" layoutY="476.0" prefHeight="116.0" prefWidth="187.0">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="btn-css" />
                                     <String fx:value="white-bg" />
                                  </styleClass>
                                  <children>
-                                    <Label fx:id="bkPitch_lbName_12" alignment="CENTER" prefHeight="66.0" prefWidth="166.0" text="Pitch " AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="bkPitch_lbStatus_12" layoutX="-2.0" layoutY="67.2" prefHeight="35.0" prefWidth="166.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+                                    <Label fx:id="bkPitch_lbStatus_12" layoutX="162.0" layoutY="9.0" prefHeight="25.0" prefWidth="25.0" stylesheets="@page.css" text="Status " textAlignment="CENTER" AnchorPane.rightAnchor="9.0">
                                        <font>
                                           <Font name="Tahoma Bold" size="11.0" />
                                        </font>
@@ -736,7 +862,22 @@
                                           <String fx:value="pitch-status" />
                                        </styleClass>
                                     </Label>
+                                    <Label fx:id="bkPitch_lbName_12" layoutX="14.0" layoutY="22.0" prefHeight="30.0" prefWidth="130.0" text="Pitch ">
+                                       <font>
+                                          <Font name="Tahoma" size="20.0" />
+                                       </font>
+                                    </Label>
                                     <Button fx:id="bkPitch_btn_12" layoutY="44.0" mnemonicParsing="false" onAction="#bkPitch_btn" opacity="0.0" prefHeight="102.0" prefWidth="166.0" styleClass="btn-css" stylesheets="@page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="bkPitch_lbNameCus_12" layoutX="14.0" layoutY="61.0" prefHeight="15.0" prefWidth="162.0" text="Mr. Customer Name">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="bkPitch_lbTimeUsed_12" layoutX="14.0" layoutY="85.0" prefHeight="15.0" prefWidth="162.0" text="00:00">
+                                       <font>
+                                          <Font name="Tahoma" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                            </children>
@@ -821,7 +962,7 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Spinner fx:id="spnHrs_Booking" prefHeight="30.0" prefWidth="136.0" styleClass="textfield" stylesheets="@page.css" />
+                                          <Spinner fx:id="spnHrs_Booking" onMouseClicked="#spnHrs_Booking_change" prefHeight="30.0" prefWidth="136.0" styleClass="textfield" stylesheets="@page.css" />
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="25.0" prefWidth="282.0">

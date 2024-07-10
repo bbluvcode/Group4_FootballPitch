@@ -233,6 +233,58 @@ public class StaffPageController implements Initializable {
     private Label bkPitch_lbName_12;
     @FXML
     private Label tfEmployeePosition;
+    @FXML
+    private Label bkPitch_lbNameCus_1;
+    @FXML
+    private Label bkPitch_lbTimeUsed_1;
+    @FXML
+    private Label bkPitch_lbNameCus_2;
+    @FXML
+    private Label bkPitch_lbTimeUsed_2;
+    @FXML
+    private Label bkPitch_lbNameCus_3;
+    @FXML
+    private Label bkPitch_lbTimeUsed_3;
+    @FXML
+    private Label bkPitch_lbNameCus_4;
+    @FXML
+    private Label bkPitch_lbTimeUsed_4;
+    @FXML
+    private Label bkPitch_lbNameCus_5;
+    @FXML
+    private Label bkPitch_lbTimeUsed_5;
+    @FXML
+    private Label bkPitch_lbNameCus_6;
+    @FXML
+    private Label bkPitch_lbTimeUsed_6;
+    @FXML
+    private Label bkPitch_lbNameCus_7;
+    @FXML
+    private Label bkPitch_lbTimeUsed_7;
+    @FXML
+    private Label bkPitch_lbNameCus_8;
+    @FXML
+    private Label bkPitch_lbTimeUsed_8;
+    @FXML
+    private Label bkPitch_lbNameCus_9;
+    @FXML
+    private Label bkPitch_lbTimeUsed_9;
+    @FXML
+    private Label bkPitch_lbNameCus_10;
+    @FXML
+    private Label bkPitch_lbTimeUsed_10;
+    @FXML
+    private Label bkPitch_lbNameCus_11;
+    @FXML
+    private Label bkPitch_lbTimeUsed_11;
+    @FXML
+    private Label bkPitch_lbNameCus_12;
+    @FXML
+    private Label bkPitch_lbTimeUsed_12;
+    @FXML
+    private ComboBox<String> bkPitch_cboTime_from;
+    @FXML
+    private ComboBox<String> bkPitch_cboTime_to;
 
     public void ini() {
 
@@ -616,7 +668,7 @@ public class StaffPageController implements Initializable {
 
     @FXML
     private void goToManagementPage(MouseEvent event) {
-        if(Emp.getIdt() < 2){
+        if (Emp.getIdt() < 2) {
             try {
                 App.setRoot("AdminPage");
                 showAlert(AlertType.INFORMATION, "Redirect to Management Page", "Redirect to Management Page Successfully!");
@@ -1253,10 +1305,23 @@ public class StaffPageController implements Initializable {
         if (spnHour == crHours) {
             SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(crMinutes, 55, crMinutes, 5);
             spnMinute_timeBook_Booking.setValueFactory(valueMinute);
+            bkPitch_cboTime_from.setValue(spnHour + ":" + crMinutes + ":");
+
         } else {
             SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 55, 0, 5);
             spnMinute_timeBook_Booking.setValueFactory(valueMinute);
+            bkPitch_cboTime_from.setValue(spnHour + ":" + "00");
+            bkPitch_cboTime_to.setValue((spnHour + 1) + ":00");
         }
+
+    }
+
+    @FXML
+    void spnHrs_Booking_change(){
+        spnHrs_Booking.getValue();
+        int hrsBook_tmp = spnHrs_Booking.getValue();
+        int spnHour = spnHour_timeBook_Booking.getValue();
+        bkPitch_cboTime_to.setValue((spnHour + hrsBook_tmp) + ":00");
     }
 
     //====FXML ACTION====================================================================================================
@@ -1400,7 +1465,7 @@ public class StaffPageController implements Initializable {
         SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
         spnHour_timeBook_Booking.setValueFactory(valueHour);
         Click_spnHour_timeBook_Booking();
-
+        bkPitch_cboTime_to.setValue((crHours + 1) + ":00");
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Message");
         alert.setHeaderText("Please select a available pitch from ObservableList!");
