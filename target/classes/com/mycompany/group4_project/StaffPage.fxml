@@ -453,23 +453,13 @@
                               </Button>
                               <HBox layoutX="486.0" layoutY="22.0" prefHeight="24.0" prefWidth="180.0">
                                  <children>
-                                    <ComboBox fx:id="bkPitch_cboTime_from" onAction="#bkPitch_clearTimeToFilter" prefHeight="30.0" prefWidth="83.0">
-                                       <styleClass>
-                                          <String fx:value="filter" />
-                                          <String fx:value="textfield" />
-                                       </styleClass>
-                                    </ComboBox>
+                                    <ComboBox fx:id="bkPitch_cboTime_from" onAction="#bkPitch_clearTimeToFilter" prefHeight="30.0" prefWidth="83.0" styleClass="filter_b" />
                                     <Label alignment="CENTER" prefHeight="36.0" prefWidth="20.0" text="-" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="bkPitch_cboTime_to" prefHeight="30.0" prefWidth="83.0">
-                                       <styleClass>
-                                          <String fx:value="filter" />
-                                          <String fx:value="textfield" />
-                                       </styleClass>
-                                    </ComboBox>
+                                    <ComboBox fx:id="bkPitch_cboTime_to" onAction="#bkPitch_getTimeFilterfromCbo" prefHeight="30.0" prefWidth="83.0" styleClass="filter_b" />
                                  </children>
                               </HBox>
                               <AnchorPane fx:id="bkPitch_1" layoutX="39.0" layoutY="89.0" prefHeight="116.0" prefWidth="187.0">
@@ -1000,7 +990,6 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <Button layoutX="278.0" layoutY="25.0" mnemonicParsing="false" onAction="#bkPitch_getTimeFilterfromCbo" styleClass="purple-btn" text="Test get bk by time" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -1046,7 +1035,7 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <Spinner fx:id="spnHour_timeBook_Booking" onMouseClicked="#Click_spnHour_timeBook_Booking" prefHeight="27.0" prefWidth="62.0" styleClass="textfield" />
+                                                <Spinner fx:id="spnHour_timeBook_Booking" disable="true" onMouseClicked="#Click_spnHour_timeBook_Booking" prefHeight="27.0" prefWidth="62.0" styleClass="textfield" />
                                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="13.0" text=":" textAlignment="CENTER">
                                                    <font>
                                                       <Font size="14.0" />

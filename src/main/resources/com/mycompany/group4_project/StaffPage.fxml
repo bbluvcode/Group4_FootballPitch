@@ -453,23 +453,13 @@
                               </Button>
                               <HBox layoutX="486.0" layoutY="22.0" prefHeight="24.0" prefWidth="180.0">
                                  <children>
-                                    <ComboBox fx:id="bkPitch_cboTime_from" onAction="#bkPitch_clearTimeToFilter" prefHeight="30.0" prefWidth="83.0">
-                                       <styleClass>
-                                          <String fx:value="filter" />
-                                          <String fx:value="textfield" />
-                                       </styleClass>
-                                    </ComboBox>
+                                    <ComboBox fx:id="bkPitch_cboTime_from" onAction="#bkPitch_clearTimeToFilter" prefHeight="30.0" prefWidth="83.0" styleClass="filter_b" />
                                     <Label alignment="CENTER" prefHeight="36.0" prefWidth="20.0" text="-" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="bkPitch_cboTime_to" prefHeight="30.0" prefWidth="83.0">
-                                       <styleClass>
-                                          <String fx:value="filter" />
-                                          <String fx:value="textfield" />
-                                       </styleClass>
-                                    </ComboBox>
+                                    <ComboBox fx:id="bkPitch_cboTime_to" onAction="#bkPitch_getTimeFilterfromCbo" prefHeight="30.0" prefWidth="83.0" styleClass="filter_b" />
                                  </children>
                               </HBox>
                               <AnchorPane fx:id="bkPitch_1" layoutX="39.0" layoutY="89.0" prefHeight="116.0" prefWidth="187.0">
@@ -509,7 +499,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_1" layoutX="84.0" layoutY="50.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_1" layoutX="84.0" layoutY="50.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -553,7 +543,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_2" layoutX="97.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_2" layoutX="97.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -597,7 +587,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_3" layoutX="70.0" layoutY="31.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_3" layoutX="70.0" layoutY="31.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -641,7 +631,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_4" layoutX="96.0" layoutY="41.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_4" layoutX="96.0" layoutY="41.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -685,7 +675,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_5" layoutX="85.0" layoutY="26.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_5" layoutX="85.0" layoutY="26.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -729,7 +719,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_6" layoutX="86.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_6" layoutX="86.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -773,7 +763,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_7" layoutX="97.0" layoutY="46.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_7" layoutX="97.0" layoutY="46.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -817,7 +807,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_8" layoutX="70.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_8" layoutX="70.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -861,7 +851,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_9" layoutX="67.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_9" layoutX="67.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -905,7 +895,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_10" layoutX="69.0" layoutY="38.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_10" layoutX="69.0" layoutY="38.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -949,7 +939,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_11" layoutX="70.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_11" layoutX="70.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -993,14 +983,13 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_12" layoutX="74.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_12" layoutX="74.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <Button layoutX="278.0" layoutY="25.0" mnemonicParsing="false" onAction="#bkPitch_getTimeFilterfromCbo" styleClass="purple-btn" text="Test get bk by time" />
                            </children>
                         </AnchorPane>
                      </children>

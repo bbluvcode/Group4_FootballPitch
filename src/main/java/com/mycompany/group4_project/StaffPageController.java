@@ -1558,7 +1558,7 @@ public class StaffPageController implements Initializable {
         String checkNull = bkPitch_cboTime_from.getValue();
         int iniSpnHour = crHours;
         if (checkNull != null && !checkNull.isEmpty()) {
-            Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue());
+            Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue()+ ":00");
             iniSpnHour = cboFrom.toLocalTime().getHour();
         }
         SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, iniSpnHour);

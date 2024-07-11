@@ -71,16 +71,7 @@
     -fx-background-radius: 4px;
 }
 
-.textfield{
-    -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
-    -fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);
-    -fx-border-width: .4px;
-    -fx-background-radius: 4px;
-}
-.textfield:focused{
-    -fx-background-color: #fff;
-    -fx-border-width: 1px;
-}
+
 .btn-img:hover{
     -fx-scale-x: 1.11;
     -fx-scale-y: 1.11;
@@ -200,4 +191,23 @@
     -fx-font-family: Arial;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
+}
+.textfield{
+    -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
+    -fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);
+    -fx-border-width: .4px;
+    -fx-background-radius: 4px;
+}
+.textfield:focused{
+    -fx-background-color: #fff;
+    -fx-border-width: 1px;
+}
+
+.filter_b{
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+    /*-fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);*/
+    -fx-border-color: #c3b9b9;
+    -fx-border-width: .4px;
+    -fx-border-radius: 4px;
 }
