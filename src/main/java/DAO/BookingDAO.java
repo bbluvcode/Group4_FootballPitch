@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,7 +52,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         int deposit = b.getDep();
         String sql = "INSERT INTO payments (idu, idp, idk, time_book, hrs, deposit, stt, pay_date) VALUES ('" + idu + "', " + idp + ", '" + idk + "', '" + time + "', " + hrs + ", " + deposit + ", 1 , CAST(GETDATE() AS DATE))";
         executeSQL(sql);
-        
+
         System.out.println("Booking INSERTED Successfully!");
     }
 
@@ -117,11 +118,104 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
 //            System.out.println("User not found! ");
 //        }
 
-    public ObservableList<String> getAll_idpBookingToDay() {
+    public ObservableList<String> getAll_idpBookingToDay(Time from, Time to) {
+        ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
+        Connection cn = getConnection();
+        int hrsBooked = 1;
+        if (from == null) {
+            LocalTime timeNow = LocalTime.now();
+            from = Time.valueOf(timeNow);
+        }
+        if (to != null) {
+            hrsBooked = to.toLocalTime().getHour() - from.toLocalTime().getHour();
+        } else {
+            to = Time.valueOf(from.toLocalTime().plusHours(hrsBooked));
+        }
+
+        Time from2 = Time.valueOf(from.toLocalTime().minusHours(hrsBooked));
+        String sql = "SELECT idp FROM payments" +
+                " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
+                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book > '" + from2 + "' AND time_book < '" + from + "' AND hrs = " + hrsBooked + "))";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                String idp = rs.getString("idp");
+                idpBookingToDay.add(idp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idpBookingToDay;
+    }
+
+    public ObservableList<Booking> getAll_infoBookingForPitch(Time from, Time to) {
+        ObservableList<Booking> infoBookingForPitch = FXCollections.observableArrayList();
+
+        Connection cn = getConnection();
+        int hrsBooked = 1;
+        if (from == null) {
+            LocalTime timeNow = LocalTime.now();
+            from = Time.valueOf(timeNow);
+        }
+        if (to != null) {
+            hrsBooked = to.toLocalTime().getHour() - from.toLocalTime().getHour();
+        } else {
+            to = Time.valueOf(from.toLocalTime().plusHours(hrsBooked));
+        }
+        Time from2 = Time.valueOf(from.toLocalTime().minusHours(hrsBooked));
+        String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name "
+                + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] "
+                + " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
+                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book > '" + from2 + "' AND time_book < '" + from + "' AND hrs = " + hrsBooked + "))";
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            Booking b;
+            while (rs.next()) {
+                int idb = rs.getInt("idb");
+                String idu = rs.getString("idu");
+                int idp = rs.getInt("idp");
+                String idk = rs.getString("idk");
+                Time time_book = rs.getTime("time_book");
+                int hrs = rs.getInt("hrs");
+                int deposit = rs.getInt("deposit");
+                int stt = rs.getInt("stt");
+                String khachhang_name = rs.getString("khachhang_name");
+                String qluser_name = rs.getString("qluser_name");
+                String sanbong_name = rs.getString("sanbong_name");
+
+                b = new Booking(idb, idu, idp, idk, time_book, hrs, deposit, stt, khachhang_name, qluser_name, sanbong_name);
+                infoBookingForPitch.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return infoBookingForPitch;
+    }
+
+    public ObservableList<String> getAll_idpBookingComplete_ToDay(Time from, Time to) {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-        String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND time_book >= CAST(GETDATE() AS TIME) AND completed IS NULL";
+
+        int hrsBooked = 1;
+        if (from == null) {
+            LocalTime timeNow = LocalTime.now();
+            from = Time.valueOf(timeNow);
+        }
+        if (to != null) {
+            hrsBooked = to.toLocalTime().getHour() - from.toLocalTime().getHour();
+        } else {
+            to = Time.valueOf(from.toLocalTime().plusHours(hrsBooked));
+        }
+
+        Time from2 = Time.valueOf(from.toLocalTime().minusHours(hrsBooked));
+        String sql = "SELECT idp FROM payments" +
+                " WHERE pay_date = CAST(GETDATE() AS DATE)"
+                + " AND time_start IS NOT NULL AND time_end IS NULL AND completed IS NULL"
+                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start > '" + from2 + "' AND time_start < '" + from + "' AND hrs = " + hrsBooked + "))";
 
         try {
             Statement st = cn.createStatement();
@@ -137,12 +231,73 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         return idpBookingToDay;
     }
 
-    public ObservableList<String> getAll_idpBookingComplete_ToDay() {
+    public ObservableList<Booking> getAll_infoBooking_COMPLETE_ForPitch(Time from, Time to) {
+        ObservableList<Booking> infoBookingForPitch = FXCollections.observableArrayList();
+
+        Connection cn = getConnection();
+
+
+
+
+        int hrsBooked = 1;
+        if (from == null) {
+            LocalTime timeNow = LocalTime.now();
+            from = Time.valueOf(timeNow);
+        }
+        if (to != null) {
+            hrsBooked = to.toLocalTime().getHour() - from.toLocalTime().getHour();
+        } else {
+            to = Time.valueOf(from.toLocalTime().plusHours(hrsBooked));
+        }
+
+        Time from2 = Time.valueOf(from.toLocalTime().minusHours(hrsBooked));
+
+        String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name " +
+                "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu]" +
+                " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL"
+                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start > '" + from2 + "' AND time_start < '" + from + "' AND hrs = " + hrsBooked + "))";
+
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            Booking b;
+            while (rs.next()) {
+                int idb = rs.getInt("idb");
+                String idu = rs.getString("idu");
+                int idp = rs.getInt("idp");
+                String idk = rs.getString("idk");
+                Time time_book = rs.getTime("time_book");
+                int hrs = rs.getInt("hrs");
+                int deposit = rs.getInt("deposit");
+                int stt = rs.getInt("stt");
+                String khachhang_name = rs.getString("khachhang_name");
+                String qluser_name = rs.getString("qluser_name");
+                String sanbong_name = rs.getString("sanbong_name");
+                Time time_start = rs.getTime("time_start");
+
+                b = new Booking(idb, idu, idp, idk, time_book, hrs, deposit, stt, khachhang_name, qluser_name, sanbong_name, time_start);
+                infoBookingForPitch.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return infoBookingForPitch;
+    }
+
+    //get by Time
+    public ObservableList<String> getAll_idpBookingToDay_byTime(Time cbotimeEnd, Time cbotimeBook) {
+        ObservableList<String> idpBookingToDay_byTime = FXCollections.observableArrayList();
+
+        return idpBookingToDay_byTime;
+    }
+
+    public ObservableList<String> getAll_idpBookingComplete_ToDay_byTime(Time timeStart, Time timeBook, int hrsBook) {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
         String sql = "SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL";
-        
+
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);

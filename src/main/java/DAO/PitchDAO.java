@@ -8,11 +8,7 @@ import Entities.Booking;
 import com.mycompany.group4_project.Pitch;
 
 import java.net.PortUnreachableException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,26 +24,31 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
     public ObservableList<Pitch> rentingFieldsList = FXCollections.observableArrayList();
     public ObservableList<Pitch> bookingFieldsList = FXCollections.observableArrayList();
 
-    public PitchDAO() {
-        updateLists();
+    public PitchDAO(Time from, Time to) {
+        updateLists(from, to);
     }
 
-    public void updateLists() {
+    public PitchDAO() {
+    }
+
+    public void updateLists(Time from, Time to) {
         String sql = "UPDATE sanbong SET available = 1";
         executeSQL(sql);
 
         BookingDAO bkDAO = new BookingDAO();
         bkDAO.getAll();
-        if (!bkDAO.getAll_idpBookingToDay().isEmpty()) {
-            String idpBookedList = bkDAO.getAll_idpBookingToDay().toString();
+        ObservableList<String> idpBookingList;
+        idpBookingList = bkDAO.getAll_idpBookingToDay(from, to);
+        if (!idpBookingList.isEmpty()) {
+            String idpBookedList = idpBookingList.toString();
             idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
 
             sql = "UPDATE sanbong SET available = 3 WHERE idp IN " + idpBookedList;
             executeSQL(sql);
         }
 
-        if (!bkDAO.getAll_idpBookingComplete_ToDay().isEmpty()) {
-            String idpBookedList = bkDAO.getAll_idpBookingComplete_ToDay().toString();
+        if (!bkDAO.getAll_idpBookingComplete_ToDay(from, to).isEmpty()) {
+            String idpBookedList = bkDAO.getAll_idpBookingComplete_ToDay(from, to).toString();
             idpBookedList = idpBookedList.replace("[", "(").replace("]", ")");
 
             sql = "UPDATE sanbong SET available = 2 WHERE idp IN " + idpBookedList;
@@ -118,6 +119,7 @@ public class PitchDAO extends ConnectDB<Pitch, Integer> {
 
         return fieldsObservableList;
     }
+
 
     public ObservableList<Pitch> getByIDcategory(int idcp) {
 

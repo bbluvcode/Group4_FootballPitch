@@ -22,8 +22,20 @@ public class Booking {
     int deposit;
     int stt; // 1. pending, 2. completed, 3. cancel
     String khachhang_name, qluser_name, sanbong_name;
+    Time time_start;
 
     public Booking() {
+    }
+    public Booking(int idb, String idu, int idp, String idk, Time time_book, int hrs, int deposit, int stt) {
+        this.idb = idb;
+        this.idu = idu;
+        this.idp = idp;
+        this.idk = idk;
+        this.time_book = time_book;
+        this.hrs = hrs;
+        this.deposit = deposit;
+        this.stt = stt;
+
     }
 
     public Booking(int idb, String idu, int idp, String idk, Time time_book, int hrs, int deposit, int stt, String khachhang_name, String qluser_name, String sanbong_name) {
@@ -39,8 +51,36 @@ public class Booking {
         this.qluser_name = qluser_name;
         this.sanbong_name = sanbong_name;
     }
+    public Booking(int idb, String idu, int idp, String idk, Time time_book, int hrs, int deposit, int stt, String khachhang_name, String qluser_name, String sanbong_name, Time time_start) {
+        this.idb = idb;
+        this.idu = idu;
+        this.idp = idp;
+        this.idk = idk;
+        this.time_book = time_book;
+        this.hrs = hrs;
+        this.deposit = deposit;
+        this.stt = stt;
+        this.khachhang_name = khachhang_name;
+        this.qluser_name = qluser_name;
+        this.sanbong_name = sanbong_name;
+        this.time_start = time_start;
+    }
 
+    public int getDeposit() {
+        return deposit;
+    }
 
+    public void setDeposit(int deposit) {
+        this.deposit = deposit;
+    }
+
+    public Time getTime_start() {
+        return time_start;
+    }
+
+    public void setTime_start(Time time_start) {
+        this.time_start = time_start;
+    }
 
     @Override
     public String toString() {

@@ -285,6 +285,54 @@ public class StaffPageController implements Initializable {
     private ComboBox<String> bkPitch_cboTime_from;
     @FXML
     private ComboBox<String> bkPitch_cboTime_to;
+    @FXML
+    private Label bkPitch_lbTimeStart_1;
+    @FXML
+    private Label bkPitch_lbTimeStart_2;
+    @FXML
+    private Label bkPitch_lbTimeStart_3;
+    @FXML
+    private Label bkPitch_lbTimeStart_4;
+    @FXML
+    private Label bkPitch_lbTimeStart_5;
+    @FXML
+    private Label bkPitch_lbTimeStart_6;
+    @FXML
+    private Label bkPitch_lbTimeStart_7;
+    @FXML
+    private Label bkPitch_lbTimeStart_8;
+    @FXML
+    private Label bkPitch_lbTimeStart_9;
+    @FXML
+    private Label bkPitch_lbTimeStart_10;
+    @FXML
+    private Label bkPitch_lbTimeStart_11;
+    @FXML
+    private Label bkPitch_lbTimeStart_12;
+    @FXML
+    private Label bkPitch_lb_idb_1;
+    @FXML
+    private Label bkPitch_lb_idb_2;
+    @FXML
+    private Label bkPitch_lb_idb_3;
+    @FXML
+    private Label bkPitch_lb_idb_4;
+    @FXML
+    private Label bkPitch_lb_idb_5;
+    @FXML
+    private Label bkPitch_lb_idb_6;
+    @FXML
+    private Label bkPitch_lb_idb_7;
+    @FXML
+    private Label bkPitch_lb_idb_8;
+    @FXML
+    private Label bkPitch_lb_idb_9;
+    @FXML
+    private Label bkPitch_lb_idb_10;
+    @FXML
+    private Label bkPitch_lb_idb_11;
+    @FXML
+    private Label bkPitch_lb_idb_12;
 
     public void ini() {
 
@@ -412,6 +460,13 @@ public class StaffPageController implements Initializable {
     private Button btnSave_Cus;
     @FXML
     private Button btnCancel_Cus;
+
+    /* List<Button> buttons = Arrays.asList(bkPitch_btn_1, bkPitch_btn_2, bkPitch_btn_3, bkPitch_btn_4, bkPitch_btn_5, bkPitch_btn_6, bkPitch_btn_7, bkPitch_btn_8, bkPitch_btn_9, bkPitch_btn_10, bkPitch_btn_11, bkPitch_btn_12);
+     List<Integer> idp = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+     List<Label> lbStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
+     List<Label> lbName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
+     List<Label> lbTimeStart = Arrays.asList(bkPitch_lbTimeStart_1, bkPitch_lbTimeStart_2, bkPitch_lbTimeStart_3, bkPitch_lbTimeStart_4, bkPitch_lbTimeStart_5, bkPitch_lbTimeStart_6, bkPitch_lbTimeStart_7, bkPitch_lbTimeStart_8, bkPitch_lbTimeStart_9, bkPitch_lbTimeStart_10, bkPitch_lbTimeStart_11, bkPitch_lbTimeStart_12);
+     */
     //=========================End manage booking================
     //===========================================================
     //=============New Customer==================================
@@ -1131,18 +1186,20 @@ public class StaffPageController implements Initializable {
     }
 
     //================================================================================================================
-    //==============================================**MANAGE BOOKING**==============================================
+    //==============================================**MANAGE BOOKING**================================================
     //================================================================================================================
     //**initialize**
+    ObservableList<String> cboHourList;
     public void initialize_manageBooking() {
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2, 1);
         spnHrs_Booking.setValueFactory(valueFactory);
         setItem_cboIdk_Booking(cboIdk_Booking);
         //Disible Button_Booking
         setBtnNOTvisible(btnBooking_Booking);
         showPitchObservableList_Booking(3);
         OnlyEnterNumber(txtDeposit_Booking);
-        showPitchStatus_Booking();
+        showPitchStatus_Booking(null, null);
+        cboHourList = setTime_forCboFrom_booking();
     }
 
     public void showPitchObservableList_Booking(int available) {
@@ -1172,22 +1229,56 @@ public class StaffPageController implements Initializable {
         }
     }
 
-    public void showPitchStatus_Booking() {
+    public void showPitchStatus_Booking(Time from, Time to) {
         List<Label> PitchStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
         List<Label> PitchName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
-        pDAO = new PitchDAO();
+        List<Label> NameCus = Arrays.asList(bkPitch_lbNameCus_1, bkPitch_lbNameCus_2, bkPitch_lbNameCus_3, bkPitch_lbNameCus_4, bkPitch_lbNameCus_5, bkPitch_lbNameCus_6, bkPitch_lbNameCus_7, bkPitch_lbNameCus_8, bkPitch_lbNameCus_9, bkPitch_lbNameCus_10, bkPitch_lbNameCus_11, bkPitch_lbNameCus_12);
+        List<Label> TimeUsed = Arrays.asList(bkPitch_lbTimeUsed_1, bkPitch_lbTimeUsed_2, bkPitch_lbTimeUsed_3, bkPitch_lbTimeUsed_4, bkPitch_lbTimeUsed_5, bkPitch_lbTimeUsed_6, bkPitch_lbTimeUsed_7, bkPitch_lbTimeUsed_8, bkPitch_lbTimeUsed_9, bkPitch_lbTimeUsed_10, bkPitch_lbTimeUsed_11, bkPitch_lbTimeUsed_12);
+        List<Label> TimeStart = Arrays.asList(bkPitch_lbTimeStart_1, bkPitch_lbTimeStart_2, bkPitch_lbTimeStart_3, bkPitch_lbTimeStart_4, bkPitch_lbTimeStart_5, bkPitch_lbTimeStart_6, bkPitch_lbTimeStart_7, bkPitch_lbTimeStart_8, bkPitch_lbTimeStart_9, bkPitch_lbTimeStart_10, bkPitch_lbTimeStart_11, bkPitch_lbTimeStart_12);
+        List<Label> lb_Idb_List = Arrays.asList(bkPitch_lb_idb_1, bkPitch_lb_idb_2, bkPitch_lb_idb_3, bkPitch_lb_idb_4, bkPitch_lb_idb_5, bkPitch_lb_idb_6, bkPitch_lb_idb_7, bkPitch_lb_idb_8, bkPitch_lb_idb_9, bkPitch_lb_idb_10, bkPitch_lb_idb_11, bkPitch_lb_idb_12);
+
+        pDAO = new PitchDAO(from,to);
         ObservableList<Pitch> plist = pDAO.getAll();
+        ObservableList<Booking> bkList = bkDAO.getAll_infoBookingForPitch(from, to);
+        ObservableList<Booking> bkCOMPLETEList = bkDAO.getAll_infoBooking_COMPLETE_ForPitch(from, to);
+        //pmDAO = new PaymentBillDAO();
+        //pmDAO.getAll();
+
         for (int i = 0; i < plist.size(); i++) {
             PitchName.get(i).setText(plist.get(i).getName());
             if (plist.get(i).getAvailable() == 1) {
                 PitchStatus.get(i).setText("Available");
                 PitchStatus.get(i).setStyle("-fx-background-color: #3d7e3d");
+                NameCus.get(i).setText(plist.get(i).getSize());
+                lb_Idb_List.get(i).setText("");
+                TimeUsed.get(i).setText("");
+                TimeStart.get(i).setText("$"+plist.get(i).getPrice());
+
             } else if (plist.get(i).getAvailable() == 2) {
                 PitchStatus.get(i).setText("Occupied");
                 PitchStatus.get(i).setStyle("-fx-background-color: #ff0000");
-            } else if (plist.get(i).getAvailable() == 3) {
+                for (int j = 0; j < bkCOMPLETEList.size(); j++) {
+                    if (bkCOMPLETEList.get(j).getIdp() == plist.get(i).getIdp()) {
+                        NameCus.get(i).setText("Mr. " + bkCOMPLETEList.get(j).getKhachhang_name());
+                        lb_Idb_List.get(i).setText(String.valueOf(bkCOMPLETEList.get(j).getIdb()));
+                        LocalTime timeStart = bkCOMPLETEList.get(j).getTime_start().toLocalTime();
+                        Duration duration = Duration.between(timeStart, LocalTime.now());
+                        long hours = duration.toHours();
+                        long minutes = duration.toMinutes() % 60;
+                        TimeUsed.get(i).setText(hours + ":" + minutes);
+                        TimeStart.get(i).setText(timeStart.toString());
+                    }
+                }
+            } else  if (plist.get(i).getAvailable() == 3){
                 PitchStatus.get(i).setText("Reserved");
                 PitchStatus.get(i).setStyle("-fx-background-color: #cdcd03");
+                for (int j = 0; j < bkList.size(); j++) {
+                    if (bkList.get(j).getIdp() == plist.get(i).getIdp()) {
+                        NameCus.get(i).setText("Mr. " + bkList.get(j).getKhachhang_name());
+                        lb_Idb_List.get(i).setText(String.valueOf(bkList.get(j).getIdb()));
+                        TimeUsed.get(i).setText("Reserved");
+                    }
+                }
             }
         }
     }
@@ -1305,7 +1396,8 @@ public class StaffPageController implements Initializable {
         if (spnHour == crHours) {
             SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(crMinutes, 55, crMinutes, 5);
             spnMinute_timeBook_Booking.setValueFactory(valueMinute);
-            bkPitch_cboTime_from.setValue(spnHour + ":" + crMinutes + ":");
+            bkPitch_cboTime_from.setValue(spnHour + ":" + crMinutes);
+            bkPitch_cboTime_to.setValue((spnHour + 1) + ":" + crMinutes);
 
         } else {
             SpinnerValueFactory<Integer> valueMinute = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 55, 0, 5);
@@ -1317,7 +1409,7 @@ public class StaffPageController implements Initializable {
     }
 
     @FXML
-    void spnHrs_Booking_change(){
+    void spnHrs_Booking_change() {
         spnHrs_Booking.getValue();
         int hrsBook_tmp = spnHrs_Booking.getValue();
         int spnHour = spnHour_timeBook_Booking.getValue();
@@ -1386,7 +1478,7 @@ public class StaffPageController implements Initializable {
 
                 bkDAO.Insert(bk);
                 pDAO.UpdateAvailable(Integer.parseInt(lbIDP_hide_Booking.getText()), 3);
-                showPitchStatus_Booking();
+                showPitchStatus_Booking(null, null);
 
                 System.out.println("ADDED BOOOKING");
 
@@ -1446,7 +1538,7 @@ public class StaffPageController implements Initializable {
         int idb = Integer.parseInt(lbIdb_booking.getText());
         bkDAO.Update(idb, bk);
         showPitchObservableList_Booking(3);
-
+        showPitchStatus_Booking(null, null);
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Updated Booking");
         alert.setHeaderText(null);
@@ -2056,50 +2148,48 @@ public class StaffPageController implements Initializable {
             List<Integer> idp = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
             List<Label> lbStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
             List<Label> lbName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
+            //List<Label> lbTimeStart = Arrays.asList(bkPitch_lbTimeStart_1, bkPitch_lbTimeStart_2, bkPitch_lbTimeStart_3, bkPitch_lbTimeStart_4, bkPitch_lbTimeStart_5, bkPitch_lbTimeStart_6, bkPitch_lbTimeStart_7, bkPitch_lbTimeStart_8, bkPitch_lbTimeStart_9, bkPitch_lbTimeStart_10, bkPitch_lbTimeStart_11, bkPitch_lbTimeStart_12);
+            List<Label> lb_Idb_List = Arrays.asList(bkPitch_lb_idb_1, bkPitch_lb_idb_2, bkPitch_lb_idb_3, bkPitch_lb_idb_4, bkPitch_lb_idb_5, bkPitch_lb_idb_6, bkPitch_lb_idb_7, bkPitch_lb_idb_8, bkPitch_lb_idb_9, bkPitch_lb_idb_10, bkPitch_lb_idb_11, bkPitch_lb_idb_12);
 
             int index = buttons.indexOf(event.getSource());
-            Time timeStart = null;
-
-            System.out.println("press pitch :" + idp.get(index));
+            //Time timeStart = null;
 
             int stt = lbStatus.get(index).getText().equals("Available") ? 1 : lbStatus.get(index).getText().equals("Occupied") ? 2 : 3;
             String name = lbName.get(index).getText();
             reset_Booking();
             lbNamePitch_Booking.setText(name);
-
             lbIDP_hide_Booking.setText("" + idp.get(index));
             lbIdu_booking.setText(Emp.getIdu());
             btnBillDetail_Booking.setVisible(false);
             btnStart_Booking.setVisible(false);
-
-            int sttBK = 0;
+            //int sttBK = 0;
             if (stt != 1) {
-
+                stpTimeBook_Booking.setVisible(true);
                 if (stt == 3) {
-                    sttBK = 1;
+                    //sttBK = 1;
                     btnStart_Booking.setVisible(true);
                     btnUpdate_Booking.setDisable(false);
                     btnDelete_Booking.setDisable(false);
                     btnNew_Booking.setVisible(true);
                 }
                 if (stt == 2) {
-                    sttBK = 2;
+                    //sttBK = 2;
                     btnBillDetail_Booking.setVisible(true);
                     btnNew_Booking.setVisible(true);
                     ///here need edit
-                    timeStart = Time.valueOf("20:49:21");
+                    //timeStart = Time.valueOf(lbTimeStart.get(index).getText());
                 }
 
-
-                pmDAO = new PaymentBillDAO();
-                pmDAO.getAll();
-                opPm = pmDAO.getBookingOrBillByPitch(idp.get(index), sttBK, timeStart);
+                /*opPm = pmDAO.getBookingOrBillByPitch(idp.get(index), sttBK, timeStart);
                 if (opPm.isEmpty()) {
                     System.out.println("Cannot found booking/bill");
                     reset_Booking();
                     return;
                 }
-                PaymentBill pb = opPm.get();
+                PaymentBill pb = opPm.get();*/
+                int idb = Integer.parseInt(lb_Idb_List.get(index).getText());
+                PaymentBill pb = pmDAO.getBookingOrBillByPitch(idb);
+                System.out.println(pb);
                 txtDeposit_Booking.setText("" + pb.getDeposit());
                 txtTimeStart_Booking.setText(pb.getTime_book().toString());
                 spnHrs_Booking.getValueFactory().setValue(pb.getHrs());
@@ -2107,27 +2197,37 @@ public class StaffPageController implements Initializable {
                 cboIdk_Booking.setValue(pb.getIdk());
                 lbIdu_booking.setText(pb.getIdu());
 
-
             } else {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Notification");
+                alert.setHeaderText(null);
+                alert.setContentText("CREATE BOOKING OR BILL?");
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.OK) {
+                    stpTimeBook_Booking.setVisible(false);
+                    LocalTime crHrs = LocalTime.now().plusMinutes(15);
+                    int crHours = crHrs.getHour();
+                    SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
+                    spnHour_timeBook_Booking.setValueFactory(valueHour);
+                    Click_spnHour_timeBook_Booking();
 
-                stpTimeBook_Booking.setVisible(false);
-                LocalTime crHrs = LocalTime.now().plusMinutes(15);
-                int crHours = crHrs.getHour();
-                SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
-                spnHour_timeBook_Booking.setValueFactory(valueHour);
-                Click_spnHour_timeBook_Booking();
+                    //txtTimeStart_Booking.focusTraversableProperty();
+                    setBtnDisible_Booking();
+                    btnAdd_Booking.setDisable(false);
 
-                txtTimeStart_Booking.focusTraversableProperty();
-                setBtnDisible_Booking();
-                btnAdd_Booking.setDisable(false);
+                    setBtnNOTvisible(btnNew_Booking);
+                    setBtnVisible(btnAdd_Booking);
+                    setDisableInput_Booking(false);
+                } else {
+                    reset_Booking();
+                }
 
-                setBtnNOTvisible(btnNew_Booking);
-                setBtnVisible(btnAdd_Booking);
-                setDisableInput_Booking(false);
+
             }
 
         } catch (Exception e) {
-            reset_Booking();
+            System.err.println(e.getMessage());
+            //reset_Booking();
         }
     }
 
@@ -2153,7 +2253,70 @@ public class StaffPageController implements Initializable {
         for (int j = 0; j < pages.size(); j++) {
             pages.get(j).setVisible(false);
         }
+    }
 
+    //các khung giờ
+    //ObservableList<String> HourList = FXCollections.observableArrayList("7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
+    ObservableList<String> HourList = FXCollections.observableArrayList("1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
+
+    ObservableList<String> setTime_forCboFrom_booking() {
+        ObservableList<String> cboHourList = FXCollections.observableArrayList();
+        LocalTime lt = LocalTime.now();
+        int hrNow = lt.getHour();
+
+        cboHourList.add(hrNow + ":00");
+        //int i = (hrNow - 6);
+        int i = (hrNow);
+        int size = HourList.size();
+        while (i < size) {
+            cboHourList.add(HourList.get(i));
+            i++;
+        }
+        bkPitch_cboTime_from.setItems(cboHourList);
+        ObservableList<String> cboHourList2 = FXCollections.observableArrayList();
+        for (int j = 1; j < cboHourList.size(); j++) {
+            cboHourList2.add(cboHourList.get(j));
+        }
+        bkPitch_cboTime_to.setItems(cboHourList2);
+        return cboHourList;
+    }
+
+    void setTime_forCboTo_booking() {
+
+        ObservableList<String> cboHourList2 = FXCollections.observableArrayList();
+        String from = bkPitch_cboTime_from.getValue();
+        for (int i = 0; i < cboHourList.size(); i++) {
+            if (cboHourList.get(i).equals(from)) {
+                for (int j = i + 1; j < cboHourList.size(); j++) {
+                    cboHourList2.add(cboHourList.get(j));
+                }
+                break;
+            }
+        }
+        bkPitch_cboTime_to.setItems(cboHourList2);
+    }
+
+    @FXML
+    void bkPitch_getTimeFilterfromCbo() {
+        String fromString = bkPitch_cboTime_from.getValue();
+        String timeTo_String = bkPitch_cboTime_to.getValue();
+        Time time_From = null, time_To = null;
+        if (fromString != null) {
+            time_From = Time.valueOf(bkPitch_cboTime_from.getValue() + ":00");
+        }
+        if (timeTo_String != null) {
+            time_To = Time.valueOf(bkPitch_cboTime_to.getValue() + ":00");
+        }
+        showPitchStatus_Booking(time_From, time_To);
+    }
+
+    @FXML
+    private void bkPitch_clearTimeToFilter() {
+        if (bkPitch_cboTime_from.getValue() != null) {
+            bkPitch_cboTime_to.setValue(null);
+            bkPitch_getTimeFilterfromCbo();
+            setTime_forCboTo_booking();
+        }
     }
 
 }

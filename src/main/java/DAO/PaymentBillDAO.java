@@ -473,4 +473,30 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         }
         return Optional.empty();
     }
+
+    public PaymentBill getBookingOrBillByPitch(int idb) {
+        PaymentBill BookingOrBill = new PaymentBill();
+        String sql = "SELECT * FROM payments WHERE idb = " + idb;
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                BookingOrBill.setIdb(rs.getInt("idb"));
+                BookingOrBill.setIdp(rs.getInt("idp"));
+                BookingOrBill.setIdk(rs.getString("idk"));
+                BookingOrBill.setPay_date(rs.getDate("pay_date"));
+                BookingOrBill.setTime_start(rs.getTime("time_start"));
+                BookingOrBill.setHrs(rs.getInt("hrs"));
+                BookingOrBill.setDeposit(rs.getInt("deposit"));
+               /* BookingOrBill.setTt_booking(rs.getInt("tt_booking"));
+                BookingOrBill.setTt_service(rs.getInt("tt_service"));
+                BookingOrBill.setTt_payment(rs.getInt("tt_payment"));
+                BookingOrBill.setComp(rs.getBoolean("completed"));*/
+                BookingOrBill.setTime_book(rs.getTime("time_book"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return BookingOrBill;
+    }
 }

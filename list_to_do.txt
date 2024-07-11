@@ -1,0 +1,9 @@
+err:
+- view status pitch more date
+- dịch vụ thuê chưa được hoàn khi check out
+- sau khi tạo khách hàng mới trong bk thì cbo idk phải được set value là id của kh vừa được tạo
+
+--PENDING 1
+SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL AND ((time_start >= '01:32' AND time_start < '02:32') OR (time_start < '01:32' AND time_start > '00:32:35'))
+
+SELECT * FROM payments WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL

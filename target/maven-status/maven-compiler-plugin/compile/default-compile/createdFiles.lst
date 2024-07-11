@@ -15,6 +15,7 @@ DAO\BookingDAO.class
 DAO\ConnectDB.class
 com\mycompany\group4_project\CategoryDAO.class
 com\mycompany\group4_project\App.class
+com\mycompany\group4_project\test.class
 com\mycompany\group4_project\PaymentBill.class
 Entities\Field.class
 Entities\Bill_serRent.class
