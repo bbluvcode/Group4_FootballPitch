@@ -1046,7 +1046,7 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <Spinner fx:id="spnHour_timeBook_Booking" onMouseClicked="#Click_spnHour_timeBook_Booking" prefHeight="27.0" prefWidth="62.0" styleClass="textfield" />
+                                                <Spinner fx:id="spnHour_timeBook_Booking" disable="true" onMouseClicked="#Click_spnHour_timeBook_Booking" prefHeight="27.0" prefWidth="62.0" styleClass="textfield" />
                                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="13.0" text=":" textAlignment="CENTER">
                                                    <font>
                                                       <Font size="14.0" />

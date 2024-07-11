@@ -1190,6 +1190,7 @@ public class StaffPageController implements Initializable {
     //================================================================================================================
     //**initialize**
     ObservableList<String> cboHourList;
+
     public void initialize_manageBooking() {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2, 1);
         spnHrs_Booking.setValueFactory(valueFactory);
@@ -1237,7 +1238,7 @@ public class StaffPageController implements Initializable {
         List<Label> TimeStart = Arrays.asList(bkPitch_lbTimeStart_1, bkPitch_lbTimeStart_2, bkPitch_lbTimeStart_3, bkPitch_lbTimeStart_4, bkPitch_lbTimeStart_5, bkPitch_lbTimeStart_6, bkPitch_lbTimeStart_7, bkPitch_lbTimeStart_8, bkPitch_lbTimeStart_9, bkPitch_lbTimeStart_10, bkPitch_lbTimeStart_11, bkPitch_lbTimeStart_12);
         List<Label> lb_Idb_List = Arrays.asList(bkPitch_lb_idb_1, bkPitch_lb_idb_2, bkPitch_lb_idb_3, bkPitch_lb_idb_4, bkPitch_lb_idb_5, bkPitch_lb_idb_6, bkPitch_lb_idb_7, bkPitch_lb_idb_8, bkPitch_lb_idb_9, bkPitch_lb_idb_10, bkPitch_lb_idb_11, bkPitch_lb_idb_12);
 
-        pDAO = new PitchDAO(from,to);
+        pDAO = new PitchDAO(from, to);
         ObservableList<Pitch> plist = pDAO.getAll();
         ObservableList<Booking> bkList = bkDAO.getAll_infoBookingForPitch(from, to);
         ObservableList<Booking> bkCOMPLETEList = bkDAO.getAll_infoBooking_COMPLETE_ForPitch(from, to);
@@ -1252,7 +1253,7 @@ public class StaffPageController implements Initializable {
                 NameCus.get(i).setText(plist.get(i).getSize());
                 lb_Idb_List.get(i).setText("");
                 TimeUsed.get(i).setText("");
-                TimeStart.get(i).setText("$"+plist.get(i).getPrice());
+                TimeStart.get(i).setText("$" + plist.get(i).getPrice());
 
             } else if (plist.get(i).getAvailable() == 2) {
                 PitchStatus.get(i).setText("Occupied");
@@ -1269,7 +1270,7 @@ public class StaffPageController implements Initializable {
                         TimeStart.get(i).setText(timeStart.toString());
                     }
                 }
-            } else  if (plist.get(i).getAvailable() == 3){
+            } else if (plist.get(i).getAvailable() == 3) {
                 PitchStatus.get(i).setText("Reserved");
                 PitchStatus.get(i).setStyle("-fx-background-color: #cdcd03");
                 for (int j = 0; j < bkList.size(); j++) {
@@ -1286,7 +1287,7 @@ public class StaffPageController implements Initializable {
     public void reset_Booking() {
         txtDeposit_Booking.clear();
         txtTimeStart_Booking.clear();
-        spnHrs_Booking.getValueFactory().setValue(0);
+        //spnHrs_Booking.getValueFactory().setValue(0);
         cboIdk_Booking.getSelectionModel().clearSelection();
         cboIdk_Booking.setValue("");
         lbNamePitch_Booking.setText("...");
@@ -1554,7 +1555,13 @@ public class StaffPageController implements Initializable {
         stpTimeBook_Booking.setVisible(false);
         LocalTime crHrs = LocalTime.now().plusMinutes(15);
         int crHours = crHrs.getHour();
-        SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
+        String checkNull = bkPitch_cboTime_from.getValue();
+        int iniSpnHour = crHours;
+        if (checkNull != null && !checkNull.isEmpty()) {
+            Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue());
+            iniSpnHour = cboFrom.toLocalTime().getHour();
+        }
+        SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, iniSpnHour);
         spnHour_timeBook_Booking.setValueFactory(valueHour);
         Click_spnHour_timeBook_Booking();
         bkPitch_cboTime_to.setValue((crHours + 1) + ":00");
@@ -2207,7 +2214,13 @@ public class StaffPageController implements Initializable {
                     stpTimeBook_Booking.setVisible(false);
                     LocalTime crHrs = LocalTime.now().plusMinutes(15);
                     int crHours = crHrs.getHour();
-                    SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, crHours);
+                    String checkNull = bkPitch_cboTime_from.getValue();
+                    int iniSpnHour = crHours;
+                    if (checkNull != null && !checkNull.isEmpty()) {
+                        Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue() + ":00");
+                        iniSpnHour = cboFrom.toLocalTime().getHour();
+                    }
+                    SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, iniSpnHour);
                     spnHour_timeBook_Booking.setValueFactory(valueHour);
                     Click_spnHour_timeBook_Booking();
 
@@ -2221,7 +2234,6 @@ public class StaffPageController implements Initializable {
                 } else {
                     reset_Booking();
                 }
-
 
             }
 
