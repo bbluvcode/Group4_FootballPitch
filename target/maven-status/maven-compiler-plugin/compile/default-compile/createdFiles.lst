@@ -21,7 +21,6 @@ com\mycompany\group4_project\PaymentBill.class
 Entities\Field.class
 Entities\Bill_serRent.class
 module-info.class
-com\mycompany\group4_project\AdminPageController$3.class
 com\mycompany\group4_project\StaffPageController$1.class
 com\mycompany\group4_project\StaffPageController.class
 com\mycompany\group4_project\AdminPageController$2.class

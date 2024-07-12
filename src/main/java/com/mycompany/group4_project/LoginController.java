@@ -103,8 +103,6 @@ public class LoginController implements Initializable {
         newPassForm.setVisible(false);
         tfPass.setVisible(false);
         tfPass.setManaged(false);
-        tfPhone.setText("staff");
-        tfPass.setText("123");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -196,7 +194,7 @@ public class LoginController implements Initializable {
                     App.setLoggedInUser(user);
                     try {
                         if (role > 1) {
-                            App.setRoot("Dashboard");
+                            App.setRoot("StaffPage");
                         } else {
                             App.setRoot("AdminPage");
                         }

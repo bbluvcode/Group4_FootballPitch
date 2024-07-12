@@ -117,6 +117,20 @@ public class CategoryDAO {
         }
         return nameEmpList;
     }
+    public ObservableList<String> getTypeOfService() {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        String query = "SELECT type FROM cat_ser";
+        try (PreparedStatement ps = cn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String type = rs.getString("type");
+                list.add(type);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error : " + ex.getMessage());
+        }
+        return list;
+    }
 
     public ObservableList<String> getNameCustomers() {
         ObservableList<String> nameCusList = FXCollections.observableArrayList();

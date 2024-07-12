@@ -71,39 +71,34 @@ public class PositionController implements Initializable {
             try {
                 // Find the highest idt currently in the user_type table
                 String maxIdQuery = "SELECT MAX(idt) FROM user_type";
-                PreparedStatement maxIdStmt = conn.prepareStatement(maxIdQuery);
-                ResultSet maxIdRs = maxIdStmt.executeQuery();
-
-                int nextId = 1; // Default value if the table has no data
-
-                if (maxIdRs.next()) {
-                    nextId = maxIdRs.getInt(1) + 1;
+                int nextId;
+                try (PreparedStatement maxIdStmt = conn.prepareStatement(maxIdQuery); ResultSet maxIdRs = maxIdStmt.executeQuery()) {
+                    nextId = 1; // Default value if the table has no data
+                    if (maxIdRs.next()) {
+                        nextId = maxIdRs.getInt(1) + 1;
+                    }
                 }
-
-                maxIdRs.close();
-                maxIdStmt.close();
 
                 // Insert new type into user_type table with idt as nextId and type as newPos
                 String insertQuery = "INSERT INTO user_type (idt, type) VALUES (?, ?)";
-                PreparedStatement insertStmt = conn.prepareStatement(insertQuery);
-                insertStmt.setInt(1, nextId);
-                insertStmt.setString(2, newPos);
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
+                    insertStmt.setInt(1, nextId);
+                    insertStmt.setString(2, newPos);
 
-                int rowsAffected = insertStmt.executeUpdate();
+                    int rowsAffected = insertStmt.executeUpdate();
 
-                if (rowsAffected > 0) {
-                    showAlert(Alert.AlertType.INFORMATION, "Insertion Successful!", "New position has been added.");
-                    loadDataFromDatabase();
-                    // Reload positions in parent controller
-                    if (parentController != null) {
-                        parentController.loadPositions_User();
+                    if (rowsAffected > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, "Insertion Successful!", "New position has been added.");
+                        loadDataFromDatabase();
+                        // Reload positions in parent controller
+                        if (parentController != null) {
+                            parentController.loadPositions_User();
+                        }
+                        clearFields();
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Insertion Failed!", "No rows affected.");
                     }
-                    clearFields();
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Insertion Failed!", "No rows affected.");
                 }
-
-                insertStmt.close();
                 conn.close();
             } catch (SQLException ex) {
                 System.out.println("Error inserting position: " + ex.getMessage());
@@ -123,6 +118,12 @@ public class PositionController implements Initializable {
 
         if (selectedPosition == null) {
             showAlert(Alert.AlertType.ERROR, "Delete Error", "Please select a position to delete.");
+            return;
+        }
+
+        // Check if the selected position is "owner"
+        if (selectedPosition.getType().equalsIgnoreCase("owner")) {
+            showAlert(Alert.AlertType.ERROR, "Delete Error", "Cannot delete 'owner' position.");
             return;
         }
 
@@ -167,18 +168,16 @@ public class PositionController implements Initializable {
             try {
                 positionList.clear(); // Clear previous data
                 String query = "SELECT * FROM user_type";
-                PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery();
+                try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
-                while (rs.next()) {
-                    int idt = rs.getInt("idt");
-                    String type = rs.getString("type");
-                    UserCategory position = new UserCategory(idt, type);
-                    positionList.add(position);
+                    while (rs.next()) {
+                        int idt = rs.getInt("idt");
+                        String type = rs.getString("type");
+                        UserCategory position = new UserCategory(idt, type);
+                        positionList.add(position);
+                    }
+
                 }
-
-                rs.close();
-                stmt.close();
                 conn.close();
             } catch (SQLException ex) {
                 System.out.println("Error loading positions: " + ex.getMessage());
@@ -208,6 +207,5 @@ public class PositionController implements Initializable {
         Stage stage = (Stage) tfNewPos_User.getScene().getWindow();
         stage.close();
     }
-
 
 }

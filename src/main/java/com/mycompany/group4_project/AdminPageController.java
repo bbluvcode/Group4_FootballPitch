@@ -204,8 +204,6 @@ public class AdminPageController implements Initializable {
     @FXML
     private ComboBox<String> cbPitchName_Payment;
     @FXML
-    private ComboBox<String> cbStt_Payment;
-    @FXML
     private TableView<PaymentBill> tvPayment;
     @FXML
     private TableColumn<PaymentBill, String> colEmpName_Payment;
@@ -243,8 +241,6 @@ public class AdminPageController implements Initializable {
     private Label lbEmpName_Payment;
     @FXML
     private Label lbPitchName_Payment;
-    @FXML
-    private Label lbStatus_Payment;
     @FXML
     private Label lbCusName_Payment;
     @FXML
@@ -460,8 +456,6 @@ public class AdminPageController implements Initializable {
     @FXML
     private Button btnUpdate_SaleService;
     @FXML
-    private Button btnDelete_SaleService;
-    @FXML
     private TextField btnSearch_Ser;
     @FXML
     private TableView<Service_Sell> tbView_Ser;
@@ -475,7 +469,6 @@ public class AdminPageController implements Initializable {
     private TableColumn<Service_Sell, Float> colPrice_SaleService;
     @FXML
     private TableColumn<Service_Sell, Integer> colQoh_SaleService;
-    private final ObservableList<String> dataList = FXCollections.observableArrayList("Food", "Drink", "Accessories");
 
     //////////////////////---------------RentService
     @FXML
@@ -496,8 +489,6 @@ public class AdminPageController implements Initializable {
     private Button btnClear_RentService;
     @FXML
     private Button btnUpdate_RentService;
-    @FXML
-    private Button btnDelete_RentService;
     @FXML
     private TextField btnSearch_Ren;
     @FXML
@@ -521,6 +512,78 @@ public class AdminPageController implements Initializable {
     @FXML
     private DatePicker dpSelectDate_Payment;
 
+    ////////////////////////---------------Pitch
+    @FXML
+    private TableColumn<Pitch, Integer> colIdcp_Field;
+    @FXML
+    private TableColumn<Pitch, String> colName_Field;
+    @FXML
+    private TableColumn<Pitch, String> colAvailable_Field;
+    @FXML
+    private TableColumn<Pitch, String> colSize_Field;
+    @FXML
+    private TableColumn<Pitch, Float> colPrice_Field;
+    @FXML
+    private TextField tfName_Field;
+    @FXML
+    private ComboBox<String> cbAvailable_Field;
+    private ObservableList<String> availabilityList = FXCollections.observableArrayList("Available", "Renting", "Booking");
+    @FXML
+    private Button btnAdd_Field;
+    @FXML
+    private Button btnClear_Field;
+    @FXML
+    private Button btnUpdate_Field;
+    @FXML
+    private Button btnDelete_Field;
+    @FXML
+    private TableView<Pitch> tbView_Field;
+    @FXML
+    private TextField tfPrice_Field;
+    @FXML
+    private TextField btnSearch_Field;
+
+    //-------------------------------------------Category Pitch
+    @FXML
+    private TextField tfPrice_FieldCategory;
+    @FXML
+    private Button btnAdd_FieldCategory;
+    @FXML
+    private Button btnClear_FieldCategory;
+    @FXML
+    private Button btnUpdate_FieldCategory;
+    @FXML
+    private Button btnDelete_FieldCategory;
+    @FXML
+    private TextField btnSearch_FieldCate;
+    @FXML
+    private ComboBox<String> cbSize_Field;
+    @FXML
+    private TableView<PitchCategory> tbView_FieldCate;
+    @FXML
+    private TableColumn<PitchCategory, String> colSize_FieldCategory;
+    @FXML
+    private TableColumn<PitchCategory, Integer> colPrice_FieldCategory;
+    @FXML
+    private TextField tfSize_FieldCategory;
+
+    /////////-----------------------CategoryService
+    @FXML
+    private Button btnAdd_CategoryService;
+    @FXML
+    private Button btnDelete_CategoryService;
+    @FXML
+    private TextField tfType_CategoryService;
+    @FXML
+    private TableColumn<ServiceCategory, String> colType_CategoryService;
+    @FXML
+    private TableView<ServiceCategory> tbView_CategoryService;
+    private ObservableList<ServiceCategory> categoryServiceList;
+    @FXML
+    private Button btnUpdate_CategoryService;
+    @FXML
+    private Button btnClear_CategoryService;
+
     public AdminPageController() {
         this.categoryDAO = new CategoryDAO();
     }
@@ -541,6 +604,12 @@ public class AdminPageController implements Initializable {
         setupOpenSellServicePage();
         //RentService
         setupOpenRentServicePage();
+        //Pitch
+        setupOpenPitchPage();
+        //PitchCategory
+        setupOpenCatePitch();
+        //ServiceCategory
+        setupOpenCateService();
     }
 
     @FXML
@@ -554,19 +623,7 @@ public class AdminPageController implements Initializable {
         stage.setIconified(true);
     }
 
-    private void clearInSportPage() {
-
-    }
-
     private void clearInDashboardPage() {
-
-    }
-
-    private void clearInCateServicePage() {
-
-    }
-
-    private void clearInCatePitchPage() {
 
     }
 
@@ -605,11 +662,17 @@ public class AdminPageController implements Initializable {
                 clearPage(index);
             }
         } else if (event.getSource() instanceof MenuItem) {
-            int index = menuItems.indexOf(event.getSource());
-            if (index != -1) {
-                pages.get(buttons.size() + index).setVisible(true);
-                menuButtons.get(0).setStyle(selectedStyle);
-                clearPage(buttons.size() + index);
+            for (int i = 0; i < menuItems.size(); i++) {
+                if (event.getSource() == menuItems.get(i)) {
+                    pages.get(buttons.size() + i).setVisible(true);
+                    if (i < 2) {
+                        menuButtons.get(0).setStyle(selectedStyle);
+                    } else {
+                        menuButtons.get(1).setStyle(selectedStyle);
+                    }
+                    clearPage(buttons.size() + i);
+                    break;
+                }
             }
         } else if (event.getSource() instanceof MenuButton) {
             int index = menuButtons.indexOf(event.getSource());
@@ -625,30 +688,39 @@ public class AdminPageController implements Initializable {
         switch (pageIndex) {
             case 0:
                 clearInEmployeePage();
+                setupOpenEmployeePage();
                 break;
             case 1:
                 clearInCustomerPage();
+                setupOpenCustomerPage();
                 break;
             case 2:
-                clearInSportPage();
+                clearInPitchPage();
+                setupOpenPitchPage();
                 break;
             case 3:
                 clearInPaymentPage();
+                setupOpenPaymentBill();
                 break;
             case 4:
                 clearInDashboardPage();
+                
                 break;
             case 5:
                 clearInSellServicePage();
+                setupOpenSellServicePage();
                 break;
             case 6:
                 clearInRentServicePage();
+                setupOpenRentServicePage();
                 break;
             case 7:
                 clearInCateServicePage();
+                setupOpenCateService();
                 break;
             case 8:
                 clearInCatePitchPage();
+                setupOpenCatePitch();
                 break;
             default:
                 break;
@@ -717,7 +789,7 @@ public class AdminPageController implements Initializable {
                     rdMale.setDisable(true);
                 }
                 tfPosition_EditProfile.setText(rs.getString("type"));
-                tfEmployeePosition.setText("Position: " + rs.getString("type"));
+                tfEmployeePosition.setText(rs.getString("type"));
             } else {
                 showAlert(Alert.AlertType.ERROR, "User not found", "User with phone number " + phone + " not found.");
             }
@@ -1197,14 +1269,12 @@ public class AdminPageController implements Initializable {
     private void setupOpenPaymentBill() {
         btnAdd_Payment.setDisable(true);
         btnDelete_Payment.setDisable(true);
-        ObservableList<String> sttList = FXCollections.observableArrayList("Pending", "Completed", "Cancel");
-        cbStt_Payment.setItems(sttList);
         categoryDAO = new CategoryDAO();
         refreshEmployeeList();
         refreshCustomerList();
         refreshPitchList();
         completed_Pay.selectToggle(rdNo_Payment);
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 3, 1);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 1);
         spHrsBooking_Payment.setValueFactory(valueFactory);
         rdYes_Payment.setUserData("Yes");
         rdNo_Payment.setUserData("No");
@@ -1304,19 +1374,6 @@ public class AdminPageController implements Initializable {
                 datePicker.setValue(date);
             }
         });
-    }
-
-    private String getStatusDetail(int stt) {
-        switch (stt) {
-            case 1:
-                return "Pending";
-            case 2:
-                return "Completed";
-            case 3:
-                return "Cancel";
-            default:
-                return "Not found";
-        }
     }
 
     public void showPaymentBills() {
@@ -1493,9 +1550,7 @@ public class AdminPageController implements Initializable {
         int priceofPitch = categoryDAO.getPriceOfPitch(pitchName);
         tfPricePitch_Payment.setText(String.valueOf(priceofPitch));
         String cusName = cbCusName_Payment.getSelectionModel().getSelectedItem();
-        String status = cbStt_Payment.getSelectionModel().getSelectedItem();
         String deposit = tfDeposit_Payment.getText();
-        int Status = 0;
         RadioButton rdType = (RadioButton) completed_Pay.getSelectedToggle();
         boolean completed;
         if (rdType.getText().equals("Yes")) {
@@ -1555,24 +1610,6 @@ public class AdminPageController implements Initializable {
             lbCusName_Payment.setText("Select a Customer!");
             hasErr = true;
         }
-        if (status == null) {
-            lbStatus_Payment.setText("Select a Status!");
-            hasErr = true;
-        } else {
-            switch (status) {
-                case "Pending":
-                    Status = 1;
-                    break;
-                case "Completed":
-                    Status = 2;
-                    break;
-                case "Cancel":
-                    Status = 3;
-                    break;
-                default:
-                    break;
-            }
-        }
         if (date == null) {
             lbDate_Payment.setText("Select a PayDate!");
             hasErr = true;
@@ -1591,7 +1628,7 @@ public class AdminPageController implements Initializable {
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
         PreparedStatement ps = null;
-        String sql = "INSERT INTO payments (idu, idp, idk, time_start, time_end, hrs_used, deposit, tt_booking, tt_service, tt_payment, pay_date, completed, time_book, hrs, stt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO payments (idu, idp, idk, time_start, time_end, hrs_used, deposit, tt_booking, tt_service, tt_payment, pay_date, completed, time_book, hrs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(1, categoryDAO.getIDInEmp(empName));
@@ -1608,7 +1645,6 @@ public class AdminPageController implements Initializable {
             ps.setBoolean(12, completed);
             ps.setTime(13, timebooking);
             ps.setInt(14, hrs);
-            ps.setInt(15, Status);
 
             if (ps.executeUpdate() > 0) {
                 showAlert(AlertType.INFORMATION, "PaymentBill", "Payment Bill added Successfully!");
@@ -1656,7 +1692,6 @@ public class AdminPageController implements Initializable {
             cbCusName_Payment.setValue(b.getKhachhang_name());
             cbPitchName_Payment.setValue(b.getSanbong_name());
             tfPricePitch_Payment.setText(String.valueOf(categoryDAO.getPriceOfPitch(b.getSanbong_name())));
-            cbStt_Payment.setValue(b.getSttDetail());
             spHrsBooking_Payment.getValueFactory().setValue(b.getHrs());
             if (b.getPay_date() != null) {
                 dpDate_Payment.setValue(b.getPay_date().toLocalDate());
@@ -1671,6 +1706,12 @@ public class AdminPageController implements Initializable {
             tfTimeBooking_Payment.setText(formatTimetoString(b.getTime()));
             tfStart_Payment.setText(formatTimetoString(b.getTime_start()));
             tfEnd_Payment.setText(formatTimetoString(b.getTime_end()));
+
+            cbPitchName_Payment.setEditable(true);
+            tfPricePitch_Payment.setEditable(false);
+            spHrsBooking_Payment.setEditable(true);
+            dpDate_Payment.setEditable(true);
+
         } else {
             clearInPaymentPage();
         }
@@ -1698,14 +1739,12 @@ public class AdminPageController implements Initializable {
             return;
         }
 
-        // Lấy dữ liệu cũ của hóa đơn từ biến paySSI
         if (paySSI == null) {
             paySSI = selectedBill;
         }
         String empName = cbEmpName_Payment.getSelectionModel().getSelectedItem();
         String pitchName = cbPitchName_Payment.getSelectionModel().getSelectedItem();
         String cusName = cbCusName_Payment.getSelectionModel().getSelectedItem();
-        String status = cbStt_Payment.getSelectionModel().getSelectedItem();
         String deposit = tfDeposit_Payment.getText();
         int Status = 0;
         RadioButton rdType = (RadioButton) completed_Pay.getSelectedToggle();
@@ -1722,7 +1761,7 @@ public class AdminPageController implements Initializable {
         String Start = tfStart_Payment.getText();
         String End = tfEnd_Payment.getText();
         String TimeBooking = tfTimeBooking_Payment.getText();
-        if (empName == null && pitchName == null && cusName == null && status == null
+        if (empName == null && pitchName == null && cusName == null
                 && (deposit == null || deposit.isEmpty())
                 && date == null
                 && (Start == null || Start.isEmpty())
@@ -1742,10 +1781,18 @@ public class AdminPageController implements Initializable {
             lbStart_Payment.setText("TimeStart cann't earlier than TimeBooking");
             hasErr = true;
         }
+        if (start != null && timebooking != null && Duration.between(timebooking.toLocalTime(), start.toLocalTime()).toMinutes() > 60) {
+            lbStart_Payment.setText("TimeStart cann't more than 1 hour later than TimeBooking");
+            hasErr = true;
+        }
         if (start != null && end != null) {
             hrs_Used = (int) Duration.between(start.toLocalTime(), end.toLocalTime()).toHours();
+
             if (end.toLocalTime().isBefore(start.toLocalTime())) {
                 lbEnd_Payment.setText("TimeEnd cann't earlier than TimeStart");
+                hasErr = true;
+            } else if (Duration.between(start.toLocalTime(), end.toLocalTime()).toMinutes() > hrs * 60) {
+                lbEnd_Payment.setText("The usage time cann't exceed the TimeBooking");
                 hasErr = true;
             } else if (end.toLocalTime().isAfter(start.toLocalTime())) {
                 lbEnd_Payment.setText("");
@@ -1779,24 +1826,6 @@ public class AdminPageController implements Initializable {
             lbCusName_Payment.setText("Select a Customer!");
             hasErr = true;
         }
-        if (status == null) {
-            lbStatus_Payment.setText("Select a Status!");
-            hasErr = true;
-        } else {
-            switch (status) {
-                case "Pending":
-                    Status = 1;
-                    break;
-                case "Completed":
-                    Status = 2;
-                    break;
-                case "Cancel":
-                    Status = 3;
-                    break;
-                default:
-                    break;
-            }
-        }
         if (date == null) {
             lbDate_Payment.setText("Select a PayDate!");
             hasErr = true;
@@ -1806,7 +1835,6 @@ public class AdminPageController implements Initializable {
         boolean isChanged = !Objects.equals(selectedBill.getQluser_name(), empName)
                 || !Objects.equals(selectedBill.getSanbong_name(), pitchName)
                 || !Objects.equals(selectedBill.getKhachhang_name(), cusName)
-                || selectedBill.getStt() != Status
                 || selectedBill.getDeposit() != validateInput(deposit, lbDeposit_Payment, "Deposit")
                 || selectedBill.isComp() != completed
                 || !Objects.equals(selectedBill.getPay_date(), (date != null ? Date.valueOf(date) : null))
@@ -1828,7 +1856,7 @@ public class AdminPageController implements Initializable {
 
         String sql = "UPDATE payments SET idu = ?, idp = ?, idk = ?, time_start = ?, time_end = ?, hrs_used = ?, "
                 + "deposit = ?, tt_booking = ?, tt_service = ?, tt_payment = ?, pay_date = ?, completed = ?, "
-                + "time_book = ?, hrs = ?, stt = ? WHERE idb = ?";
+                + "time_book = ?, hrs = ? WHERE idb = ?";
 
         try {
             ps = cn.prepareStatement(sql);
@@ -1846,8 +1874,7 @@ public class AdminPageController implements Initializable {
             ps.setBoolean(12, completed);
             ps.setTime(13, timebooking);
             ps.setInt(14, hrs);
-            ps.setInt(15, Status);
-            ps.setInt(16, selectedPaymentID);
+            ps.setInt(15, selectedPaymentID);
 
             Alert alert;
             alert = new Alert(AlertType.CONFIRMATION);
@@ -1884,7 +1911,6 @@ public class AdminPageController implements Initializable {
         Label[] labels = {
             lbEmpName_Payment,
             lbPitchName_Payment,
-            lbStatus_Payment,
             lbCusName_Payment,
             lbDeposit_Payment,
             lbDate_Payment,
@@ -1902,7 +1928,6 @@ public class AdminPageController implements Initializable {
         cbEmpName_Payment.getSelectionModel().clearSelection();
         cbPitchName_Payment.getSelectionModel().clearSelection();
         cbCusName_Payment.getSelectionModel().clearSelection();
-        cbStt_Payment.getSelectionModel().clearSelection();
         completed_Pay.selectToggle(rdNo_Payment);
         dpDate_Payment.setValue(null);
         spHrsBooking_Payment.getValueFactory().setValue(1);
@@ -2074,6 +2099,7 @@ public class AdminPageController implements Initializable {
         cbProductName_DetailPay.setValue(null);
         spQuantity_DetailPay.setValueFactory(null);
         spQuantity_DetailPay.getEditor().clear();
+
     }
 
     //Update type product
@@ -2098,9 +2124,9 @@ public class AdminPageController implements Initializable {
         RadioButton selectedRadioButton = (RadioButton) typeProduct_DetailPay.getSelectedToggle();
         if (selectedRadioButton != null) {
             if (selectedRadioButton == rdFood_DetailPay) {
-                refreshDrinkList();
-            } else if (selectedRadioButton == rdDrink_DetailPay) {
                 refreshFoodList();
+            } else if (selectedRadioButton == rdDrink_DetailPay) {
+                refreshDrinkList();
             } else if (selectedRadioButton == rdAccess_DetailPay) {
                 refreshAccessoriesList();
             }
@@ -2125,6 +2151,10 @@ public class AdminPageController implements Initializable {
             if (quantity != null) {
                 SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, quantity, 0);
                 spQuantity_DetailPay.setValueFactory(valueFactory);
+            }
+            if (quantity == 0) {
+                lbQty_DetailPay.setText("The product is out of stock!");
+                return;
             }
         }
     }
@@ -2264,10 +2294,14 @@ public class AdminPageController implements Initializable {
 
         if (!hasNameErr) {
             qty = Optional.ofNullable(qty).orElse(0);
-            if (qty <= 0) {
+            if (qty < 0) {
                 lbQty_DetailPay.setText("Quantity greater than 0!");
                 hasErr = true;
             }
+//            if (qty == 0) {
+//                lbQty_DetailPay.setText("The product is out of stock!");
+//                hasErr = true;
+//            }
         }
         if (hasErr || hasNameErr) {
             return;
@@ -2438,8 +2472,8 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private void updateInvoice_PaymentDetail(ActionEvent event) {
+        lbName_DetailPay.setText("");
         lbQty_DetailPay.setText("");
-
         Integer newQty = spQuantity_DetailPay.getValue();
 
         if (newQty == null || newQty <= 0) {
@@ -2552,6 +2586,8 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private void deleteInvoice_PaymentDetail(ActionEvent event) {
+        lbName_DetailPay.setText("");
+        lbQty_DetailPay.setText("");
         Composite_Bill selectedBill = tvService_DetailPay.getSelectionModel().getSelectedItem();
         if (selectedBill == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "No Invoice Service selected!");
@@ -2658,7 +2694,9 @@ public class AdminPageController implements Initializable {
         PaymentPage.setVisible(true);
     }
 
+    //-----------------------------------------------------EMPLOYEE----------------------------------------------------
     //-----------------------------------------------------EMPLOYEE-----------------------------------------------------------------
+    //-----------------------------------------------------EMPLOYEE----------------------------------------------------
     private void setupOpenEmployeePage() {
         showUsers();
 
@@ -2728,10 +2766,14 @@ public class AdminPageController implements Initializable {
 
         if (conn != null) {
             try {
-                String query = "SELECT q.img, q.name, q.idt, ut.type, q.gender, q.birthday, q.phone, q.mail, q.pw "
+//                String query = "SELECT q.img, q.name, q.idt, ut.type, q.gender, q.birthday, q.phone, q.mail, q.pw "
+//                        + "FROM qluser q INNER JOIN user_type ut ON q.idt = ut.idt WHERE q.idt > ?";
+                String query = "SELECT q.img, q.name, ut.type, q.gender, q.birthday, q.phone, q.mail, q.pw "
                         + "FROM qluser q INNER JOIN user_type ut ON q.idt = ut.idt";
 
-                try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+                try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                    //stmt.setInt(1, Emp.getIdt());
+                    ResultSet rs = stmt.executeQuery();
 
                     while (rs.next()) {
                         String image = rs.getString("img");
@@ -2794,6 +2836,25 @@ public class AdminPageController implements Initializable {
             selectImageName = imageName;
             tfEmail_User.setText(selectedUser.getMail());
             tfPass_User.setText(selectedUser.getPw());
+            // Kiểm tra và xử lý quyền hạn của người dùng được chọn
+
+            handleUserPermissions(selectedUser.getPosition());
+        }
+    }
+
+    public void handleUserPermissions(String userType) {
+        User loggedInUser = App.getLoggedInUser();
+        if (loggedInUser != null && loggedInUser.getType() != null) {
+            String loggedInUserType = loggedInUser.getType().toLowerCase();
+
+            // Kiểm tra nếu người dùng đăng nhập là admin và người được chọn là admin hoặc owner
+            if (loggedInUserType.equals("admin") && (userType.equalsIgnoreCase("admin") || userType.equalsIgnoreCase("owner"))) {
+                btnDelete_User.setDisable(true);
+            } else {
+                btnDelete_User.setDisable(false);
+            }
+        } else {
+            btnDelete_User.setDisable(true);
         }
     }
 
@@ -2803,59 +2864,70 @@ public class AdminPageController implements Initializable {
         String position = cbPos_User.getValue();
         RadioButton selectedGender = (RadioButton) gender_User.getSelectedToggle();
         String gender = selectedGender != null ? selectedGender.getText() : "";
-        String birthday = tfBirth_User.getValue() != null ? tfBirth_User.getValue().toString() : "";
+        LocalDate birthday = tfBirth_User.getValue();
         String phone = tfPhone_User.getText();
         String password = tfPass_User.getText(); // Assuming password is used as idu
         String mail = tfEmail_User.getText();
 
         User loggedInUser = App.getLoggedInUser();
 
-        // Kiểm tra nếu người dùng đã đăng nhập và có loại người dùng
-        if (loggedInUser != null && loggedInUser.getType() != null) {
-            String userType = loggedInUser.getType().toLowerCase();
-            if (userType.equals("admin")) {
-                // Nếu là admin, kiểm tra xem người dùng muốn thêm là admin hoặc owner không
+        if (loggedInUser != null) {
+            int loggedInUserPosition = Emp.getIdt();
+            if (loggedInUserPosition == 1) {
+                // Kiểm tra xem người dùng muốn cập nhật có phải là admin hoặc owner không
                 if (position != null && (position.equalsIgnoreCase("admin") || position.equalsIgnoreCase("owner"))) {
                     showAlert(Alert.AlertType.ERROR, "Permission Denied", "Admin users cannot add other admins or owners.");
                     return;
                 }
             }
         }
-        // Use a loop to validate each input field
-        boolean isValid = false;
-        while (!isValid) {
-            try {
-                if (name.isEmpty()) {
-                    throw new Exception("Name is required");
-                }
-                if (position == null) {
-                    throw new Exception("Position is required");
-                }
-                if (gender.isEmpty()) {
-                    throw new Exception("Gender is required");
-                }
-                if (birthday.isEmpty()) {
-                    throw new Exception("Birthday is required");
-                }
-                if (phone.isEmpty()) {
-                    throw new Exception("Phone number is required");
-                }
-                if (password.isEmpty()) {
-                    throw new Exception("Password is required");
-                }
-                if (selectImageName == null) {
-                    throw new Exception("Image is required");
-                }
-                if (mail.isEmpty()) {
-                    throw new Exception("Email is required");
-                }
-
-                // All validations passed
-                isValid = true;
-            } catch (Exception e) {
-                showAlert(Alert.AlertType.ERROR, "Form Error!", e.getMessage());
+        // Kiểm tra từng trường và hiển thị thông báo lỗi cụ thể
+        if (name.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Name is required");
+            return;
+        }
+        if (position == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Position is required");
+            return;
+        }
+        if (gender.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Gender is required");
+            return;
+        }
+        if (birthday == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Birthday is required");
+            return;
+        } else {
+            // Tính toán tuổi từ ngày sinh
+            Period age = Period.between(birthday, LocalDate.now());
+            if (age.getYears() < 16) {
+                showAlert(Alert.AlertType.ERROR, "Form Error!", "Age must be at least 16 years old");
+                return;
+            } else if (age.getYears() > 84) {
+                showAlert(Alert.AlertType.ERROR, "Form Error!", "Age must be no more than 84 years old");
                 return;
             }
+
+        }
+        if (phone.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Phone number is required");
+            return;
+        }
+        if (!phone.matches("\\d{10}")) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
+            return;
+        }
+        if (password.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Password is required");
+            return;
+        }
+        if (selectImageName == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Image is required");
+            return;
+        }
+        if (mail.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Email is required");
+            return;
         }
 
         // Copy selected image to IMAGE_DIR
@@ -2881,14 +2953,14 @@ public class AdminPageController implements Initializable {
                     stmt.setString(2, password); // pw is password
                     stmt.setString(3, positionUserMap.get(position)); // Convert position name to idt
                     stmt.setString(4, name);
-                    stmt.setString(5, birthday);
+                    stmt.setString(5, birthday.toString());
                     stmt.setBoolean(6, gender.equals("Male")); // Gender: true for male, false for female
                     stmt.setString(7, phone); // Phone also stored in phone
                     stmt.setString(8, selectImageName); // Image path
                     stmt.setString(9, mail);
 
                     stmt.executeUpdate();
-                } // idu is phone number
+                }
                 conn.close();
 
                 // Reload data after successful addition
@@ -2907,25 +2979,15 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private void updateUser_User(ActionEvent event) {
+        User selectedUser = tbView_User.getSelectionModel().getSelectedItem();
         String name = tfName_User.getText();
         String position = cbPos_User.getValue();
         RadioButton selectedGender = (RadioButton) gender_User.getSelectedToggle();
         String gender = selectedGender != null ? selectedGender.getText() : "";
-        String birthday = tfBirth_User.getValue() != null ? tfBirth_User.getValue().toString() : "";
+        LocalDate birthday = tfBirth_User.getValue();
         String phone = tfPhone_User.getText();
         String mail = tfEmail_User.getText();
         String pass = tfPass_User.getText();
-
-        if (name.isEmpty() || position == null || gender.isEmpty() || birthday.isEmpty() || phone.isEmpty() || selectImageName == null || mail.isEmpty() || pass.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields");
-            return;
-        }
-
-        // Kiểm tra xem position có tồn tại trong bản đồ hay không
-        if (!positionUserMap.containsKey(position)) {
-            showAlert(Alert.AlertType.ERROR, "Form Error!", "Invalid position selected");
-            return;
-        }
 
         // Copy selected image to IMAGE_DIR if it doesn't exist
         Path sourcePath = Paths.get(IMAGE_DIR, selectImageName);
@@ -2940,37 +3002,174 @@ public class AdminPageController implements Initializable {
             return;
         }
 
-        ConnectDB connector = new ConnectDB();
-        Connection conn = connector.getConnect();
+        User loggedInUser = App.getLoggedInUser();
 
-        if (conn != null) {
-            try {
-                // Update user in the database
-                String query = "UPDATE qluser SET name=?, idt=?, gender=?, birthday=?, phone=?, img=?, mail=?, pw=? WHERE phone=?";
-                try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setString(1, name);
-                    stmt.setString(2, positionUserMap.get(position)); // Convert position name to idt
-                    stmt.setBoolean(3, gender.equals("Male"));
-                    stmt.setString(4, birthday);
-                    stmt.setString(5, phone);
-                    stmt.setString(6, selectImageName);
-                    stmt.setString(7, mail);
-                    stmt.setString(8, pass);
-                    stmt.setString(9, phone);
-
-                    stmt.executeUpdate();
+        if (loggedInUser != null) {
+            int loggedInUserPosition = Emp.getIdt();
+            if (loggedInUserPosition == 1) {
+                // Kiểm tra xem người dùng muốn cập nhật có phải là admin hoặc owner không
+                if (position != null && (position.equalsIgnoreCase("admin") || position.equalsIgnoreCase("owner"))) {
+                    showAlert(Alert.AlertType.ERROR, "Permission Denied", "Admin users cannot update other admins or owners.");
+                    return;
                 }
-                conn.close();
-
-                // Reload data after successful update
-                loadUserData();
-                showAlert(Alert.AlertType.INFORMATION, "Success", "User member updated successfully");
-            } catch (SQLException ex) {
-                System.out.println("Error updating user: " + ex.getMessage());
-                showAlert(Alert.AlertType.ERROR, "Error", "Failed to update user: " + ex.getMessage());
             }
+        }
+        // Check if any data has changed
+        if (name.equals(selectedUser.getName())
+                && position.equals(selectedUser.getPosition())
+                && gender.equals(selectedUser.getGenderDescription())
+                && phone.equals(selectedUser.getPhone())
+                && (birthday != null && birthday.toString().equals(selectedUser.getBirthday().toString()))
+                && mail.equals(selectedUser.getMail())
+                && pass.equals(selectedUser.getPw())) {
+            showAlert(Alert.AlertType.WARNING, "No Changes", "No changes detected.");
+            return;
+        }
+
+        // Validate input fields
+        if (name.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Name is required");
+            return;
+        }
+        if (position == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Position is required");
+            return;
+        }
+        if (gender.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Gender is required");
+            return;
+        }
+        if (birthday == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Birthday is required");
+            return;
         } else {
-            System.out.println("Failed to connect to database");
+            // Calculate age from birthday
+            Period age = Period.between(birthday, LocalDate.now());
+            if (age.getYears() < 18 || age.getYears() > 80) {
+                showAlert(Alert.AlertType.ERROR, "Form Error!", "Age must be between 18 and 80 years old");
+                return;
+            }
+        }
+        if (phone.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Phone number is required");
+            return;
+        }
+        if (!phone.matches("\\d{10}")) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
+            return;
+        }
+        if (selectImageName == null) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Image is required");
+            return;
+        }
+        if (mail.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Email is required");
+            return;
+        }
+
+        // Check if position exists in positionUserMap
+        if (!positionUserMap.containsKey(position)) {
+            showAlert(Alert.AlertType.ERROR, "Form Error!", "Invalid position selected");
+            return;
+        }
+
+        // Show confirmation dialog
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Update");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Are you sure you want to update this user?");
+
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            ConnectDB connector = new ConnectDB();
+            Connection conn = connector.getConnect();
+
+            if (conn != null) {
+                try {
+                    // Check if phone number has changed
+                    if (!phone.equals(selectedUser.getPhone())) {
+                        // Show confirmation for changing phone number
+                        Alert phoneChangeAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                        phoneChangeAlert.setTitle("Confirm Phone Change");
+                        phoneChangeAlert.setHeaderText(null);
+                        phoneChangeAlert.setContentText("Changing the phone number will also update related records. Do you really want to change the phone number?");
+
+                        Optional<ButtonType> phoneChangeResult = phoneChangeAlert.showAndWait();
+                        if (phoneChangeResult.isPresent() && phoneChangeResult.get() == ButtonType.OK) {
+                            // Disable foreign key constraint temporarily
+                            try (Statement stmt = conn.createStatement()) {
+                                stmt.execute("ALTER TABLE payments NOCHECK CONSTRAINT FK__payments__idu__6383C8BA");
+                            }
+
+                            // Update user in the database
+                            String updateQuery = "UPDATE qluser SET name=?, idt=?, gender=?, birthday=?, phone=?, img=?, mail=?, pw=?, idu=? WHERE phone=?";
+                            try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+                                pstmt.setString(1, name);
+                                pstmt.setString(2, positionUserMap.get(position)); // Convert position name to idt
+                                pstmt.setBoolean(3, gender.equals("Male"));
+                                pstmt.setString(4, birthday.toString());
+                                pstmt.setString(5, phone);
+                                pstmt.setString(6, selectImageName);
+                                pstmt.setString(7, mail);
+                                pstmt.setString(8, pass);
+                                pstmt.setString(9, phone); // Use new phone number for idu
+                                pstmt.setString(10, selectedUser.getPhone()); // Use old phone number for WHERE clause
+
+                                pstmt.executeUpdate();
+                            }
+
+                            // If idu (phone) has changed, update related payments
+                            if (!phone.equals(selectedUser.getPhone())) {
+                                String updatePaymentsQuery = "UPDATE payments SET idu = ? WHERE idu = ?";
+                                try (PreparedStatement pstmt = conn.prepareStatement(updatePaymentsQuery)) {
+                                    pstmt.setString(1, phone);
+                                    pstmt.setString(2, selectedUser.getPhone());
+                                    pstmt.executeUpdate();
+                                }
+                            }
+
+                            // Enable foreign key constraint back
+                            try (Statement stmt = conn.createStatement()) {
+                                stmt.execute("ALTER TABLE payments CHECK CONSTRAINT FK__payments__idu__6383C8BA");
+                            }
+
+                            conn.close();
+
+                            // Reload data after successful update
+                            loadUserData();
+                            showAlert(Alert.AlertType.INFORMATION, "Success", "User member updated successfully");
+                        }
+                    } else {
+                        // Update user in the database without changing phone number
+                        String updateQuery = "UPDATE qluser SET name=?, idt=?, gender=?, birthday=?, phone=?, img=?, mail=?, pw=? WHERE phone=?";
+                        try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+                            pstmt.setString(1, name);
+                            pstmt.setString(2, positionUserMap.get(position)); // Convert position name to idt
+                            pstmt.setBoolean(3, gender.equals("Male"));
+                            pstmt.setString(4, birthday.toString());
+                            pstmt.setString(5, phone);
+                            pstmt.setString(6, selectImageName);
+                            pstmt.setString(7, mail);
+                            pstmt.setString(8, pass);
+                            pstmt.setString(9, selectedUser.getPhone()); // Use old phone number for WHERE clause
+
+                            pstmt.executeUpdate();
+                        }
+
+                        conn.close();
+
+                        // Reload data after successful update
+                        clearInEmployeePage();
+                        loadUserData();
+                        showAlert(Alert.AlertType.INFORMATION, "Success", "User member updated successfully");
+                    }
+                } catch (SQLException ex) {
+                    System.out.println("Error updating user: " + ex.getMessage());
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to update user: " + ex.getMessage());
+                }
+            } else {
+                System.out.println("Failed to connect to database");
+            }
         }
     }
 
@@ -3069,7 +3268,7 @@ public class AdminPageController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Delete User");
-        alert.setContentText("Are you sure you want to delete this user?");
+        alert.setContentText("Are you sure you want to delete this customer? \nThis action will also delete associated records in payments.");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -3079,27 +3278,53 @@ public class AdminPageController implements Initializable {
 
             if (conn != null) {
                 try {
-                    // Delete staff member from the database
-                    String query = "DELETE FROM qluser WHERE phone=?";
+                    // Begin transaction
+                    conn.setAutoCommit(false);
+
+                    // Delete related records in payments table
+                    String deletePaymentsQuery = "DELETE FROM payments WHERE idu = ?";
+                    try (PreparedStatement deletePaymentsPs = conn.prepareStatement(deletePaymentsQuery)) {
+                        deletePaymentsPs.setString(1, phone);
+                        int rowsAffectedInPayments = deletePaymentsPs.executeUpdate();
+                        if (rowsAffectedInPayments > 0) {
+                            System.out.println("Deleted " + rowsAffectedInPayments + " records in payments for user " + phone);
+                        }
+                    }
+
+                    // Delete user from qluser table
+                    String deleteUserQuery = "DELETE FROM qluser WHERE phone = ?";
                     int rowsDeleted;
-                    try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                        stmt.setString(1, phone); // Delete based on phone number as ID
-                        rowsDeleted = stmt.executeUpdate();
-                    } // Delete based on phone number as ID
-                    conn.close();
+                    try (PreparedStatement deleteUserPs = conn.prepareStatement(deleteUserQuery)) {
+                        deleteUserPs.setString(1, phone); // Delete based on phone number as ID
+                        rowsDeleted = deleteUserPs.executeUpdate();
+                    }
+
+                    // Commit transaction
+                    conn.commit();
 
                     if (rowsDeleted > 0) {
                         // Reload data after successful deletion
                         loadUserData();
                         showUsers();
-                        showAlert(Alert.AlertType.INFORMATION, "Success", "Staff member deleted successfully");
+                        showAlert(Alert.AlertType.INFORMATION, "Success", "User deleted successfully");
                         clearInEmployeePage();
                     } else {
-                        showAlert(Alert.AlertType.ERROR, "Delete Error", "No such staff member found with the provided phone number");
+                        showAlert(Alert.AlertType.ERROR, "Delete Error", "No such user found with the provided phone number");
                     }
                 } catch (SQLException ex) {
-                    System.out.println("Error deleting user: " + ex.getMessage());
-                    showAlert(Alert.AlertType.ERROR, "Delete Error", "Insufficient permissions to delete this user");
+                    try {
+                        conn.rollback();
+                    } catch (SQLException rollbackEx) {
+                        showAlert(Alert.AlertType.ERROR, "Rollback Error", "Failed to rollback transaction");
+                        System.out.println("Error rolling back transaction: " + rollbackEx.getMessage());
+                    }
+                    showAlert(Alert.AlertType.ERROR, "Delete Error", "Error deleting user: " + ex.getMessage());
+                } finally {
+                    try {
+                        conn.setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        System.out.println("Error setting auto-commit to true: " + ex.getMessage());
+                    }
                 }
             } else {
                 System.out.println("Failed to connect to database");
@@ -3292,6 +3517,8 @@ public class AdminPageController implements Initializable {
     }
 
     //-----------------------------------------------------CUSTOMER----------------------------------------------------------------
+    //-----------------------------------------------------CUSTOMER----------------------------------------------------
+    //-----------------------------------------------------CUSTOMER----------------------------------------------------
     private void setupOpenCustomerPage() {
         connectToDatabase();
         showCustomers();
@@ -3299,6 +3526,7 @@ public class AdminPageController implements Initializable {
         tfSearch_Cus.textProperty().addListener((observable, oldValue, newValue) -> {
             searchCus();
         });
+
         if (Emp.getIdt() > 1) {
             btnDelete_Cus.setDisable(true);
         } else {
@@ -3419,24 +3647,33 @@ public class AdminPageController implements Initializable {
         String mail = tfEmail_Cus.getText().trim();
 
         // Kiểm tra các trường dữ liệu không được để trống
-        if (name.isEmpty() || phone.isEmpty() || pointText.isEmpty() || mail.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+        if (name.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Name cannot be empty.");
+            return;
+        }
+        if (phone.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Phone number cannot be empty.");
             return;
         }
 
-        int point = Integer.parseInt(pointText);
+        if (!phone.matches("\\d{10}")) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
+            return;
+        }
+        if (pointText.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Points cannot be empty.");
+            return;
+        }
+
+        int point;
         try {
+            point = Integer.parseInt(pointText);
             if (point < 0) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Points must be a positive integer.");
                 return;
             }
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Points must be a valid number.");
-            return;
-        }
-
-        if (!phone.matches("\\d{10}")) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
             return;
         }
 
@@ -3463,7 +3700,6 @@ public class AdminPageController implements Initializable {
                     showCustomers();
                     tbView_Cus.refresh();
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Customer added successfully.");
-                    btnAdd_Cus.setDisable(true);
                 }
             } catch (SQLException ex) {
                 showAlert(Alert.AlertType.ERROR, "SQL Error", "Error adding customer: \n" + ex.getMessage());
@@ -3586,8 +3822,20 @@ public class AdminPageController implements Initializable {
             String idk = phone; // Sử dụng phone làm idk
 
             // Kiểm tra xem tất cả các trường đã được điền
-            if (name.isEmpty() || phone.isEmpty() || pointText.isEmpty() || mail.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+            if (name.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Name cannot be empty.");
+                return;
+            }
+            if (phone.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Phone number cannot be empty.");
+                return;
+            }
+            if (!phone.matches("\\d{10}")) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
+                return;
+            }
+            if (pointText.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Points cannot be empty.");
                 return;
             }
 
@@ -3601,11 +3849,6 @@ public class AdminPageController implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Points must be a valid number.");
-                return;
-            }
-
-            if (!phone.matches("\\d{10}")) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Phone number must be 10 digits.");
                 return;
             }
 
@@ -3715,11 +3958,8 @@ public class AdminPageController implements Initializable {
                     }
                 }
             } else {
-                // Nếu người dùng không đồng ý cập nhật, thoát ra khỏi phương thức
-                return;
+                showAlert(Alert.AlertType.ERROR, "Form Error!", "Please select a customer to update.");
             }
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Form Error!", "Please select a customer to update.");
         }
     }
 
@@ -3779,8 +4019,7 @@ public class AdminPageController implements Initializable {
     }
 
     @FXML
-    private void onSelectCustomer(MouseEvent event
-    ) {
+    private void onSelectCustomer(MouseEvent event) {
         if (event.getClickCount() == 1) { // Check if single click
             Customer selectedCustomer = tbView_Cus.getSelectionModel().getSelectedItem();
             if (selectedCustomer != null) {
@@ -3788,6 +4027,7 @@ public class AdminPageController implements Initializable {
                 tfPhone_Cus.setText(selectedCustomer.getPhone());
                 tfPoint_Cus.setText(String.valueOf(selectedCustomer.getPoint()));
                 tfEmail_Cus.setText(selectedCustomer.getMail());
+                btnDelete_Cus.setDisable(true);
             }
         }
     }
@@ -3810,125 +4050,24 @@ public class AdminPageController implements Initializable {
         }
     }
 
-    // Biến để theo dõi trạng thái xác nhận email
-    private boolean isEmailConfirmed_Cus = false;
-
-// Hàm để xác nhận email
-    @FXML
-    private void btnConfirmE_Cus(MouseEvent event) {
-        String email = tfEmail_Cus.getText();
-
-        // Kiểm tra email hợp lệ trước khi gửi mã xác nhận
-        if (!isValidEmail_Cus(email)) {
-            showAlert(Alert.AlertType.ERROR, "Form Error!", "Invalid email address.");
-            return;
-        }
-
-        // Gửi mã xác nhận trong một luồng riêng để không khóa giao diện người dùng
-        new Thread(() -> sendVerificationEmail_Cus(email)).start();
-
-        // Hiển thị dialog để người dùng nhập mã xác nhận
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Email Verification");
-        dialog.setHeaderText("A verification code \nhas been sent to your email.");
-        dialog.setContentText("Please enter the verification code:");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(code -> {
-            if (isVerificationCodeCorrect_Cus(code)) {
-                isEmailConfirmed_Cus = true;
-                btnAdd_Cus.setDisable(false);
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Email verified successfully.");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Error", "Invalid verification code.");
-            }
-        });
+    //----------------------------------------------------------------------------------------------------
+    //--------------------------------------------------Sell SERVICE--------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+    private void setupSellComboBox(){
+        ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
+        cbType_SaleService.setItems(TypeServiceList);
     }
-
-// Hàm để gửi email xác nhận
-    private void sendVerificationEmail_Cus(String email) {
-        verificationCode = generateVerificationCode_Cus();
-
-        String subject = "Your Verification Code";
-        String message = "Your verification code is: " + verificationCode;
-
-        // Setup mail server properties
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("paradisesport2024@gmail.com", "qjsh sesq wbci fsku");
-            }
-        });
-
-        try {
-            // Create a default MimeMessage object
-            Message msg = new MimeMessage(session);
-
-            // Set From: header field
-            msg.setFrom(new InternetAddress("paradisesport2024@gmail.com"));
-
-            // Set To: header field
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-
-            // Set Subject: header field
-            msg.setSubject(subject);
-
-            // Set the actual message
-            msg.setText(message);
-
-            // Send message
-            Transport.send(msg);
-            System.out.println("Sent message successfully...");
-
-        } catch (MessagingException e) {
-            Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "Error", "Failed to send email: " + e.getMessage()));
-        }
-    }
-
-// Hàm kiểm tra email hợp lệ
-    private boolean isValidEmail_Cus(String email) {
-        // Simple email validation using regular expression
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return email.matches(emailRegex);
-    }
-
-// Hàm tạo mã xác nhận
-    private String generateVerificationCode_Cus() {
-        // Generate a random 6-digit verification code
-        return String.valueOf((int) (Math.random() * 900000) + 100000);
-    }
-
-// Hàm kiểm tra mã xác nhận
-    private boolean isVerificationCodeCorrect_Cus(String code) {
-        return verificationCode != null && verificationCode.equals(code);
-    }
-
-// Đặt lại trạng thái xác nhận email khi email bị thay đổi
-    private void tfEmail_Cus_TextChanged(ActionEvent event) {
-        isEmailConfirmed_Cus = false;
-        btnAdd_Cus.setDisable(true);
-    }
-
-    //--------------------------------------------------Sell SERVICE
     private void setupOpenSellServicePage() {
-        SellcomboBox();
+        categoryDAO = new CategoryDAO();
+        setupSellComboBox();
+        //SalecomboBox();
         showSaleProducts();
         Salespinner();
     }
-
+    
     @FXML
-    public void SellcomboBox() {
-        if (cbType_SaleService != null) {
-            cbType_SaleService.setItems(dataList);
-        } else {
-            System.err.println("ComboBox is null!");
-        }
+    public void SalecomboBox() {
+        
     }
 
     public void Salespinner() {
@@ -3937,7 +4076,7 @@ public class AdminPageController implements Initializable {
     }
 
     public void showSaleProducts() {
-        ObservableList<Service_Sell> pList = getService();
+        ObservableList<Service_Sell> ssList = getSaleService();
 
         colImg_SaleService.setCellValueFactory(new PropertyValueFactory<>("img"));
         colName_SaleService.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -3945,10 +4084,10 @@ public class AdminPageController implements Initializable {
         colPrice_SaleService.setCellValueFactory(new PropertyValueFactory<>("price"));
         colQoh_SaleService.setCellValueFactory(new PropertyValueFactory<>("qoh"));
 
-        tbView_Ser.setItems(pList);
+        tbView_Ser.setItems(ssList);
     }
 
-    public ObservableList<Service_Sell> getService() {
+    public ObservableList<Service_Sell> getSaleService() {
         ObservableList<Service_Sell> list = FXCollections.observableArrayList();
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
@@ -3984,7 +4123,7 @@ public class AdminPageController implements Initializable {
     private void Import_image_SaleService(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
-        Stage stage = (Stage) SellServicePage.getScene().getWindow();
+        Stage stage = (Stage) cbType_SaleService.getScene().getWindow();
         selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile != null) {
@@ -4001,14 +4140,6 @@ public class AdminPageController implements Initializable {
         imageview_SaleService.setImage(null);
     }
 
-    private void showSaleAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     @FXML
     private void clearSaleService(ActionEvent event) {
         clearInSellServicePage();
@@ -4016,6 +4147,13 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private void updateSaleService(ActionEvent event) {
+        Service_Sell selectedService = tbView_Ser.getSelectionModel().getSelectedItem();
+        if (selectedService == null) {
+            showSaleAlert(Alert.AlertType.ERROR, "Selection Error", "No service selected for update.");
+            return;
+        }
+        int currentServiceId = selectedService.getIdss();
+
         String name = tfName_SaleService.getText();
         String price = tfPrice_SaleService.getText();
         String type = cbType_SaleService.getValue();
@@ -4026,13 +4164,29 @@ public class AdminPageController implements Initializable {
             return;
         }
 
+        if (!isUniqueNameForUpdate(name, currentServiceId)) {
+            showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Name already exists. Please choose a different name.");
+            return;
+        }
+
+        try {
+            float priceValue = Integer.parseInt(price);
+            if (priceValue < 0) {
+                showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Price cannot be negative.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Price must be a valid number.");
+            return;
+        }
+
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
-        String query = "UPDATE ser_sell SET price = ?, idc = ?, qoh = ?, img = ? WHERE name = ?";
+        String query = "UPDATE ser_sell SET price = ?, idc = ?, qoh = ?, img = ? WHERE idss = ?";
 
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setFloat(1, Float.parseFloat(price));
+            ps.setInt(1, Integer.parseInt(price));
 
             int idc = getIdcFromSaleType(type);
             ps.setInt(2, idc);
@@ -4050,7 +4204,7 @@ public class AdminPageController implements Initializable {
                 ps.setString(4, currentImage);
             }
 
-            ps.setString(5, name);
+            ps.setInt(5, currentServiceId);
 
             ps.executeUpdate();
             showSaleAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully!");
@@ -4061,61 +4215,8 @@ public class AdminPageController implements Initializable {
         }
     }
 
-    private int getIdcFromSaleType(String type) {
-        switch (type) {
-            case "Food":
-                return 1;
-            case "Drinks":
-                return 2;
-            case "Accessories":
-                return 3;
-            default:
-                return 0;
-        }
-    }
-
-    private String getCurrentSaleImageFromDB(String name) {
-        ConnectDB con = new ConnectDB();
-        Connection cn = con.getConnect();
-        String query = "SELECT img FROM ser_sell WHERE name = ?";
-        try {
-            PreparedStatement ps = cn.prepareStatement(query);
-            ps.setString(1, name);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("img");
-            }
-        } catch (SQLException ex) {
-            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching current image.");
-        }
-        return null;
-    }
-
     @FXML
-    private void deleteSaleService(ActionEvent event) {
-        Service_Sell selectedService = tbView_Ser.getSelectionModel().getSelectedItem();
-        if (selectedService == null) {
-            showSaleAlert(Alert.AlertType.ERROR, "Delete Error", "Please select a service to delete.");
-            return;
-        }
-
-        int idss = selectedService.getIdss();
-        ConnectDB con = new ConnectDB();
-        Connection cn = con.getConnect();
-        String query = "DELETE FROM ser_sell WHERE idss = ?";
-        try {
-            PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idss);
-            ps.executeUpdate();
-            showSaleAlert(Alert.AlertType.INFORMATION, "Success", "Service deleted successfully!");
-            showSaleProducts();
-        } catch (SQLException ex) {
-            showSaleAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the service.");
-        }
-    }
-
-    @FXML
-    public void addSaleService(ActionEvent event) {
+    private void addSaleService(ActionEvent event) {
         String name = tfName_SaleService.getText();
         String price = tfPrice_SaleService.getText();
         String type = cbType_SaleService.getValue();
@@ -4127,25 +4228,41 @@ public class AdminPageController implements Initializable {
             return;
         }
 
+        if (!isUniqueName(name)) {
+            showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Name already exists. Please choose a different name.");
+            return;
+        }
+
+        try {
+            float priceValue = Integer.parseInt(price);
+            if (priceValue < 0) {
+                showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Price cannot be negative.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Price must be a valid number.");
+            return;
+        }
+
         ConnectDB con = new ConnectDB();
         Connection cn = con.getConnect();
-        String query = "INSERT INTO ser_sell (idc, name, price, img, qoh) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO ser_sell (name, price, idc, qoh, img) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = cn.prepareStatement(query);
-            int idc = getIdcFromSaleType(type);
-            ps.setInt(1, idc);
-            ps.setString(2, name);
-            ps.setFloat(3, Float.parseFloat(price));
-            ps.setString(4, imageFileName);
-            ps.setInt(5, quantity);
+            ps.setString(1, name);
+            ps.setInt(2, Integer.parseInt(price));
 
-            if (selectedFile != null) {
-                Path destination = Paths.get(IMAGE_DIR, selectedFile.getName());
-                if (!Files.exists(destination)) {
-                    Files.copy(selectedFile.toPath(), destination);
-                }
+            int idc = getIdcFromSaleType(type);
+            ps.setInt(3, idc);
+
+            ps.setInt(4, quantity);
+
+            Path destination = Paths.get(IMAGE_DIR, imageFileName);
+            if (!Files.exists(destination)) {
+                Files.copy(selectedFile.toPath(), destination);
             }
+            ps.setString(5, imageFileName);
 
             ps.executeUpdate();
             showSaleAlert(Alert.AlertType.INFORMATION, "Success", "Service added successfully!");
@@ -4156,31 +4273,139 @@ public class AdminPageController implements Initializable {
         }
     }
 
-    @FXML
-    private void onSelectSellProduct(MouseEvent event) {
-        Service_Sell selectedService = tbView_Ser.getSelectionModel().getSelectedItem();
+    private int getIdcFromSaleType(String type) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        int idc = -1;
 
-        if (selectedService != null) {
+        String query = "SELECT idc FROM cat_ser WHERE type = ?";
+        try {
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, type);
+            ResultSet rs = ps.executeQuery();
 
-            tfName_SaleService.setText(selectedService.getName());
-            tfPrice_SaleService.setText(String.valueOf(selectedService.getPrice()));
-            cbType_SaleService.setValue(selectedService.getType());
-            Quantity_SaleService.getValueFactory().setValue(selectedService.getQoh());
-
-            if (selectedService.getImg() != null && selectedService.getImg().getImage() != null) {
-                imageview_SaleService.setImage(selectedService.getImg().getImage());
-            } else {
-                imageview_SaleService.setImage(null);
+            if (rs.next()) {
+                idc = rs.getInt("idc");
             }
+        } catch (SQLException ex) {
+            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching category ID.");
+        }
+
+        return idc;
+    }
+
+    private String getCurrentSaleImageFromDB(String name) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        String currentImage = "";
+
+        String query = "SELECT img FROM ser_sell WHERE name = ?";
+        try {
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                currentImage = rs.getString("img");
+            }
+        } catch (SQLException ex) {
+            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching service image.");
+        }
+
+        return currentImage;
+    }
+
+    private boolean isUniqueName(String name) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        boolean isUnique = true;
+
+        String query = "SELECT * FROM ser_sell WHERE name = ?";
+        try {
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                isUnique = false;
+            }
+        } catch (SQLException ex) {
+            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while checking service name uniqueness.");
+        }
+
+        return isUnique;
+    }
+
+    private boolean isUniqueNameForUpdate(String name, int currentServiceId) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        boolean isUnique = true;
+
+        String query = "SELECT * FROM ser_sell WHERE name = ? AND idss != ?";
+        try {
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setInt(2, currentServiceId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                isUnique = false;
+            }
+        } catch (SQLException ex) {
+            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while checking service name uniqueness.");
+        }
+
+        return isUnique;
+    }
+
+    private void showSaleAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void filterServicesByType(String type) {
+        ObservableList<Service_Sell> filteredList = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT ss.img, ss.name, cs.type, ss.price, ss.qoh, ss.idss "
+                    + "FROM ser_sell ss INNER JOIN cat_ser cs ON ss.idc = cs.idc "
+                    + "WHERE cs.type = ?";
+
+            try (PreparedStatement ps = cn.prepareStatement(query)) {
+                ps.setString(1, type);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    int price = rs.getInt("price");
+                    String image = rs.getString("img");
+                    Image img = new Image("file:" + IMAGE_DIR + image);
+                    ImageView imgView = new ImageView(img);
+                    imgView.setFitHeight(80);
+                    imgView.setFitWidth(100);
+                    int qoh = rs.getInt("qoh");
+                    int idss = rs.getInt("idss");
+                    Service_Sell ss = new Service_Sell(name, type, price, imgView, qoh, idss);
+                    filteredList.add(ss);
+                }
+
+                tbView_Ser.setItems(filteredList); // Update table with filtered data
+
+            } catch (SQLException ex) {
+                showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while filtering services.");
+            }
+        } catch (SQLException ex) {
+            showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while connecting to database.");
         }
     }
 
     @FXML
-    private void searchSellService(ActionEvent event) {
+    private void searchSaleService(ActionEvent event) {
         String searchText = btnSearch_Ser.getText().trim();
 
         if (searchText.isEmpty()) {
-
             showSaleProducts();
         } else {
             ObservableList<Service_Sell> filteredList = FXCollections.observableArrayList();
@@ -4210,7 +4435,7 @@ public class AdminPageController implements Initializable {
                     filteredList.add(ss);
                 }
 
-                tbView_Ser.setItems(filteredList);
+                tbView_Ser.setItems(filteredList); // Đặt lại dữ liệu cho bảng
 
             } catch (SQLException ex) {
                 showSaleAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while searching services.");
@@ -4218,16 +4443,41 @@ public class AdminPageController implements Initializable {
         }
     }
 
-    ////--------------------------------------------------Rent SERVICE
+    @FXML
+    private void onSelectSaleProduct(MouseEvent event) {
+        try {
+            Service_Sell selectedService = tbView_Ser.getSelectionModel().getSelectedItem();
+            if (selectedService != null) {
+                tfName_SaleService.setText(selectedService.getName());
+                tfPrice_SaleService.setText(String.valueOf(selectedService.getPrice()));
+                cbType_SaleService.setValue(selectedService.getType());
+                Quantity_SaleService.getValueFactory().setValue(selectedService.getQoh());
+                imageview_SaleService.setImage(selectedService.getImg().getImage());
+            }
+        } catch (Exception e) {
+            showSaleAlert(Alert.AlertType.ERROR, "Error", "An error occurred while selecting the service: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    ////----------------------------------------------------------------------------------------------------
+    ////--------------------------------------------------Rent SERVICE--------------------------------------------------
+    ////----------------------------------------------------------------------------------------------------
+    private void setupRentComboBox(){
+        ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
+        cbType_RentService.setItems(TypeServiceList);
+    }
     private void setupOpenRentServicePage() {
-        RentcomboBox();
+        categoryDAO = new CategoryDAO();
+        setupRentComboBox();
         showRentProducts();
         Rentspinner();
     }
-
+    
+    
     @FXML
     private void RentcomboBox() {
-        cbType_RentService.setItems(dataList);
+        
     }
 
     private void Rentspinner() {
@@ -4273,6 +4523,15 @@ public class AdminPageController implements Initializable {
         Integer quantity = Quantity_RentService.getValue();
         String imageFileName = selectedFile != null ? selectedFile.getName() : null;
 
+        if (!validateRentServiceInput(name, price, type, quantity)) {
+            return;
+        }
+
+        if (!isUniqueRentName(name)) {
+            showRentAlert(Alert.AlertType.ERROR, "Validation Error", "Name already exists.");
+            return;
+        }
+
         ConnectDB con = new ConnectDB();
         try (Connection cn = con.getConnect()) {
             String query = "INSERT INTO ser_rent (idc, name, price, img, qoh) VALUES (?, ?, ?, ?, ?)";
@@ -4280,7 +4539,7 @@ public class AdminPageController implements Initializable {
             int idc = getIdcFromRentType(type);
             ps.setInt(1, idc);
             ps.setString(2, name);
-            ps.setFloat(3, Float.parseFloat(price));
+            ps.setInt(3, Integer.parseInt(price));
             ps.setString(4, imageFileName);
             ps.setInt(5, quantity);
 
@@ -4288,7 +4547,6 @@ public class AdminPageController implements Initializable {
             if (!Files.exists(destination)) {
                 Files.copy(selectedFile.toPath(), destination);
             } else {
-
                 showRentAlert(Alert.AlertType.ERROR, "File Error!", "Image file already exists. Please choose another image.");
                 return;
             }
@@ -4307,29 +4565,66 @@ public class AdminPageController implements Initializable {
         }
     }
 
-    private int getIdcFromRentType(String type) {
-        switch (type) {
-            case "Food":
-                return 1;
-            case "Drinks":
-                return 2;
-            case "Accessories":
-                return 3;
-            default:
-                return 0;
+    private boolean validateRentServiceInput(String name, String price, String type, Integer quantity) {
+        if (name.isEmpty() || price.isEmpty() || type == null || quantity == null || selectedFile == null) {
+            showRentAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill all the fields and select an image.");
+            return false;
         }
+
+        try {
+            int parsedPrice = Integer.parseInt(price);
+            if (parsedPrice < 0) {
+                showRentAlert(Alert.AlertType.ERROR, "Validation Error", "Price must be a positive number.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showRentAlert(Alert.AlertType.ERROR, "Validation Error", "Price must be a valid number.");
+            return false;
+        }
+
+        return true;
     }
 
-    @FXML
-    private void clearRentService(ActionEvent event) {
-        clearInRentServicePage();
+    private boolean isUniqueRentName(String name) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT COUNT(*) FROM ser_rent WHERE name = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            showRentAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while checking the uniqueness of the name.");
+        }
+        return true;
+    }
+
+    private int getIdcFromRentType(String type) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT idc FROM cat_ser WHERE type = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, type);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("idc");
+            } else {
+                showRentAlert(Alert.AlertType.ERROR, "Database Error", "Service type not found.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            showRentAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while retrieving the service type ID.");
+            return 0;
+        }
     }
 
     @FXML
     private void updateRentService(ActionEvent event) {
         Service_Rent selectedService = tbView_Ren.getSelectionModel().getSelectedItem();
         if (selectedService == null) {
-            showRentAlert(Alert.AlertType.ERROR, "Update Error", "Please select a service to update.");
+            showRentAlert(Alert.AlertType.ERROR, "Selection Error", "Please select a service to update.");
             return;
         }
 
@@ -4337,49 +4632,56 @@ public class AdminPageController implements Initializable {
         String price = tfPrice_RentService.getText();
         String type = cbType_RentService.getValue();
         Integer quantity = Quantity_RentService.getValue();
-        String imageFileName = selectedFile != null ? selectedFile.getName() : null;
+        String currentImage = getCurrentRentImageFromDB(selectedService.getName());
 
-        if (name.isEmpty() || price.isEmpty() || type == null || quantity == null || imageFileName == null) {
-            showRentAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill all the fields and select an image.");
+        if (!validateRentServiceInput(name, price, type, quantity)) {
             return;
+        }
+
+        String newImage = null;
+        if (selectedFile != null) {
+            newImage = selectedFile.getName();
+            Path destination = Paths.get(IMAGE_DIR, newImage);
+            try {
+                if (!Files.exists(destination)) {
+                    Files.copy(selectedFile.toPath(), destination);
+                } else {
+                    showRentAlert(Alert.AlertType.ERROR, "File Error!", "Image file already exists. Please choose another image.");
+                    return;
+                }
+            } catch (IOException e) {
+                showRentAlert(Alert.AlertType.ERROR, "File Error!", "An error occurred while copying the image.");
+                return;
+            }
+        } else {
+            newImage = currentImage;
         }
 
         ConnectDB con = new ConnectDB();
         try (Connection cn = con.getConnect()) {
-            String query = "UPDATE ser_rent SET price = ?, idc = ?, qoh = ?, img = ? WHERE idsr = ?";
+            String query = "UPDATE ser_rent SET idc = ?, name = ?, price = ?, img = ?, qoh = ? WHERE idsr = ?";
             PreparedStatement ps = cn.prepareStatement(query);
-            ps.setFloat(1, Float.parseFloat(price));
-
             int idc = getIdcFromRentType(type);
-            ps.setInt(2, idc);
-
-            ps.setInt(3, quantity);
-
-            if (selectedFile != null) {
-                Path destination = Paths.get(IMAGE_DIR, selectedFile.getName());
-                Files.copy(selectedFile.toPath(), destination);
-                ps.setString(4, selectedFile.getName());
-            } else {
-                String currentImage = getCurrentRentImageFromDB(name);
-                ps.setString(4, currentImage);
-            }
-
-            ps.setInt(5, selectedService.getIdsr());
+            ps.setInt(1, idc);
+            ps.setString(2, name);
+            ps.setInt(3, Integer.parseInt(price));
+            ps.setString(4, newImage);
+            ps.setInt(5, quantity);
+            ps.setInt(6, selectedService.getIdsr());
 
             ps.executeUpdate();
             showRentAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully!");
             clearInRentServicePage();
             showRentProducts();
-        } catch (SQLException | IOException ex) {
+        } catch (SQLException ex) {
             showRentAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the service.");
         }
     }
 
     private String getCurrentRentImageFromDB(String name) {
         ConnectDB con = new ConnectDB();
-        Connection cn = con.getConnect();
-        String query = "SELECT img FROM ser_rent WHERE name = ?";
-        try {
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT img FROM ser_rent WHERE name = ?";
             PreparedStatement ps = cn.prepareStatement(query);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
@@ -4390,28 +4692,6 @@ public class AdminPageController implements Initializable {
             showRentAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching current image.");
         }
         return null;
-    }
-
-    @FXML
-    private void deleteRentService(ActionEvent event) {
-        Service_Rent selectedService = tbView_Ren.getSelectionModel().getSelectedItem();
-        if (selectedService == null) {
-            showRentAlert(Alert.AlertType.ERROR, "Delete Error", "Please select a service to delete.");
-            return;
-        }
-
-        int idsr = selectedService.getIdsr();
-        ConnectDB con = new ConnectDB();
-        try (Connection cn = con.getConnect()) {
-            String query = "DELETE FROM ser_rent WHERE idsr = ?";
-            PreparedStatement ps = cn.prepareStatement(query);
-            ps.setInt(1, idsr);
-            ps.executeUpdate();
-            showRentAlert(Alert.AlertType.INFORMATION, "Success", "Service deleted successfully!");
-            showRentProducts();
-        } catch (SQLException ex) {
-            showRentAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the service.");
-        }
     }
 
     @FXML
@@ -4517,4 +4797,810 @@ public class AdminPageController implements Initializable {
 
         return list;
     }
+
+    @FXML
+    private void clearRentService(ActionEvent event) {
+        clearInRentServicePage();
+    }
+
+    ////----------------------------------------------------------------------------------------------------
+    ////--------------------------------------------------PITCH--------------------------------------------------
+    ////---------------------------------------------------------------------------------------------------
+    private void setupOpenPitchPage() {
+        cbAvailable_Field.setItems(availabilityList);
+        initializeColumns();
+        showFieldProducts();
+        populateSizeComboBox();
+
+        // Thêm sự kiện lắng nghe cho ComboBox cbSize_Field
+        cbSize_Field.setOnAction(event -> {
+            String selectedSize = cbSize_Field.getValue();
+            if (selectedSize != null && !selectedSize.isEmpty()) {
+                int price = fetchPriceForSize(selectedSize);
+                if (price > 0) {
+                    tfPrice_Field.setText(Integer.toString(price));
+                } else {
+                    tfPrice_Field.clear(); // Nếu không tìm thấy giá, xóa nội dung của tfPrice_Field
+                }
+            }
+        });
+    }
+
+    private int fetchPriceForSize(String size) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT price FROM cat_san WHERE size = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, size);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("price");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while fetching price: " + ex.getMessage());
+        }
+        return 0; // Trả về 0 nếu không tìm thấy giá
+    }
+
+    private void initializeColumns() {
+        colIdcp_Field.setCellValueFactory(new PropertyValueFactory<>("idcp"));
+        colName_Field.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAvailable_Field.setCellValueFactory(new PropertyValueFactory<>("availableDescription"));
+        colSize_Field.setCellValueFactory(new PropertyValueFactory<>("size"));
+        colPrice_Field.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
+
+    @FXML
+    private void addField() {
+        String name = tfName_Field.getText();
+        String size = cbSize_Field.getValue();
+        int price = Integer.parseInt(tfPrice_Field.getText());
+
+        if (name.isEmpty() || size.isEmpty()) {
+            showFieldAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide a name and size.");
+            return;
+        }
+
+        if (price <= 0) {
+            showFieldAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide a valid price.");
+            return;
+        }
+
+        int idcp = fetchCategoryId(size, price);
+        if (idcp == 0) {
+            return;
+        }
+
+        if (isNameExists(name)) {
+            showFieldAlert(Alert.AlertType.ERROR, "Validation Error", "Field with this name already exists.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "INSERT INTO sanbong (idcp, name, available) VALUES (?, ?, ?)";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, idcp);
+            ps.setString(2, name);
+            ps.setInt(3, 0);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                showFieldAlert(Alert.AlertType.INFORMATION, "Success", "Field added successfully!");
+                clearField();
+                showFieldProducts();
+            } else {
+                showFieldAlert(Alert.AlertType.ERROR, "Error", "Failed to add field. No rows affected.");
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the field: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean isNameExists(String name) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT COUNT(*) AS count FROM sanbong WHERE name = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while checking for existing name: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    private void clearInPitchPage() {
+        tfName_Field.clear();
+        cbAvailable_Field.getSelectionModel().clearSelection();
+        cbSize_Field.getSelectionModel().clearSelection();
+        tfPrice_Field.clear();
+    }
+
+    @FXML
+    private void clearField() {
+        clearInPitchPage();
+    }
+
+    @FXML
+    private void updateField() {
+        Pitch selectedField = tbView_Field.getSelectionModel().getSelectedItem();
+
+        if (selectedField == null) {
+            showFieldAlert(Alert.AlertType.ERROR, "Selection Error", "Please select a field to update.");
+            return;
+        }
+
+        String name = tfName_Field.getText();
+        String availableDescription = cbAvailable_Field.getValue();
+        int availability = availableDescription != null ? getAvailabilityCode(availableDescription) : -1;
+        String size = cbSize_Field.getValue();
+        int price = Integer.parseInt(tfPrice_Field.getText());
+
+        if (name.isEmpty() || size.isEmpty() || price <= 0) {
+            showFieldAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide a name, size, and valid price.");
+            return;
+        }
+
+        int idcp = fetchCategoryId(size, price);
+        if (idcp == 0) {
+            return;
+        }
+
+        if (isNameExistsForUpdate(name, selectedField.getIdp())) {
+            showFieldAlert(Alert.AlertType.ERROR, "Validation Error", "Another field with this name already exists.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "UPDATE sanbong SET name=?, available=?, idcp=? WHERE idp=?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setInt(2, availability);
+            ps.setInt(3, idcp);
+            ps.setInt(4, selectedField.getIdp());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                showFieldAlert(Alert.AlertType.INFORMATION, "Success", "Field updated successfully!");
+                clearField();
+                showFieldProducts();
+            } else {
+                showFieldAlert(Alert.AlertType.ERROR, "Error", "Failed to update field. No rows affected.");
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the field: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean isNameExistsForUpdate(String name, int idp) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT COUNT(*) AS count FROM sanbong WHERE name = ? AND idp <> ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setInt(2, idp);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while checking for existing name: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @FXML
+    private void deleteField() {
+        Pitch selectedField = tbView_Field.getSelectionModel().getSelectedItem();
+
+        if (selectedField == null) {
+            showFieldAlert(Alert.AlertType.ERROR, "Selection Error", "Please select a field to delete.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "DELETE FROM sanbong WHERE idp=?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, selectedField.getIdp());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                showFieldAlert(Alert.AlertType.INFORMATION, "Success", "Field deleted successfully!");
+                clearField();
+                showFieldProducts();
+            } else {
+                showFieldAlert(Alert.AlertType.ERROR, "Error", "Failed to delete field. No rows affected.");
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the field: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private void showFieldProducts() {
+        ObservableList<Pitch> fieldList = fetchFieldList();
+        tbView_Field.setItems(fieldList);
+    }
+
+    private ObservableList<Pitch> fetchFieldList() {
+        ObservableList<Pitch> fieldList = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT * FROM sanbong";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                int idp = rs.getInt("idp");
+                int idcp = rs.getInt("idcp");
+                String name = rs.getString("name");
+                int available = rs.getInt("available");
+
+                PitchCategory category = fetchCategoryDetails(idcp);
+                if (category != null) {
+                    String size = category.getSize();
+                    int price = category.getPrice();
+                    Pitch field = new Pitch(idp, name, available, idcp, size, price);
+                    fieldList.add(field);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return fieldList;
+    }
+
+    private PitchCategory fetchCategoryDetails(int idcp) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT size, price FROM cat_san WHERE idcp = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, idcp);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String size = rs.getString("size");
+                int price = rs.getInt("price");
+                return new PitchCategory(idcp, size, price);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private int fetchCategoryId(String size, int price) {
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT idcp FROM cat_san WHERE size = ? AND price = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, size);
+            ps.setInt(2, price);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("idcp");
+            } else {
+                showFieldAlert(Alert.AlertType.ERROR, "Error", "No category found for the specified size and price.");
+            }
+        } catch (SQLException ex) {
+            showFieldAlert(Alert.AlertType.ERROR, "Error", "An error occurred while fetching the category ID: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void showFieldAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private int getAvailabilityCode(String availableDescription) {
+        switch (availableDescription) {
+            case "Available":
+                return 0;
+            case "Renting":
+                return 1;
+            case "Booking":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    @FXML
+    private void searchField() {
+        String searchQuery = btnSearch_Field.getText();
+        ObservableList<Pitch> searchResults = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT * FROM sanbong WHERE name LIKE ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, "%" + searchQuery + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idp = rs.getInt("idp");
+                int idcp = rs.getInt("idcp");
+                String name = rs.getString("name");
+                int available = rs.getInt("available");
+
+                PitchCategory category = fetchCategoryDetails(idcp);
+                if (category != null) {
+                    String size = category.getSize();
+                    int price = category.getPrice();
+                    Pitch field = new Pitch(idp, name, available, idcp, size, price);
+                    searchResults.add(field);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        tbView_Field.setItems(searchResults);
+    }
+
+    private void populateSizeComboBox() {
+        ObservableList<String> sizeOptions = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT DISTINCT size FROM cat_san";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                sizeOptions.add(rs.getString("size"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        cbSize_Field.setItems(sizeOptions);
+    }
+
+    @FXML
+    private void onSelectFieldProduct(MouseEvent event) {
+        Pitch selectedField = tbView_Field.getSelectionModel().getSelectedItem();
+
+        if (selectedField != null) {
+            tfName_Field.setText(selectedField.getName());
+            cbAvailable_Field.setValue(selectedField.getAvailableDescription());
+            cbSize_Field.setValue(selectedField.getSize());
+            tfPrice_Field.setText(Integer.toString(selectedField.getPrice()));
+        }
+    }
+
+    ////----------------------------------------------------------------------------------------------------
+    ////--------------------------------------------------PITCH CATEGORY--------------------------------------------------
+    ////----------------------------------------------------------------------------------------------------
+    private void setupOpenCatePitch() {
+        showFieldCateProducts();
+    }
+
+    private void showFieldCateProducts() {
+        ObservableList<PitchCategory> fcList = getPitchCategory();
+
+        colSize_FieldCategory.setCellValueFactory(new PropertyValueFactory<>("size"));
+        colPrice_FieldCategory.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        tbView_FieldCate.setItems(fcList);
+    }
+
+    public ObservableList<PitchCategory> getPitchCategory() {
+        ObservableList<PitchCategory> list = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT cs.idcp, cs.size, cs.price FROM cat_san cs";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                int idcp = rs.getInt("idcp");
+                String size = rs.getString("size");
+                int price = rs.getInt("price");
+                PitchCategory fc = new PitchCategory(idcp, size, price);
+                list.add(fc);
+            }
+
+        } catch (SQLException ex) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching services.");
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    private void clearInCatePitchPage() {
+        tfSize_FieldCategory.clear();
+        tfPrice_FieldCategory.clear();
+    }
+
+    private void showFieldCateAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void addFieldCategory() {
+        String size = tfSize_FieldCategory.getText();
+        String price = tfPrice_FieldCategory.getText();
+
+        if (size == null || size.isEmpty() || price == null || price.isEmpty()) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide size and price.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String idcpQuery = "SELECT MAX(idcp) AS max_id FROM cat_san";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(idcpQuery);
+            int newIdcp = 1;
+            if (rs.next()) {
+                newIdcp = rs.getInt("max_id") + 1;
+            }
+
+            String query = "INSERT INTO cat_san (idcp, size, price) VALUES (?, ?, ?)";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, newIdcp);
+            ps.setString(2, size);
+            ps.setInt(3, Integer.parseInt(price));
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                showFieldCateAlert(Alert.AlertType.INFORMATION, "Success", "Field category added successfully!");
+                clearInCatePitchPage();
+                showFieldCateProducts();
+            } else {
+                showFieldCateAlert(Alert.AlertType.ERROR, "Error", "Failed to add field category. No rows affected.");
+            }
+        } catch (SQLException ex) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the field category: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void updateFieldCategory(ActionEvent event) {
+        PitchCategory selectedCategory = tbView_FieldCate.getSelectionModel().getSelectedItem();
+        if (selectedCategory == null) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Update Error", "Please select a category to update.");
+            return;
+        }
+
+        String size = tfSize_FieldCategory.getText();
+        String price = tfPrice_FieldCategory.getText();
+
+        if (size == null || size.isEmpty() || price == null || price.isEmpty()) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide size and price.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "UPDATE cat_san SET size = ?, price = ? WHERE idcp = ?";
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setString(1, size);
+            ps.setInt(2, Integer.parseInt(price));
+            ps.setInt(3, selectedCategory.getIdcp());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                showFieldCateAlert(Alert.AlertType.INFORMATION, "Success", "Field category updated successfully!");
+                clearInCatePitchPage();
+                showFieldCateProducts();
+            } else {
+                showFieldCateAlert(Alert.AlertType.ERROR, "Error", "Failed to update field category. No rows affected.");
+            }
+        } catch (SQLException ex) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the field category: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void deleteFieldCategory(ActionEvent event) {
+        PitchCategory selectedCategory = tbView_FieldCate.getSelectionModel().getSelectedItem();
+        if (selectedCategory == null) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Delete Error", "Please select a category to delete.");
+            return;
+        }
+
+        int idcp = selectedCategory.getIdcp();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String checkRefQuery = "SELECT COUNT(*) AS countRefs FROM sanbong WHERE idcp = ?";
+            PreparedStatement checkRefStmt = cn.prepareStatement(checkRefQuery);
+            checkRefStmt.setInt(1, idcp);
+            ResultSet rs = checkRefStmt.executeQuery();
+            if (rs.next()) {
+                int countRefs = rs.getInt("countRefs");
+                if (countRefs > 0) {
+                    showFieldCateAlert(Alert.AlertType.ERROR, "Delete Error", "Cannot delete this category because it is referenced in sanbong.");
+                    return;
+                }
+            }
+
+            String deleteQuery = "DELETE FROM cat_san WHERE idcp = ?";
+            PreparedStatement deleteStmt = cn.prepareStatement(deleteQuery);
+            deleteStmt.setInt(1, idcp);
+            deleteStmt.executeUpdate();
+
+            showFieldCateAlert(Alert.AlertType.INFORMATION, "Success", "Field category deleted successfully!");
+            showFieldCateProducts();
+        } catch (SQLException ex) {
+            showFieldCateAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the field category: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void searchFieldCategory(ActionEvent event) {
+        String searchText = btnSearch_FieldCate.getText().trim();
+
+        if (searchText.isEmpty()) {
+            showFieldCateProducts();
+        } else {
+            ObservableList<PitchCategory> filteredList = FXCollections.observableArrayList();
+            ConnectDB con = new ConnectDB();
+
+            try (Connection cn = con.getConnect()) {
+                String sql = "SELECT cs.idcp, cs.size, cs.price FROM cat_san cs WHERE cs.size LIKE ?";
+                PreparedStatement stmt = cn.prepareStatement(sql);
+                stmt.setString(1, "%" + searchText + "%");
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    int idcp = rs.getInt("idcp");
+                    String size = rs.getString("size");
+                    float price = rs.getFloat("price");
+
+                    PitchCategory fc = new PitchCategory(idcp, size, (int) price);
+                    filteredList.add(fc);
+                }
+
+                tbView_FieldCate.setItems(filteredList);
+            } catch (SQLException ex) {
+                showFieldCateAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while searching: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    private void onSelectFieldCateProduct(MouseEvent event) {
+        PitchCategory selectedCategory = tbView_FieldCate.getSelectionModel().getSelectedItem();
+
+        if (selectedCategory != null) {
+            tfSize_FieldCategory.setText(String.valueOf(selectedCategory.getSize()));
+            tfPrice_FieldCategory.setText(String.valueOf(selectedCategory.getPrice()));
+        }
+    }
+
+    @FXML
+    private void clearFieldCategory(ActionEvent event) {
+        clearInCatePitchPage();
+    }
+
+    ////----------------------------------------------------------------------------------------------------
+    ////--------------------------------------------------SERVICE CATEGORY--------------------------------------------------
+    ////----------------------------------------------------------------------------------------------------
+    private void setupOpenCateService() {
+        showCategoryService();
+    }
+
+    @FXML
+    private void addCategoryService(ActionEvent event) {
+        String type = tfType_CategoryService.getText().trim();
+
+        if (type.isEmpty()) {
+            showCategoryServiceAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide a category service type.");
+            return;
+        }
+
+        if (isTypeAlreadyExists(type)) {
+            showCategoryServiceAlert(Alert.AlertType.ERROR, "Duplicate Type", "Category Service with this type already exists.");
+            return;
+        }
+
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String idcQuery = "SELECT MAX(idc) AS max_id FROM cat_ser";
+            try (Statement st = cn.createStatement(); ResultSet rs = st.executeQuery(idcQuery)) {
+                int newIdc = 1;
+                if (rs.next()) {
+                    newIdc = rs.getInt("max_id") + 1;
+                }
+
+                String query = "INSERT INTO cat_ser (idc, type) VALUES (?, ?)";
+                try (PreparedStatement ps = cn.prepareStatement(query)) {
+                    ps.setInt(1, newIdc);
+                    ps.setString(2, type);
+
+                    int rowsAffected = ps.executeUpdate();
+                    if (rowsAffected > 0) {
+                        showCategoryServiceAlert(Alert.AlertType.INFORMATION, "Success", "Category Service added successfully!");
+                        clearInCateServicePage();
+                        showCategoryService();
+                    } else {
+                        showCategoryServiceAlert(Alert.AlertType.ERROR, "Error", "Failed to add Category Service. No rows affected.");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            showCategoryServiceAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the category service: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean isTypeAlreadyExists(String type) {
+        ObservableList<ServiceCategory> currentList = tbView_CategoryService.getItems();
+        for (ServiceCategory cs : currentList) {
+            if (cs.getType().equals(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @FXML
+    private void clearCategoryService(ActionEvent event) {
+        clearInCateServicePage();
+    }
+
+    private void clearInCateServicePage() {
+        tfType_CategoryService.clear();
+    }
+
+    private void showCategoryServiceAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showCategoryService() {
+        ObservableList<ServiceCategory> csList = getCategoryService();
+
+        colType_CategoryService.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        tbView_CategoryService.setItems(csList);
+    }
+
+    public ObservableList<ServiceCategory> getCategoryService() {
+        ObservableList<ServiceCategory> list = FXCollections.observableArrayList();
+        ConnectDB con = new ConnectDB();
+        try (Connection cn = con.getConnect()) {
+            String query = "SELECT idc, type FROM cat_ser";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                int idc = rs.getInt("idc");
+                String type = rs.getString("type");
+                ServiceCategory cs = new ServiceCategory(idc, type);
+                list.add(cs);
+            }
+
+        } catch (SQLException ex) {
+            showCategoryServiceAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching category services.");
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @FXML
+    private void deleteCategoryService(ActionEvent event) {
+        Optional<ButtonType> result = showConfirmationAlert("Confirm Deletion", "Are you sure you want to delete this category service?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            ServiceCategory selectedCategory = tbView_CategoryService.getSelectionModel().getSelectedItem();
+            if (selectedCategory != null) {
+                if (this.categoryServiceList == null) {
+                    this.categoryServiceList = FXCollections.observableArrayList();
+                }
+                this.categoryServiceList.remove(selectedCategory);
+                // Delete from database
+                ConnectDB con = new ConnectDB();
+                Connection cn = con.getConnect();
+                String query = "DELETE FROM cat_ser WHERE idc = ?";
+                try (PreparedStatement ps = cn.prepareStatement(query)) {
+                    ps.setInt(1, selectedCategory.getIdc());
+                    int affectedRows = ps.executeUpdate();
+                    if (affectedRows > 0) {
+                        showInformationAlert("Success", "Category service deleted successfully!");
+                    } else {
+                        showInformationAlert("Error", "Failed to delete category service.");
+                    }
+                } catch (SQLException ex) {
+                    showInformationAlert("Database Error", "An error occurred while deleting category service.");
+                }
+                showCategoryService();
+            } else {
+                showInformationAlert("Selection Error", "No category service selected for deletion.");
+            }
+        }
+    }
+
+    public static Optional<ButtonType> showConfirmationAlert(String title, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(contentText);
+
+        return alert.showAndWait();
+    }
+
+    public static void showInformationAlert(String title, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(contentText);
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void updateCategoryService(ActionEvent event) {
+        ServiceCategory selectedCategory = tbView_CategoryService.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null) {
+            String type = tfType_CategoryService.getText().trim();
+
+            if (type.isEmpty()) {
+                showCategoryServiceAlert(Alert.AlertType.ERROR, "Validation Error", "Please provide a category service type.");
+                return;
+            }
+
+            if (!type.equals(selectedCategory.getType()) && isTypeAlreadyExists(type)) {
+                showCategoryServiceAlert(Alert.AlertType.ERROR, "Duplicate Type", "Category Service with this type already exists.");
+                return;
+            }
+
+            ConnectDB con = new ConnectDB();
+            try (Connection cn = con.getConnect()) {
+                String query = "UPDATE cat_ser SET type = ? WHERE idc = ?";
+                try (PreparedStatement ps = cn.prepareStatement(query)) {
+                    ps.setString(1, type);
+                    ps.setInt(2, selectedCategory.getIdc());
+
+                    int rowsAffected = ps.executeUpdate();
+                    if (rowsAffected > 0) {
+                        showCategoryServiceAlert(Alert.AlertType.INFORMATION, "Success", "Category Service updated successfully!");
+                        clearInCateServicePage();
+                        showCategoryService();
+                    } else {
+                        showCategoryServiceAlert(Alert.AlertType.ERROR, "Error", "Failed to update Category Service. No rows affected.");
+                    }
+                }
+            } catch (SQLException ex) {
+                showCategoryServiceAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the category service: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        } else {
+            showCategoryServiceAlert(Alert.AlertType.ERROR, "Selection Error", "No category service selected for update.");
+        }
+    }
+
+    @FXML
+    private void onSelectCategoryService(MouseEvent event) {
+        ServiceCategory selectedCategory = tbView_CategoryService.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null) {
+            tfType_CategoryService.setText(selectedCategory.getType());
+        }
+    }
+
 }

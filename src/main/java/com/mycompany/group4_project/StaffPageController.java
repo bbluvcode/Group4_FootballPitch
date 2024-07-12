@@ -92,144 +92,274 @@ import javafx.scene.shape.Circle;
  */
 public class StaffPageController implements Initializable {
 
+    @FXML
     private ImageView ivEmployee;
+    @FXML
     private Label tfEmployeeName;
+    @FXML
     private AnchorPane staff_page;
+    @FXML
     private BorderPane EditProfilePage;
+    @FXML
     private AnchorPane openEditProfile;
+    @FXML
     private ImageView View__EditProfile;
+    @FXML
     private Button btnImg_EditProfile;
+    @FXML
     private TextField tfPhone_EditProfile;
+    @FXML
     private TextField tfPosition_EditProfile;
+    @FXML
     private TextField tfName_EditProfile;
+    @FXML
     private RadioButton rdMale;
+    @FXML
     private ToggleGroup gender_EditProfile;
+    @FXML
     private RadioButton rdFemale;
+    @FXML
     private DatePicker dpBirth_EditProfile;
+    @FXML
     private TextField tfMail_EditProfile;
+    @FXML
     private Label lbMess_Name;
+    @FXML
     private Label lbMess_Birth;
+    @FXML
     private Label lbMess_Mail;
+    @FXML
     private AnchorPane openChangePassword;
+    @FXML
     private Label lbCurPass_EditProfile;
+    @FXML
     private PasswordField pfCurPass_EditProfile;
+    @FXML
     private TextField tfCurPass_EditProfile;
+    @FXML
     private Button btnshowCurPass_EditProfile;
+    @FXML
     private Button btnhideCurPass_EditProfile;
+    @FXML
     private Label lbNewPass_EditProfile;
+    @FXML
     private PasswordField pfNewPass_EditProfile;
+    @FXML
     private TextField tfNewPass_EditProfile;
+    @FXML
     private Button btnshowNewPass_EditProfile;
+    @FXML
     private Button btnhideNewPass_EditProfile;
+    @FXML
     private PasswordField pfConfirm_EditProfile;
+    @FXML
     private Button btnshowConfirm_EditProfile;
+    @FXML
     private TextField tfConfirm_EditProfile;
+    @FXML
     private Button btnhideConfirm_EditProfile;
+    @FXML
     private Label lbConfirmPass_EditProfile;
+    @FXML
     private Button bkPitch_btn_5;
+    @FXML
     private Label bkPitch_lbStatus_6;
+    @FXML
     private Button bkPitch_btn_6;
+    @FXML
     private Label bkPitch_lbStatus_7;
+    @FXML
     private Button bkPitch_btn_7;
+    @FXML
     private Label bkPitch_lbStatus_8;
+    @FXML
     private Button bkPitch_btn_8;
+    @FXML
     private Label bkPitch_lbStatus_9;
+    @FXML
     private Button bkPitch_btn_9;
+    @FXML
     private Label bkPitch_lbStatus_10;
+    @FXML
     private Button bkPitch_btn_10;
+    @FXML
     private Label bkPitch_lbStatus_11;
+    @FXML
     private Button bkPitch_btn_11;
+    @FXML
     private Label bkPitch_lbStatus_12;
+    @FXML
     private Button bkPitch_btn_12;
+    @FXML
     private Label bkPitch_lbName_1;
+    @FXML
     private Label bkPitch_lbName_2;
+    @FXML
     private Label bkPitch_lbName_3;
+    @FXML
     private Label bkPitch_lbName_4;
+    @FXML
     private Label bkPitch_lbName_5;
+    @FXML
     private Label bkPitch_lbName_6;
+    @FXML
     private Label bkPitch_lbName_7;
+    @FXML
     private Label bkPitch_lbName_8;
+    @FXML
     private Label bkPitch_lbName_9;
+    @FXML
     private Label bkPitch_lbName_10;
+    @FXML
     private Label bkPitch_lbName_11;
+    @FXML
     private Label bkPitch_lbName_12;
+    @FXML
     private Label tfEmployeePosition;
+    @FXML
     private Label bkPitch_lbNameCus_1;
+    @FXML
     private Label bkPitch_lbTimeUsed_1;
+    @FXML
     private Label bkPitch_lbNameCus_2;
+    @FXML
     private Label bkPitch_lbTimeUsed_2;
+    @FXML
     private Label bkPitch_lbNameCus_3;
+    @FXML
     private Label bkPitch_lbTimeUsed_3;
+    @FXML
     private Label bkPitch_lbNameCus_4;
+    @FXML
     private Label bkPitch_lbTimeUsed_4;
+    @FXML
     private Label bkPitch_lbNameCus_5;
+    @FXML
     private Label bkPitch_lbTimeUsed_5;
+    @FXML
     private Label bkPitch_lbNameCus_6;
+    @FXML
     private Label bkPitch_lbTimeUsed_6;
+    @FXML
     private Label bkPitch_lbNameCus_7;
+    @FXML
     private Label bkPitch_lbTimeUsed_7;
+    @FXML
     private Label bkPitch_lbNameCus_8;
+    @FXML
     private Label bkPitch_lbTimeUsed_8;
+    @FXML
     private Label bkPitch_lbNameCus_9;
+    @FXML
     private Label bkPitch_lbTimeUsed_9;
+    @FXML
     private Label bkPitch_lbNameCus_10;
+    @FXML
     private Label bkPitch_lbTimeUsed_10;
+    @FXML
     private Label bkPitch_lbNameCus_11;
+    @FXML
     private Label bkPitch_lbTimeUsed_11;
+    @FXML
     private Label bkPitch_lbNameCus_12;
+    @FXML
     private Label bkPitch_lbTimeUsed_12;
+    @FXML
     private ComboBox<String> bkPitch_cboTime_from;
+    @FXML
     private ComboBox<String> bkPitch_cboTime_to;
+    @FXML
     private Label bkPitch_lbTimeStart_1;
+    @FXML
     private Label bkPitch_lbTimeStart_2;
+    @FXML
     private Label bkPitch_lbTimeStart_3;
+    @FXML
     private Label bkPitch_lbTimeStart_4;
+    @FXML
     private Label bkPitch_lbTimeStart_5;
+    @FXML
     private Label bkPitch_lbTimeStart_6;
+    @FXML
     private Label bkPitch_lbTimeStart_7;
+    @FXML
     private Label bkPitch_lbTimeStart_8;
+    @FXML
     private Label bkPitch_lbTimeStart_9;
+    @FXML
     private Label bkPitch_lbTimeStart_10;
+    @FXML
     private Label bkPitch_lbTimeStart_11;
+    @FXML
     private Label bkPitch_lbTimeStart_12;
+    @FXML
     private Label bkPitch_lb_idb_1;
+    @FXML
     private Label bkPitch_lb_idb_2;
+    @FXML
     private Label bkPitch_lb_idb_3;
+    @FXML
     private Label bkPitch_lb_idb_4;
+    @FXML
     private Label bkPitch_lb_idb_5;
+    @FXML
     private Label bkPitch_lb_idb_6;
+    @FXML
     private Label bkPitch_lb_idb_7;
+    @FXML
     private Label bkPitch_lb_idb_8;
+    @FXML
     private Label bkPitch_lb_idb_9;
+    @FXML
     private Label bkPitch_lb_idb_10;
+    @FXML
     private Label bkPitch_lb_idb_11;
+    @FXML
     private Label bkPitch_lb_idb_12;
     @FXML
-    private AnchorPane Dashboard_page;
+    private Button btnClose;
     @FXML
-    private BarChart<?, ?> barChart_Top3Customer;
+    private Button btnMini;
     @FXML
-    private PieChart pieChart_ServiceCategory;
+    private Button btnLogout;
     @FXML
-    private Label lbTotalRevenue;
+    private AnchorPane bkPitch_1;
     @FXML
-    private Label lbTotalRentals;
+    private AnchorPane bkPitch_2;
     @FXML
-    private Label lbRentalRevenua;
+    private AnchorPane bkPitch_3;
     @FXML
-    private Label lbServiceRevenue;
+    private AnchorPane bkPitch_4;
     @FXML
-    private ComboBox<?> cboYear;
+    private AnchorPane bkPitch_5;
     @FXML
-    private Label cboQuarter;
+    private AnchorPane bkPitch_6;
     @FXML
-    private LineChart<?, ?> lineChart_RevenueTrend;
+    private AnchorPane bkPitch_7;
     @FXML
-    private PieChart pieChart_PitchCategory;
+    private AnchorPane bkPitch_8;
     @FXML
-    private BarChart<?, ?> barChart_Top5Service;
+    private AnchorPane bkPitch_9;
     @FXML
-    private Button btnBack;
+    private AnchorPane bkPitch_10;
+    @FXML
+    private AnchorPane bkPitch_11;
+    @FXML
+    private AnchorPane bkPitch_12;
+    @FXML
+    private Button btnSave_Cus;
+    @FXML
+    private Button btnCancel_Cus;
+    @FXML
+    private Button btnAddNew_Bill;
+    @FXML
+    private Button btnClearFilter_Bill;
+    @FXML
+    private ScrollPane menu_scrollPane_Ser;
+    @FXML
+    private HBox Ser_changeQtyService;
+    @FXML
+    private Button Ser_DeleteService;
 
     public void ini() {
 
@@ -238,19 +368,33 @@ public class StaffPageController implements Initializable {
         initialize_menuService(998);
     }
 
+    @FXML
     private VBox Ser_changeQtyService_Vbox;
+    @FXML
     private TableColumn<?, ?> Ser_col_IDC;
+    @FXML
     private Label Ser_lbHide_IDC;
+    @FXML
     private Label Ser_lbHide_IDS;
+    @FXML
     private Label Ser_lbHide_qty;
+    @FXML
     private Label bkPitch_lbStatus_1;
+    @FXML
     private Button bkPitch_btn_1;
+    @FXML
     private Label bkPitch_lbStatus_2;
+    @FXML
     private Button bkPitch_btn_2;
+    @FXML
     private Label bkPitch_lbStatus_3;
+    @FXML
     private Button bkPitch_btn_3;
+    @FXML
     private Label bkPitch_lbStatus_4;
+    @FXML
     private Button bkPitch_btn_4;
+    @FXML
     private Label bkPitch_lbStatus_5;
 
     Alert alert;
@@ -271,32 +415,59 @@ public class StaffPageController implements Initializable {
     //=============Manage Booking================================
     //===========================================================;
     private Button btnBillPage;
+    @FXML
     private TableColumn<Integer, Integer> colNoPitch_Booking;
+    @FXML
     private TableColumn<Pitch, String> colNamePitch_Booking;
+    @FXML
     private TableColumn<Pitch, String> colSizePitch_Booking;
+    @FXML
     private TableColumn<Pitch, String> colPricePitch_Booking;
+    @FXML
     private TableView<Pitch> tvBooked_PitchObservableList_Booking;
+    @FXML
     private ComboBox<String> cboIdk_Booking;
+    @FXML
     private TextField txtTimeStart_Booking;
+    @FXML
     private Spinner<Integer> spnHrs_Booking;
+    @FXML
     private Spinner<Integer> spnHour_timeBook_Booking;
+    @FXML
     private Spinner<Integer> spnMinute_timeBook_Booking;
+    @FXML
     private StackPane stpTimeBook_Booking;
+    @FXML
     private TextField txtDeposit_Booking;
+    @FXML
     private Label lbNameTable_booking;
+    @FXML
     private Label lbNamePitch_Booking;
+    @FXML
     private Label lbIdb_booking;
+    @FXML
     private Label lbIdu_booking;
+    @FXML
     private Button btnBooking_Booking;
+    @FXML
     private Button btnNew_Booking;
+    @FXML
     private Button btnComplete_Booking;
+    @FXML
     private Button btnAdd_Booking;
+    @FXML
     private Button btnDelete_Booking;
+    @FXML
     private Button btnUpdate_Booking;
+    @FXML
     private Button btnReset_Booking;
+    @FXML
     private Label lbIDP_hide_Booking;
+    @FXML
     private Button btnStart_Booking;
+    @FXML
     private TextField txtFullName_Cus;
+    @FXML
     private TextField txtPhone_Cus;
 
     /* List<Button> buttons = Arrays.asList(bkPitch_btn_1, bkPitch_btn_2, bkPitch_btn_3, bkPitch_btn_4, bkPitch_btn_5, bkPitch_btn_6, bkPitch_btn_7, bkPitch_btn_8, bkPitch_btn_9, bkPitch_btn_10, bkPitch_btn_11, bkPitch_btn_12);
@@ -309,45 +480,81 @@ public class StaffPageController implements Initializable {
     //===========================================================
     //=============New Customer==================================
     //===========================================================
+    @FXML
     private AnchorPane pAcNewCus_Page;
+    @FXML
     private TextField txtMail_Cus;
+    @FXML
     private BorderPane pBdpManagebooking_page;
     //=========================End new Customer================
     //===========================================================
     //============= Bill ==================================
     //===========================================================
+    @FXML
     private BorderPane pBdpBillDetail_page;
+    @FXML
     private Button btnBillDetail_Booking;
+    @FXML
     private TableView<Service> tvService_Bill;
+    @FXML
     private TableColumn<Integer, Integer> colNoSer_Bill;
+    @FXML
     private TableColumn<Service, String> colNameSer_Bill;
+    @FXML
     private TableColumn<Service, Integer> colPriceSer_Bill;
+    @FXML
     private TableColumn<Service, Integer> colQtySer_Bill;
+    @FXML
     private TableColumn<Service, Integer> colTotalSer_Bill;
+    @FXML
     private ComboBox<String> cboCus_Bill;
+    @FXML
     private TextField txtTimeBook_Bill;
+    @FXML
     private TextField txtDeposit_Bill;
+    @FXML
     private TextField txtTimeStart_Bill;
+    @FXML
     private TextField txtTimeEnd_Bill;
+    @FXML
     private TextField txtHrsUsed_Bill;
+    @FXML
     private Label lbPaytime_Bill;
+    @FXML
     private Label lbStaffID_Bill;
+    @FXML
     private Label lbSubtotal_Bill;
+    @FXML
     private Label lbTax_Bill;
+    @FXML
     private Label lbTotal_Bill;
+    @FXML
     private Button btnCheckOut_Bill;
+    @FXML
     private Button btnAddSer_Bill;
+    @FXML
     private Button btnUpdate_Bill;
+    @FXML
     private TextField txtSearch_Bill;
+    @FXML
     private TableView<PaymentBill> tvBillPayment_Bill;
+    @FXML
     private TableColumn<PaymentBill, Integer> col_idb_Bill;
+    @FXML
     private TableColumn<PaymentBill, Integer> col_idp_Bill;
+    @FXML
     private TableColumn<PaymentBill, Integer> col_ttpay_Bill;
+    @FXML
     private Label lb_paydate_Bill;
+    @FXML
     private Label lb_idp_Bill;
+    @FXML
     private Label lb_idb_Bill;
+    @FXML
     private DatePicker dpk_DateFilter_Bill;
+    @FXML
     private TableColumn<PaymentBill, String> col_idk_Bill;
+    @FXML
     private Label lb_pricePitch_Bill;
 
     //=========================End Bill================
@@ -356,21 +563,36 @@ public class StaffPageController implements Initializable {
     //===========================================================
     private ObservableList<Service> cardListData_Ser = FXCollections.observableArrayList();
 
+    @FXML
     private AnchorPane menuService_page;
+    @FXML
     private GridPane menu_gridPane_Ser;
+    @FXML
     private TableView<Service> menu_tvSerOfBill_Ser;
+    @FXML
     private TableColumn<Service, String> Ser_colName;
+    @FXML
     private TableColumn<Service, Integer> Ser_colQty;
+    @FXML
     private TableColumn<Service, Integer> Ser_colPrice;
+    @FXML
     private TableColumn<Service, Integer> Ser_col_IDS;
+    @FXML
     private TableColumn<Service, Integer> Ser_colQOH;
     public Label Ser_lbIDB;
+    @FXML
     private Button Ser_btnSave;
+    @FXML
     private Label Ser_lbServiceName;
+    @FXML
     private Spinner<Integer> Ser_spnQty;
+    @FXML
     private Label Ser_lbPaydate;
+    @FXML
     private Label Ser_lbIDP;
+    @FXML
     private Label Ser_lbTimeStart;
+    @FXML
     private Label Ser_lbIDK;
 
     /**
@@ -398,10 +620,12 @@ public class StaffPageController implements Initializable {
         this.categoryDAO = new CategoryDAO();
     }
 
+    @FXML
     public void close() {
         System.exit(0);
     }
 
+    @FXML
     public void minimize() {
         Stage stage = (Stage) staff_page.getScene().getWindow();
         stage.setIconified(true);
@@ -499,6 +723,7 @@ public class StaffPageController implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
     private void goToManagementPage(MouseEvent event) {
         if (Emp.getIdt() < 2) {
             try {
@@ -510,6 +735,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void signout(ActionEvent event) {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -548,6 +774,7 @@ public class StaffPageController implements Initializable {
         });
     }
 
+    @FXML
     private void editProfile(ActionEvent event) {
         pBdpManagebooking_page.setVisible(false);
         pAcNewCus_Page.setVisible(false);
@@ -608,6 +835,7 @@ public class StaffPageController implements Initializable {
         return mail.matches(emailRegex);
     }
 
+    @FXML
     private void UpdateEditProfile(ActionEvent event) {
         lbMess_Name.setText("");
         lbMess_Birth.setText("");
@@ -699,6 +927,7 @@ public class StaffPageController implements Initializable {
         return name;
     }
 
+    @FXML
     private void changeImg_EditProfile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -727,6 +956,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void backToDashboard(ActionEvent event) {
         setOpenPage();
     }
@@ -739,6 +969,7 @@ public class StaffPageController implements Initializable {
         EditProfilePage.setVisible(false);
     }
 
+    @FXML
     private void changePass(ActionEvent event) {
         pBdpManagebooking_page.setVisible(false);
         pAcNewCus_Page.setVisible(false);
@@ -768,6 +999,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void ChangePasswordEditProfile(ActionEvent event) {
         lbCurPass_EditProfile.setText("");
         lbNewPass_EditProfile.setText("");
@@ -908,26 +1140,32 @@ public class StaffPageController implements Initializable {
         passwordField.positionCaret(textField.getText().length());
     }
 
+    @FXML
     private void showCurPass(ActionEvent event) {
         showPassword(tfCurPass_EditProfile, pfCurPass_EditProfile, btnshowCurPass_EditProfile, btnhideCurPass_EditProfile);
     }
 
+    @FXML
     private void hideCurPass(ActionEvent event) {
         hidePassword(tfCurPass_EditProfile, pfCurPass_EditProfile, btnshowCurPass_EditProfile, btnhideCurPass_EditProfile);
     }
 
+    @FXML
     private void showNewPass(ActionEvent event) {
         showPassword(tfNewPass_EditProfile, pfNewPass_EditProfile, btnshowNewPass_EditProfile, btnhideNewPass_EditProfile);
     }
 
+    @FXML
     private void hideNewPass(ActionEvent event) {
         hidePassword(tfNewPass_EditProfile, pfNewPass_EditProfile, btnshowNewPass_EditProfile, btnhideNewPass_EditProfile);
     }
 
+    @FXML
     private void showConfirmPass(ActionEvent event) {
         showPassword(tfConfirm_EditProfile, pfConfirm_EditProfile, btnshowConfirm_EditProfile, btnhideConfirm_EditProfile);
     }
 
+    @FXML
     private void hideConfirmPass(ActionEvent event) {
         hidePassword(tfConfirm_EditProfile, pfConfirm_EditProfile, btnshowConfirm_EditProfile, btnhideConfirm_EditProfile);
     }
@@ -1109,6 +1347,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     public void selectPitch_Booking() {
         try {
             Pitch itemSelect = tvBooked_PitchObservableList_Booking.getSelectionModel().getSelectedItem();
@@ -1149,6 +1388,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     void Click_spnHour_timeBook_Booking() {
         //LocalTime crHrs = LocalTime.now().plusMinutes(15);
         LocalTime crHrs = LocalTime.now();
@@ -1171,6 +1411,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     void spnHrs_Booking_change() {
         spnHrs_Booking.getValue();
         int hrsBook_tmp = spnHrs_Booking.getValue();
@@ -1184,10 +1425,12 @@ public class StaffPageController implements Initializable {
         selectPitch_Booking();
     }
 
+    @FXML
     private void btnReset_Booking(ActionEvent event) {
         reset_Booking();
     }
 
+    @FXML
     private void btnAdd_Booking(ActionEvent event) {
 
         int hrstimebook = spnHour_timeBook_Booking.getValue();
@@ -1266,6 +1509,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void btnDelete_Booking(ActionEvent event) {
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Booking");
@@ -1286,6 +1530,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     private void btnUpdate_Booking(ActionEvent event) {
         bk = new Booking();
         bk.setIdk(cboIdk_Booking.getValue());
@@ -1304,6 +1549,7 @@ public class StaffPageController implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
     private void btnNew_Booking(ActionEvent event) {
 
         showPitchObservableList_Booking(1);
@@ -1342,6 +1588,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     private void btnBooking_Booking(ActionEvent event) {
         stpTimeBook_Booking.setVisible(true);
 
@@ -1359,6 +1606,7 @@ public class StaffPageController implements Initializable {
         txtDeposit_Booking.setVisible(true);
     }
 
+    @FXML
     private void btnComplete_Booking(ActionEvent event) {
         lbNameTable_booking.getStyleClass().removeAll("add-btn");
         lbNameTable_booking.getStyleClass().removeAll("update-btn");
@@ -1373,6 +1621,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     private void btnStart_Booking(ActionEvent event) { //cập nhật thời gian bắt đầu
         try {
             int idb = Integer.parseInt(lbIdb_booking.getText());
@@ -1405,6 +1654,7 @@ public class StaffPageController implements Initializable {
         Click_spnHour_timeBook_Booking();
     }
 
+    @FXML
     private void BillDetail_Booking(ActionEvent event) {
         pBdpBillDetail_page.setVisible(true);
 //        btnBillPage.setStyle("-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;");
@@ -1422,6 +1672,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void Save_Cus(ActionEvent event) {
         String fullname = txtFullName_Cus.getText();
         String sdt = txtPhone_Cus.getText();
@@ -1450,15 +1701,18 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void Cancel_Cus(ActionEvent event) {
         pAcNewCus_Page.setVisible(false);
     }
 
+    @FXML
     private void NewCus_Booking(ActionEvent event) {
         pAcNewCus_Page.setVisible(true);
         OnlyEnterNumber(txtPhone_Cus);
     }
 
+    @FXML
     private void btnReset_Cus(ActionEvent event) {
         btnReset_Cus();
     }
@@ -1483,6 +1737,7 @@ public class StaffPageController implements Initializable {
         Display_BillPaymentList_Bill();
     }
 
+    @FXML
     private void CheckOut_Bill(ActionEvent event) {
         if (lb_idb_Bill.getText().contains(".")) {
             alert = new Alert(AlertType.ERROR);
@@ -1519,6 +1774,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void AddService_Bill(ActionEvent event) {
         if (lb_idb_Bill.getText().contains(".")) {
             alert = new Alert(AlertType.ERROR);
@@ -1539,6 +1795,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void Update_Bill(ActionEvent event) {
         int idb = Integer.parseInt(lb_idb_Bill.getText());
         int idp = Integer.parseInt(lb_idp_Bill.getText());
@@ -1565,12 +1822,14 @@ public class StaffPageController implements Initializable {
         Display_BillPaymentList_Bill();
     }
 
+    @FXML
     private void ClearFilter_Bill(ActionEvent event) {
         Display_BillPaymentList_Bill();
         txtSearch_Bill.clear();
         dpk_DateFilter_Bill.setValue(null);
     }
 
+    @FXML
     private void SelectBill_Bill(MouseEvent event) {
         PaymentBill pSelected = tvBillPayment_Bill.getSelectionModel().getSelectedItem();
 
@@ -1682,11 +1941,13 @@ public class StaffPageController implements Initializable {
     }
 
 
+    @FXML
     private void Search_Bill(KeyEvent event) {
         Search_Bill();
 
     }
 
+    @FXML
     private void Search_Bill() {
         FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
         String newValue = txtSearch_Bill.getText().toLowerCase();
@@ -1726,6 +1987,7 @@ public class StaffPageController implements Initializable {
         tvBillPayment_Bill.setItems(filteredData);
     }
 
+    @FXML
     private void SearchByDate_Bill(ActionEvent event) {
         FilteredList<PaymentBill> filteredData = new FilteredList<>(pmDAO.pbObservableList, p -> true);
         String newValue = txtSearch_Bill.getText().toLowerCase();
@@ -1825,6 +2087,7 @@ public class StaffPageController implements Initializable {
 
     }
 
+    @FXML
     private void Select_Ser(MouseEvent event) {
         Service s = menu_tvSerOfBill_Ser.getSelectionModel().getSelectedItem();
 
@@ -1845,6 +2108,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void Ser_SaveChangeService(ActionEvent event) {
         Ser_btnSave.setDisable(true);
         Ser_changeQtyService_Vbox.setVisible(false);
@@ -1856,6 +2120,7 @@ public class StaffPageController implements Initializable {
         Display_ServiceBill_Ser(idb);
     }
 
+    @FXML
     private void Ser_DeleteService(ActionEvent event) {
         Ser_btnSave.setDisable(true);
         Ser_changeQtyService_Vbox.setVisible(false);
@@ -1867,11 +2132,13 @@ public class StaffPageController implements Initializable {
         Display_ServiceBill_Ser(idb);
     }
 
+    @FXML
     private void Ser_NotChange(ActionEvent event) {
         Ser_btnSave.setDisable(true);
         Ser_changeQtyService_Vbox.setVisible(false);
     }
 
+    @FXML
     private void Ser_RefreshServiceOfBill(ActionEvent event) {
         Ser_btnSave.setDisable(true);
         Ser_changeQtyService_Vbox.setVisible(false);
@@ -1880,6 +2147,7 @@ public class StaffPageController implements Initializable {
         Display_ServiceBill_Ser(idb);
     }
 
+    @FXML
     private void bkPitch_btn(ActionEvent event) {
         try {
             List<Button> buttons = Arrays.asList(bkPitch_btn_1, bkPitch_btn_2, bkPitch_btn_3, bkPitch_btn_4, bkPitch_btn_5, bkPitch_btn_6, bkPitch_btn_7, bkPitch_btn_8, bkPitch_btn_9, bkPitch_btn_10, bkPitch_btn_11, bkPitch_btn_12);
@@ -1974,6 +2242,7 @@ public class StaffPageController implements Initializable {
         }
     }
 
+    @FXML
     private void switchPage(ActionEvent event) {
         //List<Node> pages = Arrays.asList(EmployeePage, CustomerPage, SportPage, ServicePage, CatePage, BillPage, PaymentPage, DashboardPage);
         //List<Button> buttons = Arrays.asList(btnEmployeePage, btnCustomerPage, btnSportPage, btnServicePage, btnCatePage, btnBillPage);
@@ -2038,6 +2307,7 @@ public class StaffPageController implements Initializable {
         bkPitch_cboTime_to.setItems(cboHourList2);
     }
 
+    @FXML
     void bkPitch_getTimeFilterfromCbo() {
         String fromString = bkPitch_cboTime_from.getValue();
         String timeTo_String = bkPitch_cboTime_to.getValue();
@@ -2051,12 +2321,17 @@ public class StaffPageController implements Initializable {
         showPitchStatus_Booking(time_From, time_To);
     }
 
+    @FXML
     private void bkPitch_clearTimeToFilter() {
         if (bkPitch_cboTime_from.getValue() != null) {
             bkPitch_cboTime_to.setValue(null);
             bkPitch_getTimeFilterfromCbo();
             setTime_forCboTo_booking();
         }
+    }
+
+    @FXML
+    private void AddNew_Bill(ActionEvent event) {
     }
 
 }

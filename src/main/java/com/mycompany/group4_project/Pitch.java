@@ -27,6 +27,13 @@ public class Pitch extends PitchCategory {
         this.no = no;
     }
 
+    public Pitch(int idp, String name, int available, int idcp, String size, int price) {
+        super(idcp, size, price);
+        this.idp = idp;
+        this.name = name;
+        this.available = available;
+    }
+
     public int getNo() {
         return no;
     }
@@ -65,7 +72,7 @@ public class Pitch extends PitchCategory {
     }
 
     public String getAvailableDescription() {
-        return available == 1 ? "Trống" : available == 2 ? "Có khách" : available == 3 ? "Đã đặt" : "Lỗi";
+        return available == 1 ? "Available" : available == 2 ? "Renting" : available == 3 ? "Booking" : "Error";
     }
 
 }
