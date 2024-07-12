@@ -1,11 +1,50 @@
 
+.label {
+    -fx-background-radius:8px;
+}
+
+.filter_b{
+    -fx-background-color: #fff;
+    -fx-size: 40px;
+    /*-fx-border-color: linear-gradient(to bottom right, #bb1a3a, #722327);*/
+    -fx-border-color: #c3b9b9;
+    -fx-border-width: .4px;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #094780;
+
+}
+
+.b_title{
+    -fx-background-color: #118DFF;
+}
+
+.b_cboSort{
+    -fx-background-color: #70BBFF;
+    -fx-background-radius:5px;
+}
+
+
+.b_btnBack{
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+    -fx-border-width: .4px;
+    -fx-border-radius: 4px;
+}
+
+.b_btnBack:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-background-color: linear-gradient(to right, #3498db, #e74c3c);
+
+}
+
 .white-bg{
     -fx-background-color:#fff;
     -fx-background-radius:5px;
 }
 
 .shadow{
-    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.4), 5,0,0,0);
+    -fx-effect:dropshadow(three-pass-box, rgb(17, 141, 255,.3), 5,0,0,0);
 }
 
 .card1{
@@ -20,7 +59,7 @@
 .card3{
     -fx-background-color:linear-gradient(to right, #7c3a70, #a15794);
     -fx-background-radius:8px;
-} 
+}
 
 .card4{
     -fx-background-color:linear-gradient(to right, #344250, #3c6382);
@@ -74,7 +113,7 @@
     -fx-text-fill: #fff;
 }
 .add-btn{
-    -fx-background-color: #28a745;    
+    -fx-background-color: #28a745;
 }
 
 .update-btn{

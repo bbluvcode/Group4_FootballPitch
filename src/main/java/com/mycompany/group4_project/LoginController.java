@@ -196,7 +196,7 @@ public class LoginController implements Initializable {
                     App.setLoggedInUser(user);
                     try {
                         if (role > 1) {
-                            App.setRoot("StaffPage");
+                            App.setRoot("Dashboard");
                         } else {
                             App.setRoot("AdminPage");
                         }

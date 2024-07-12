@@ -499,7 +499,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_1" layoutX="84.0" layoutY="50.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_1" layoutX="84.0" layoutY="50.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -543,7 +543,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_2" layoutX="97.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_2" layoutX="97.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -587,7 +587,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_3" layoutX="70.0" layoutY="31.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_3" layoutX="70.0" layoutY="31.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -631,7 +631,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_4" layoutX="96.0" layoutY="41.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_4" layoutX="96.0" layoutY="41.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -675,7 +675,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_5" layoutX="85.0" layoutY="26.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_5" layoutX="85.0" layoutY="26.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -719,7 +719,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_6" layoutX="86.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_6" layoutX="86.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -763,7 +763,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_7" layoutX="97.0" layoutY="46.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_7" layoutX="97.0" layoutY="46.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -807,7 +807,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_8" layoutX="70.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_8" layoutX="70.0" layoutY="36.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -851,7 +851,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_9" layoutX="67.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_9" layoutX="67.0" layoutY="33.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -895,7 +895,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_10" layoutX="69.0" layoutY="38.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_10" layoutX="69.0" layoutY="38.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -939,7 +939,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_11" layoutX="70.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_11" layoutX="70.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
@@ -983,7 +983,7 @@
                                           <Font name="Tahoma" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="bkPitch_lb_idb_12" layoutX="74.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0">
+                                    <Label fx:id="bkPitch_lb_idb_12" layoutX="74.0" layoutY="42.0" prefHeight="15.0" prefWidth="54.0" visible="false">
                                        <font>
                                           <Font name="Tahoma" size="12.0" />
                                        </font>

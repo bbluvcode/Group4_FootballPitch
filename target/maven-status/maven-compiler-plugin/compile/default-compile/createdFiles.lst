@@ -5,6 +5,7 @@ Entities\UserCategory.class
 DAO\ServiceDAO.class
 DAO\PaymentBillDAO.class
 com\mycompany\group4_project\Booking.class
+com\mycompany\group4_project\DashboardController.class
 Entities\Booking.class
 com\mycompany\group4_project\DateCellFactory$1.class
 com\mycompany\group4_project\LoginController$1.class

@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -498,5 +499,36 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
             Logger.getLogger(PaymentBillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return BookingOrBill;
+    }
+
+    //===============================DashBoard====================================================================================
+    public int getTotalRevenue(Date date) {
+        int ttRevenue = 0;
+        String sql = "SELECT SUM(tt_payment) AS ttRevenue FROM payments WHERE pay_date = '" + date + "'";
+        System.out.println("pmDAO_totalRevenue: " + sql);
+        return ttRevenue;
+    }
+
+    public HashMap<String, Integer> getTotalRevenue() {
+        int ttRevenue = 0, ttRental = 0, ttSer = 0, numberOfRental =0;
+        HashMap<String, Integer> getTT = new HashMap<>();
+        String sql = "SELECT SUM(tt_payment) AS ttRevenue, SUM(tt_booking) AS ttRental, SUM(tt_service) AS ttSer , Count(idb) AS numberOfRental FROM payments";
+        System.out.println("pmDAO_totalRevenue: " + sql);
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            ttRevenue = rs.getInt("ttRevenue");
+            ttRental = rs.getInt("ttRental");
+            ttSer = rs.getInt("ttSer");
+            numberOfRental = rs.getInt("numberOfRental");
+            getTT.put("ttRevenue",ttRevenue);
+            getTT.put("ttRental",ttRental);
+            getTT.put("ttSer",ttSer);
+            getTT.put("numberOfRental",numberOfRental);
+        } catch (Exception ex) {
+            System.err.println("pmDAO_totalRevenue: " + ex.getMessage());
+        }
+        return getTT;
     }
 }
