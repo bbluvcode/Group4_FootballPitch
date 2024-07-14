@@ -110,13 +110,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         return Optional.empty();
     }
 
-    // System.out.println("Search");
-//        Optional<User> user = uD.read(1);
-//        if (user.isPresent()) {
-//            System.out.println(user.get());
-//        } else {
-//            System.out.println("User not found! ");
-//        }
 
     public ObservableList<String> getAll_idpBookingToDay(Time from, Time to) {
         ObservableList<String> idpBookingToDay = FXCollections.observableArrayList();

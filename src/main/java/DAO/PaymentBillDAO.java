@@ -59,9 +59,7 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_service = t.getTt_service();
         int tt_payment = t.getTt_payment();
         Time time_book = t.getTime_book();
-//        boolean comp = t.isComp();
         String sql = "UPDATE payments SET time_book  = '" + time_book + "'  , idp  = " + idp + "  , idk  = '" + idk + "'  , time_start  =  '" + time_start + "'  , time_end  = " + time_end_str + "  , hrs_used  = " + hrs_used + "  , pay_date  = '" + pay_date + "'  , deposit  = " + deposit + "  , tt_booking  = " + tt_booking + "  , tt_service  = " + tt_service + "  , tt_payment  = " + tt_payment + " WHERE idb = " + idb;
-        System.out.println(sql);
         try {
             Statement st = getConnection().createStatement();
             executeSQL(sql);
@@ -142,7 +140,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 String sanbong_name = rs.getString("sanbong_name");
                 int price_pitch = pitchDAO.getPriceByID(idp);
                 PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name, price_pitch);
-                //System.out.println(pb);
                 pbObservableList.add(pb);
             }
         } catch (SQLException ex) {
@@ -183,7 +180,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
                 String sanbong_name = rs.getString("sanbong_name");
                 int price_pitch = pitchDAO.getPriceByID(idp);
                 PaymentBill pb = new PaymentBill(idb, idu, idp, idk, time_start, time_end, hrs_used, pay_date, deposit, tt_booking, tt_service, tt_payment, comp, time_book, hrs, stt, khachhang_name, qluser_name, sanbong_name, price_pitch);
-                //System.out.println(pb);
                 pbObservableListByDate.add(pb);
             }
         } catch (SQLException ex) {
@@ -200,7 +196,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         int tt_service = paymentBill.getTt_service();
 
         String sql = "UPDATE payments SET completed = " + 1 + ", hrs_used = " + hrs_used + ", tt_payment = " + tt_payment + ", tt_booking = " + tt_booking + ", tt_service = " + tt_service + ", time_end = CAST(GETDATE() AS TIME) WHERE idb = " + idb;
-        System.out.println(sql);
         try {
             Statement st = getConnection().createStatement();
             executeSQL(sql);
@@ -345,18 +340,14 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
 
         String u_sql = "UPDATE " + tableName_stock + " SET qoh = " + qoh + " WHERE  " + colName + " = " + ids;
         executeSQL(u_sql);
-        System.out.println(u_sql);
 
         String sql = "DELETE FROM " + tableName + " WHERE idb = " + idb + " AND " + colName + " = " + ids;
-        System.out.println(sql);
         executeSQL(sql);
-        System.out.println("SERVICES OF BILL " + idb + " DELETED!");
     }
 
     public void addServiceToBill(int idb, int ids, int idc) {
         boolean idcCompare = idc == 3;
-        System.out.println("idc == " + idc);
-        System.out.println("idc == 3: " + idcCompare);
+
         String tableName = idc == 3 ? "hd_ser_rent" : "hd_ser_sell";
         String colName = idc == 3 ? "idsr" : "idss";
         int qty = 0;

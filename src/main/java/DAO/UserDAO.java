@@ -107,17 +107,6 @@ public class UserDAO extends ConnectDB<User, String> {
         }
         return Optional.empty();
 
-        //khi nào làm đến đây thì check id trước, nếu id không tồn tại thì
-        //thông báo luô
-        //id đúng thì get pw password ra so tiếp
-        ////Search 
-//        System.out.println("Search");
-//        Optional<User> user = uD.read(1);
-//        if (user.isPresent()) {
-//            System.out.println(user.get());
-//        } else {
-//            System.out.println("User not found! ");
-//        }
     }
 
 }

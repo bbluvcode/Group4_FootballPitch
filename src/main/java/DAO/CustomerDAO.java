@@ -44,7 +44,6 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
         int point = t.getPoint();
         String mail = t.getMail();
         String sql = "INSERT INTO khachhang VALUES('" + idk + "','" + name + "','" + phone + "'," + point + " , '" + mail + "' )";
-        System.out.println("INSERTED SQL : " + sql);
         executeSQL(sql);
     }
 
@@ -52,7 +51,6 @@ public class CustomerDAO extends ConnectDB<Customer, String> {
     public void Delete(String id) {
         String sql = "DELETE FROM khachhang WHERE idk='" + id + "'";
         executeSQL(sql);
-        System.out.println("Customer Deleted");
     }
 
     @Override

@@ -2422,22 +2422,9 @@ public class StaffPageController implements Initializable {
 
     @FXML
     private void switchPage(ActionEvent event) {
-        //List<Node> pages = Arrays.asList(EmployeePage, CustomerPage, SportPage, ServicePage, CatePage, BillPage, PaymentPage, DashboardPage);
-        //List<Button> buttons = Arrays.asList(btnEmployeePage, btnCustomerPage, btnSportPage, btnServicePage, btnCatePage, btnBillPage);
-        //List<Button> buttons = Arrays.asList(btnCustomerPage, btnSportPage, btnBillPage, btnServicePage);
+
         List<Node> pages = Arrays.asList(pAcNewCus_Page, pBdpBillDetail_page, menuService_page);
 
-//        for (int i = 0; i < buttons.size(); i++) {
-//            if (event.getSource() == buttons.get(i)) {
-//                for (int j = 0; j < pages.size(); j++) {
-//                    pages.get(j).setVisible(i == j);
-//                    buttons.get(j).setStyle(i == j
-//                            ? "-fx-background-color: linear-gradient(to bottom right, #d3133d, #a4262f); -fx-scale-x: 1.1; -fx-scale-y: 1.1;"
-//                            : "-fx-background-color: transparent; -fx-scale-x: 1.0; -fx-scale-y: 1.0;");
-//                }
-//                break;
-//            }
-//        }
         pBdpManagebooking_page.setVisible(true);
         for (int j = 0; j < pages.size(); j++) {
             pages.get(j).setVisible(false);
