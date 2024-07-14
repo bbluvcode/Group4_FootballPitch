@@ -30,7 +30,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
+<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
     <children>
       <AnchorPane layoutX="2.4" prefHeight="45.0" prefWidth="1260.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0">
          <children>
@@ -409,7 +409,7 @@
                   </AnchorPane>
                </left>
             </BorderPane>
-            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
+            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                <center>
                   <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                      <children>
@@ -1238,7 +1238,7 @@
                   </BorderPane>
                </children>
             </AnchorPane>
-            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
+            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0">
                <center>
                   <AnchorPane prefHeight="642.0" prefWidth="677.0" BorderPane.alignment="CENTER">
                      <children>
@@ -1442,7 +1442,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox layoutX="501.0" layoutY="472.0" prefHeight="74.0" prefWidth="146.0">
+                              <VBox layoutX="347.0" layoutY="472.0" prefHeight="85.0" prefWidth="146.0">
                                  <children>
                                     <HBox prefHeight="26.0" prefWidth="166.0">
                                        <children>
@@ -1479,7 +1479,7 @@
                                                 <Font name="Tahoma" size="13.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lbTotal_Bill" prefHeight="32.0" prefWidth="91.0" text="\$0.0">
+                                          <Label fx:id="lbService_Bill" prefHeight="32.0" prefWidth="91.0" text="\$0.0">
                                              <font>
                                                 <Font name="Tahoma Bold" size="13.0" />
                                              </font>
@@ -1490,6 +1490,39 @@
                               </VBox>
                               <Button fx:id="btnAddSer_Bill" layoutX="131.0" layoutY="575.0" mnemonicParsing="false" onAction="#AddService_Bill" prefHeight="37.0" prefWidth="194.0" styleClass="purple-btn" stylesheets="@page.css" text="ADD SERVICE" />
                               <Button fx:id="btnCheckOut_Bill" layoutX="346.0" layoutY="575.0" mnemonicParsing="false" onAction="#CheckOut_Bill" prefHeight="37.0" prefWidth="194.0" styleClass="delete-btn" stylesheets="@page.css" text="Check out" />
+                              <VBox layoutX="498.0" layoutY="473.0" prefHeight="87.0" prefWidth="182.0">
+                                 <children>
+                                    <HBox prefHeight="65.0" prefWidth="182.0">
+                                       <children>
+                                          <Label prefHeight="23.0" prefWidth="68.0" text="Deposit  $">
+                                             <font>
+                                                <Font name="Tahoma" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbDeposit_Bill" prefHeight="26.0" prefWidth="114.0" text="\$0.0">
+                                             <font>
+                                                <Font name="Tahoma" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="31.0" prefHeight="46.0" prefWidth="182.0">
+                                       <children>
+                                          <Label prefHeight="46.0" prefWidth="106.0" text="TOTALBILL $" textAlignment="RIGHT" textFill="#461111">
+                                             <font>
+                                                <Font name="Tahoma Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbTotal_Bill" prefHeight="46.0" prefWidth="82.0" text="\$0.0">
+                                             <font>
+                                                <Font name="Tahoma Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Button fx:id="btnExportPDF" layoutX="556.0" layoutY="574.0" mnemonicParsing="false" onAction="#ExportPDF" prefHeight="38.0" prefWidth="122.0" styleClass="add-btn" stylesheets="@page.css" text="Export PDF" />
                            </children>
                         </AnchorPane>
                      </children>

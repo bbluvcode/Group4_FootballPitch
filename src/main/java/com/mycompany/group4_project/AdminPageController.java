@@ -704,7 +704,7 @@ public class AdminPageController implements Initializable {
                 break;
             case 4:
                 clearInDashboardPage();
-                
+
                 break;
             case 5:
                 clearInSellServicePage();
@@ -1268,7 +1268,7 @@ public class AdminPageController implements Initializable {
 
     private void setupOpenPaymentBill() {
         btnAdd_Payment.setDisable(true);
-        btnDelete_Payment.setDisable(true);
+        btnDelete_Payment.setDisable(false);
         categoryDAO = new CategoryDAO();
         refreshEmployeeList();
         refreshCustomerList();
@@ -2153,7 +2153,7 @@ public class AdminPageController implements Initializable {
                 spQuantity_DetailPay.setValueFactory(valueFactory);
             }
             if (quantity == 0) {
-                lbQty_DetailPay.setText("The product is out of stock!");
+                lbQty_DetailPay.setText("The product " + selectedProduct + " is out of stock!");
                 return;
             }
         }
@@ -2298,10 +2298,10 @@ public class AdminPageController implements Initializable {
                 lbQty_DetailPay.setText("Quantity greater than 0!");
                 hasErr = true;
             }
-//            if (qty == 0) {
-//                lbQty_DetailPay.setText("The product is out of stock!");
-//                hasErr = true;
-//            }
+            if (qty == 0) {
+                lbQty_DetailPay.setText("The product is out of stock!");
+                hasErr = true;
+            }
         }
         if (hasErr || hasNameErr) {
             return;
@@ -4053,10 +4053,11 @@ public class AdminPageController implements Initializable {
     //----------------------------------------------------------------------------------------------------
     //--------------------------------------------------Sell SERVICE--------------------------------------------------
     //----------------------------------------------------------------------------------------------------
-    private void setupSellComboBox(){
+    private void setupSellComboBox() {
         ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
         cbType_SaleService.setItems(TypeServiceList);
     }
+
     private void setupOpenSellServicePage() {
         categoryDAO = new CategoryDAO();
         setupSellComboBox();
@@ -4064,10 +4065,10 @@ public class AdminPageController implements Initializable {
         showSaleProducts();
         Salespinner();
     }
-    
+
     @FXML
     public void SalecomboBox() {
-        
+
     }
 
     public void Salespinner() {
@@ -4463,21 +4464,21 @@ public class AdminPageController implements Initializable {
     ////----------------------------------------------------------------------------------------------------
     ////--------------------------------------------------Rent SERVICE--------------------------------------------------
     ////----------------------------------------------------------------------------------------------------
-    private void setupRentComboBox(){
+    private void setupRentComboBox() {
         ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
         cbType_RentService.setItems(TypeServiceList);
     }
+
     private void setupOpenRentServicePage() {
         categoryDAO = new CategoryDAO();
         setupRentComboBox();
         showRentProducts();
         Rentspinner();
     }
-    
-    
+
     @FXML
     private void RentcomboBox() {
-        
+
     }
 
     private void Rentspinner() {

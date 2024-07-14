@@ -78,6 +78,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void BackHome(ActionEvent event) throws IOException {
-        App.setRoot("StaffPage");
+        App.setRoot("AdminPage");
     }
 }

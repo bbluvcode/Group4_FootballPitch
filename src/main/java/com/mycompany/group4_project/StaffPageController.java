@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Period;
-
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -41,7 +40,17 @@ import Entities.Booking;
 import Entities.Customer;
 import Entities.PaymentBill;
 import Entities.Service;
-
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.layout.borders.Border;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -57,7 +66,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -68,9 +76,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -360,6 +365,12 @@ public class StaffPageController implements Initializable {
     private HBox Ser_changeQtyService;
     @FXML
     private Button Ser_DeleteService;
+    @FXML
+    private Label lbService_Bill;
+    @FXML
+    private Label lbDeposit_Bill;
+    @FXML
+    private Button btnExportPDF;
 
     public void ini() {
 
@@ -693,7 +704,7 @@ public class StaffPageController implements Initializable {
                     rdMale.setDisable(true);
                 }
                 tfPosition_EditProfile.setText(rs.getString("type"));
-                tfEmployeePosition.setText("Position: " + rs.getString("type"));
+                tfEmployeePosition.setText(rs.getString("type"));
             } else {
                 showAlert(Alert.AlertType.ERROR, "User not found", "User with phone number " + phone + " not found.");
             }
@@ -1560,7 +1571,7 @@ public class StaffPageController implements Initializable {
         String checkNull = bkPitch_cboTime_from.getValue();
         int iniSpnHour = crHours;
         if (checkNull != null && !checkNull.isEmpty()) {
-            Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue()+ ":00");
+            Time cboFrom = Time.valueOf(bkPitch_cboTime_from.getValue() + ":00");
             iniSpnHour = cboFrom.toLocalTime().getHour();
         }
         SpinnerValueFactory<Integer> valueHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(crHours, 23, iniSpnHour);
@@ -1770,6 +1781,8 @@ public class StaffPageController implements Initializable {
                 btnCheckOut_Bill.setDisable(true);
                 btnAddSer_Bill.setDisable(true);
                 initialize_manageBooking();
+
+                btnExportPDF.setVisible(true);
             }
         }
     }
@@ -1827,6 +1840,8 @@ public class StaffPageController implements Initializable {
         Display_BillPaymentList_Bill();
         txtSearch_Bill.clear();
         dpk_DateFilter_Bill.setValue(null);
+        btnExportPDF.setVisible(false);
+
     }
 
     @FXML
@@ -1841,6 +1856,7 @@ public class StaffPageController implements Initializable {
             btnCheckOut_Bill.setDisable(true);
             btnAddSer_Bill.setDisable(true);
             btnUpdate_Bill.setDisable(true);
+            btnExportPDF.setVisible(false);
 
             pmDAO = new PaymentBillDAO();
             pmDAO.getAll();
@@ -1853,7 +1869,6 @@ public class StaffPageController implements Initializable {
             PaymentBill pb = opPm.get();
 
             int subtotalService = 0;
-//            int subtotalService = pb.getTt_service();
             int subtotalPitchFee = pb.getTt_booking();
             int total = pb.getTt_payment();
             int deposit = pb.getDeposit();
@@ -1875,15 +1890,9 @@ public class StaffPageController implements Initializable {
                 if (hrs_used == 0 || hrs_used > 0 && duration.toMinutes() >= 15) {
                     hrs_used++;
                 }
-
-//                subtotalService = Display_ServiceList_Bill(pb.getIdb());            ;
-//                subtotalPitchFee = price_pitch * hrs_used;
-//                total = subtotalService + subtotalPitchFee;
-//                System.out.println("total new: " + total);
             }
 
-            subtotalService = Display_ServiceList_Bill(pb.getIdb());
-            ;
+            subtotalService = Display_ServiceList_Bill(pb.getIdb());    //table service
             subtotalPitchFee = price_pitch * hrs_used;
             total = subtotalService + subtotalPitchFee - deposit;
 
@@ -1905,21 +1914,180 @@ public class StaffPageController implements Initializable {
             lbSubtotal_Bill.setText(String.valueOf(subtotalService));
             lbTax_Bill.setText(String.valueOf(subtotalPitchFee));
             lbTotal_Bill.setText(String.valueOf(total));
+            //Add
+            lbService_Bill.setText("" + (subtotalService + subtotalPitchFee));
+            lbDeposit_Bill.setText(String.valueOf(deposit));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void Display_BillPaymentList_Bill() {
-        pmDAO = new PaymentBillDAO();
-        ObservableList<PaymentBill> bList = pmDAO.getAll();
-        col_idb_Bill.setCellValueFactory(new PropertyValueFactory<>("idb"));
-        col_idp_Bill.setCellValueFactory(new PropertyValueFactory<>("idp"));
-        col_idk_Bill.setCellValueFactory(new PropertyValueFactory<>("idk"));
-        col_ttpay_Bill.setCellValueFactory(new PropertyValueFactory<>("tt_payment"));
+    public void exportBillPDF(String dest) {
+        try {
+            PdfWriter writer = new PdfWriter(dest);
+            PdfDocument pdf = new PdfDocument(writer);
+            pdf.setDefaultPageSize(PageSize.A5);
 
-        tvBillPayment_Bill.setItems(bList);
+            Document document = new Document(pdf);
+            // Name
+            Paragraph name = new Paragraph("Paradise Sport")
+                    .setFontSize(22)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontColor(new DeviceRgb(255, 0, 0));
+            document.add(name);
+            document.add(new Paragraph("----------------------").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("").setFontSize(10));
+
+            Table detailsTable = new Table(new float[]{1, 1}).setFontSize(11);
+            detailsTable.setWidth(UnitValue.createPercentValue(100));
+
+            detailsTable.addCell(new Cell().add(new Paragraph("Date: " + lb_paydate_Bill.getText()))
+                    .setBorder(Border.NO_BORDER));
+            detailsTable.addCell(new Cell().add(new Paragraph("Booking Time: " + txtTimeBook_Bill.getText()))
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBorder(Border.NO_BORDER));
+
+            detailsTable.addCell(new Cell().add(new Paragraph("Payment Code: " + lb_idb_Bill.getText()))
+                    .setBorder(Border.NO_BORDER));
+            detailsTable.addCell(new Cell().add(new Paragraph("Start Time: " + txtTimeStart_Bill.getText()))
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBorder(Border.NO_BORDER));
+
+            detailsTable.addCell(new Cell().add(new Paragraph("Employee Code: " + lb_idp_Bill.getText()))
+                    .setBorder(Border.NO_BORDER));
+            detailsTable.addCell(new Cell().add(new Paragraph("End Time: " + txtTimeEnd_Bill.getText()))
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBorder(Border.NO_BORDER));
+
+            detailsTable.addCell(new Cell().add(new Paragraph("Customer: " + getNameInCustomer(cboCus_Bill.getValue())))
+                    .setBorder(Border.NO_BORDER));
+            detailsTable.addCell(new Cell().add(new Paragraph("Hours Used: " + txtHrsUsed_Bill.getText()))
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBorder(Border.NO_BORDER));
+
+            detailsTable.addCell(new Cell().add(new Paragraph("Services Used: "))
+                    .setBorder(Border.NO_BORDER));
+            detailsTable.addCell(new Cell().add(new Paragraph("Pay Time: " + lbPaytime_Bill.getText()))
+                    .setTextAlignment(TextAlignment.LEFT)
+                    .setBorder(Border.NO_BORDER));
+
+            document.add(detailsTable);
+
+            Table table = new Table(new float[]{1, 3, 2, 1, 2}).setFontSize(11);
+            table.setWidth(UnitValue.createPercentValue(100));
+            table.setTextAlignment(TextAlignment.CENTER);
+
+            table.addHeaderCell("Roll No.");
+            table.addHeaderCell("Item Description");
+            table.addHeaderCell("Price ($)");
+            table.addHeaderCell("Quantity");
+            table.addHeaderCell("Total ($)");
+            addRows(table);
+            document.add(table);
+
+            Table totalsTable = new Table(new float[]{4, 2, 1});
+            totalsTable.setWidth(UnitValue.createPercentValue(100));
+
+            totalsTable.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER));
+            totalsTable.addCell(new Cell().add(new Paragraph("Total Service:")).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
+            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbSubtotal_Bill.getText()))
+                    .setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+
+            totalsTable.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER));
+            totalsTable.addCell(new Cell().add(new Paragraph("Pitch Fee:")).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
+            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbTax_Bill.getText()))
+                    .setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+
+            totalsTable.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER));
+            totalsTable.addCell(new Cell().add(new Paragraph("Deposit:")).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
+            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbDeposit_Bill.getText()))
+                    .setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+
+            totalsTable.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER));
+            totalsTable.addCell(new Cell().add(new Paragraph("Total Bill:"))
+                    .setFontColor(new DeviceRgb(255, 0, 0))
+                    .setFontSize(14).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
+            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbService_Bill.getText()))
+                    .setTextAlignment(TextAlignment.RIGHT)
+                    .setFontColor(new DeviceRgb(255, 0, 0))
+                    .setFontSize(14).setBorder(Border.NO_BORDER));
+
+            document.add(totalsTable);
+            document.add(new Paragraph("----------------------").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+            document.add(new Paragraph("Thank you and hope to see you again!").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveAndOpenPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        fileChooser.setInitialFileName("DetailBill.pdf");
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            exportBillPDF(file.getAbsolutePath());
+            try {
+                // Mở file PDF sau khi tạo xong
+                if (file.exists()) {
+                    String os = System.getProperty("os.name").toLowerCase();
+                    Runtime rt = Runtime.getRuntime();
+                    if (os.contains("win")) {
+                        rt.exec("rundll32 url.dll,FileProtocolHandler " + file.getAbsolutePath());
+                    } else if (os.contains("mac")) {
+                        rt.exec("open " + file.getAbsolutePath());
+                    } else if (os.contains("nix") || os.contains("nux")) {
+                        String[] cmds = {"xdg-open", file.getAbsolutePath()};
+                        rt.exec(cmds);
+                    } else {
+                        System.out.println("Not support!");
+                    }
+                } else {
+                    System.out.println("File not exists!");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void addRows(Table table) {
+        ObservableList<Service> sList = tvService_Bill.getItems();
+        int rollNo = 1;
+        for (Service s : sList) {
+            table.addCell(String.valueOf(rollNo++));
+            table.addCell(s.getName());
+            table.addCell(String.valueOf(s.getPrice()));
+            table.addCell(String.valueOf(s.getQty()));
+            table.addCell(String.valueOf(s.getTotal()));
+        }
+    }
+
+    @FXML
+    private void ExportPDF(ActionEvent event) {
+        exportBillPDF("DetailBill.pdf");
+        saveAndOpenPDF();
+    }
+
+    public String getNameInCustomer(String idk) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        String nameC = null;
+        String query = "SELECT name FROM khachhang WHERE idk = ?";
+        try (PreparedStatement ps = cn.prepareStatement(query)) {
+            ps.setString(1, idk);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nameC = rs.getString("name");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return nameC;
     }
 
     private int Display_ServiceList_Bill(int idb) {
@@ -1940,6 +2108,16 @@ public class StaffPageController implements Initializable {
         return subtotal;
     }
 
+    private void Display_BillPaymentList_Bill() {
+        pmDAO = new PaymentBillDAO();
+        ObservableList<PaymentBill> bList = pmDAO.getAll();
+        col_idb_Bill.setCellValueFactory(new PropertyValueFactory<>("idb"));
+        col_idp_Bill.setCellValueFactory(new PropertyValueFactory<>("idp"));
+        col_idk_Bill.setCellValueFactory(new PropertyValueFactory<>("idk"));
+        col_ttpay_Bill.setCellValueFactory(new PropertyValueFactory<>("tt_payment"));
+
+        tvBillPayment_Bill.setItems(bList);
+    }
 
     @FXML
     private void Search_Bill(KeyEvent event) {
