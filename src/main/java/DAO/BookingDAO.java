@@ -135,7 +135,8 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         Time from2 = Time.valueOf(from.toLocalTime().minusHours(hrsBooked));
         String sql = "SELECT idp FROM payments" +
                 " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
-                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book > '" + from2 + "' AND time_book < '" + from + "' AND hrs = " + hrsBooked + "))";
+                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book >= '" + from2 + "' AND time_book <= '" + from + "' AND hrs = " + hrsBooked + "))";
+        System.out.println(sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -167,7 +168,8 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name "
                 + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] "
                 + " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
-                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book > '" + from2 + "' AND time_book < '" + from + "' AND hrs = " + hrsBooked + "))";
+                + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book >= '" + from2 + "' AND time_book <= '" + from + "' AND hrs = " + hrsBooked + "))";
+        System.out.println(sql);
 
         try {
             Statement st = cn.createStatement();
@@ -215,7 +217,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         String sql = "SELECT idp FROM payments" +
                 " WHERE pay_date = CAST(GETDATE() AS DATE)"
                 + " AND time_start IS NOT NULL AND time_end IS NULL AND completed IS NULL"
-                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start > '" + from2 + "' AND time_start < '" + from + "' AND hrs = " + hrsBooked + "))";
+                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start >= '" + from2 + "' AND time_start <= '" + from + "' AND hrs = " + hrsBooked + "))";
 
         try {
             Statement st = cn.createStatement();
@@ -255,7 +257,7 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         String sql = "SELECT payments.*, khachhang.name AS khachhang_name, sanbong.name AS sanbong_name, qluser.name AS qluser_name " +
                 "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu]" +
                 " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NOT NULL AND time_end IS NULL  AND completed IS NULL"
-                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start > '" + from2 + "' AND time_start < '" + from + "' AND hrs = " + hrsBooked + "))";
+                + " AND ((time_start >= '" + from + "' AND time_start < '" + to + "') OR (time_start > '" + from2 + "' AND time_start <= '" + from + "' AND hrs = " + hrsBooked + "))";
 
 
         try {

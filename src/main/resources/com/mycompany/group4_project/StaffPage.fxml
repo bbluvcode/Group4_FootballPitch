@@ -36,7 +36,7 @@
          <children>
             <Button fx:id="btnClose" layoutX="1221.0" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="42.0" styleClass="close" stylesheets="@page.css">
                <graphic>
-                  <FontAwesomeIcon fill="#dc0d0d" glyphName="CLOSE" size="2em" textAlignment="CENTER" wrappingWidth="21.957166481020977" />
+                  <FontAwesomeIcon fill="#dc0d0d" glyphName="CLOSE" size="2em" text="" textAlignment="CENTER" wrappingWidth="21.957166481020977" />
                </graphic>
             </Button>
             <Button fx:id="btnMini" layoutX="1186.0" mnemonicParsing="false" onAction="#minimize" prefHeight="40.0" prefWidth="42.0" styleClass="minimize" stylesheets="@page.css">
@@ -1522,7 +1522,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Button fx:id="btnExportPDF" layoutX="556.0" layoutY="574.0" mnemonicParsing="false" onAction="#ExportPDF" prefHeight="38.0" prefWidth="122.0" styleClass="add-btn" stylesheets="@page.css" text="Export PDF" />
+                              <Button fx:id="btnExportPDF" layoutX="556.0" layoutY="574.0" mnemonicParsing="false" onAction="#ExportPDF" prefHeight="38.0" prefWidth="122.0" styleClass="clear-btn" stylesheets="@page.css" text="Print Bill" />
                            </children>
                         </AnchorPane>
                      </children>

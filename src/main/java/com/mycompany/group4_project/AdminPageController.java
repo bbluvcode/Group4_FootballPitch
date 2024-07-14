@@ -628,7 +628,7 @@ public class AdminPageController implements Initializable {
     }
 
     @FXML
-    public void switchPage(ActionEvent event) {
+    public void switchPage(ActionEvent event) throws IOException {
         EditProfilePage.setVisible(false);
 
         List<Node> pages = Arrays.asList(
@@ -657,9 +657,13 @@ public class AdminPageController implements Initializable {
         if (event.getSource() instanceof Button) {
             int index = buttons.indexOf(event.getSource());
             if (index != -1) {
-                pages.get(index).setVisible(true);
-                buttons.get(index).setStyle(selectedStyle);
-                clearPage(index);
+                if (index == 4) {
+                   App.setRoot("Dashboard");
+                } else {
+                    pages.get(index).setVisible(true);
+                    buttons.get(index).setStyle(selectedStyle);
+                    clearPage(index);
+                }
             }
         } else if (event.getSource() instanceof MenuItem) {
             for (int i = 0; i < menuItems.size(); i++) {

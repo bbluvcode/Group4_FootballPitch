@@ -103,6 +103,8 @@ public class LoginController implements Initializable {
         newPassForm.setVisible(false);
         tfPass.setVisible(false);
         tfPass.setManaged(false);
+        tfPhone.setText("staff");
+        tfPass.setText("123");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

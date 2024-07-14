@@ -502,26 +502,24 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
     }
 
     //===============================DashBoard====================================================================================
-    public int getTotalRevenue(Date date) {
+/*    public int getTotalRevenue(Date date) {
         int ttRevenue = 0;
         String sql = "SELECT SUM(tt_payment) AS ttRevenue FROM payments WHERE pay_date = '" + date + "'";
-        System.out.println("pmDAO_totalRevenue: " + sql);
         return ttRevenue;
-    }
+    }*/
 
-    public HashMap<String, Integer> getTotalRevenue() {
-        int ttRevenue = 0, ttRental = 0, ttSer = 0, numberOfRental =0;
-        HashMap<String, Integer> getTT = new HashMap<>();
-        String sql = "SELECT SUM(tt_payment) AS ttRevenue, SUM(tt_booking) AS ttRental, SUM(tt_service) AS ttSer , Count(idb) AS numberOfRental FROM payments";
-        System.out.println("pmDAO_totalRevenue: " + sql);
+    public HashMap<String, Double> getTotalRevenue() {
+        Double ttRevenue , ttRental, ttSer, numberOfRental;
+        HashMap<String, Double> getTT = new HashMap<>();
+        String sql = "SELECT ROUND(SUM(tt_payment)/1000000,2) AS ttRevenue, ROUND(SUM(tt_booking)/1000000,1) AS ttRental, ROUND(SUM(tt_service)/1000,1) AS ttSer , Count(idb) AS numberOfRental FROM payments";
         try {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(sql);
             rs.next();
-            ttRevenue = rs.getInt("ttRevenue");
-            ttRental = rs.getInt("ttRental");
-            ttSer = rs.getInt("ttSer");
-            numberOfRental = rs.getInt("numberOfRental");
+            ttRevenue = rs.getDouble("ttRevenue");
+            ttRental = rs.getDouble("ttRental");
+            ttSer = rs.getDouble("ttSer");
+            numberOfRental = rs.getDouble("numberOfRental");
             getTT.put("ttRevenue",ttRevenue);
             getTT.put("ttRental",ttRental);
             getTT.put("ttSer",ttSer);
@@ -531,4 +529,5 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         }
         return getTT;
     }
+
 }

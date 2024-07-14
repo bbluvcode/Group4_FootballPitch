@@ -21,6 +21,7 @@ com\mycompany\group4_project\PaymentBill.class
 Entities\Field.class
 Entities\Bill_serRent.class
 module-info.class
+DAO\ChartDAO.class
 com\mycompany\group4_project\StaffPageController$1.class
 com\mycompany\group4_project\StaffPageController.class
 com\mycompany\group4_project\AdminPageController$2.class
@@ -30,6 +31,7 @@ com\mycompany\group4_project\Customer.class
 com\mycompany\group4_project\AdminPageController$1.class
 Entities\User.class
 com\mycompany\group4_project\Service_Sell.class
+Entities\Chart.class
 com\mycompany\group4_project\ServiceCategory.class
 com\mycompany\group4_project\Bill_serSell.class
 com\mycompany\group4_project\Service_Rent.class
