@@ -19,11 +19,7 @@ import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.sql.Date;
 import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
@@ -146,7 +142,7 @@ public class AdminPageController implements Initializable {
     @FXML
     private Label lbMess_Birth;
     //------------------------------------Image
-    private final String IMAGE_DIR = "C:/2308/HK2/Project/Group4_Project/src/main/resources/com/mycompany/images/";
+    private final String IMAGE_DIR = "../src/main/resources/com/mycompany/images/";
     private String selectImageName_EditUser;
     private String selectImageURL_EditUser;
     private String imageURL_EditUser;
@@ -1279,8 +1275,9 @@ public class AdminPageController implements Initializable {
     }
     //--------------------------------------------------------------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------PAYMENT-------------------------------------//
-    //Update Emp, Cus, Pitch list
+    //--------------------------------------------------------------------------------------------------------------------------------
     private void refreshEmployeeList() {
         ObservableList<String> nameEmpList = categoryDAO.getNameEmployees();
         cbEmpName_Payment.setItems(nameEmpList);
@@ -1323,7 +1320,7 @@ public class AdminPageController implements Initializable {
     }
 
     public ObservableList getPaymentBills() {
-        //tao danh sach 
+        //tao danh sach
         ObservableList<PaymentBill> plist = FXCollections.observableArrayList();
         //connect
         ConnectDB con = new ConnectDB();
@@ -1498,6 +1495,14 @@ public class AdminPageController implements Initializable {
     @FXML
     private Button btnCloseDate_Payment;
 
+    private void clearSearchInPayment() {
+        dpSelectDate_Payment.setValue(null);
+        dpSelectDate_Payment.setUserData(null);
+        btnCloseDate_Payment.setVisible(false);
+        tfSearch_Payment.clear();
+        btnCloseSearch_Payment.setVisible(false);
+    }
+
     @FXML
     private void clearPayDateInPayment(ActionEvent event) {
         dpSelectDate_Payment.setValue(null);
@@ -1571,6 +1576,31 @@ public class AdminPageController implements Initializable {
             int priceofPitch = categoryDAO.getPriceOfPitch(pitchName);
             tfPricePitch_Payment.setText(String.valueOf(priceofPitch));
         }
+    }
+
+    private boolean isBookingOverlap(String pitchName, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        try (Connection cn = new ConnectDB().getConnect(); PreparedStatement ps = cn.prepareStatement(
+                "SELECT COUNT(*) FROM payments WHERE idp = ? AND "
+                        + "((? BETWEEN CONCAT(pay_date, ' ', time_start) AND CONCAT(pay_date, ' ', time_end)) OR "
+                        + "(? BETWEEN CONCAT(pay_date, ' ', time_start) AND CONCAT(pay_date, ' ', time_end)) OR "
+                        + "(CONCAT(pay_date, ' ', time_start) BETWEEN ? AND ?) OR "
+                        + "(CONCAT(pay_date, ' ', time_end) BETWEEN ? AND ?))")) {
+            ps.setInt(1, categoryDAO.getIDInPitch(pitchName));
+            ps.setTimestamp(2, Timestamp.valueOf(startDateTime));
+            ps.setTimestamp(3, Timestamp.valueOf(endDateTime));
+            ps.setTimestamp(4, Timestamp.valueOf(startDateTime));
+            ps.setTimestamp(5, Timestamp.valueOf(endDateTime));
+            ps.setTimestamp(6, Timestamp.valueOf(startDateTime));
+            ps.setTimestamp(7, Timestamp.valueOf(endDateTime));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
     }
 
     @FXML
@@ -1652,6 +1682,14 @@ public class AdminPageController implements Initializable {
             hrs_Used = (int) Math.ceil((double) Duration.between(start.toLocalTime(), end.toLocalTime()).toMinutes() / 60);
         }
 
+        LocalDateTime startDateTime = LocalDateTime.of(date, start.toLocalTime());
+        LocalDateTime endDateTime = LocalDateTime.of(date, end.toLocalTime());
+
+        if (isBookingOverlap(pitchName, startDateTime, endDateTime)) {
+            showAlert(AlertType.ERROR, "Error", "This booking overlaps with an existing booking.");
+            return;
+        }
+
         int priceofPitch = categoryDAO.getPriceOfPitch(pitchName);
         int Booking = priceofPitch * hrs_Used;
         int Service = 0;
@@ -1661,13 +1699,10 @@ public class AdminPageController implements Initializable {
             lbDeposit_Payment.setText("Deposit can't be greater than " + priceofPitch * hrs + "!");
             hasErr = true;
         }
-
         Date pay_date = Date.valueOf(date);
-
         if (hasErr) {
             return;
         }
-
         try (Connection cn = new ConnectDB().getConnect(); PreparedStatement ps = cn.prepareStatement(
                 "INSERT INTO payments (idu, idp, idk, time_start, time_end, hrs_used, deposit, tt_booking, tt_service, tt_payment, pay_date, completed, time_book, hrs, stt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
@@ -1839,6 +1874,14 @@ public class AdminPageController implements Initializable {
             hasErr = true;
         }
 
+        LocalDateTime startDateTime = LocalDateTime.of(date, start.toLocalTime());
+        LocalDateTime endDateTime = LocalDateTime.of(date, end.toLocalTime());
+
+        if (isBookingOverlap(pitchName, startDateTime, endDateTime)) {
+            showAlert(AlertType.ERROR, "Error", "This booking overlaps with an existing booking.");
+            return;
+        }
+
         int priceofPitch = categoryDAO.getPriceOfPitch(pitchName);
         int Booking = priceofPitch * hrs_Used;
         int Service = 0;
@@ -1922,6 +1965,7 @@ public class AdminPageController implements Initializable {
         tfStart_Payment.clear();
         tfEnd_Payment.clear();
         tfPricePitch_Payment.clear();
+        clearSearchInPayment();
 
     }
 
@@ -2049,6 +2093,7 @@ public class AdminPageController implements Initializable {
             }
         }
     }
+//==========================end payment===============================
     //--------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------DETAIL OF PAYMENT-------------------------------------//

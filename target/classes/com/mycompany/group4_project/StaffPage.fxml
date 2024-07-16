@@ -990,7 +990,6 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <DatePicker fx:id="bkPitch_datePicker" layoutX="26.0" layoutY="22.0" onAction="#bkPitch_datePicker_change" styleClass="filter_b" />
                            </children>
                         </AnchorPane>
                      </children>

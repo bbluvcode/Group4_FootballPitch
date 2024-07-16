@@ -2350,6 +2350,12 @@ public class StaffPageController implements Initializable {
         initialize_Bill();
         pBdpBillDetail_page.setVisible(true);
         menuService_page.setVisible(false);
+        try {
+            int idb = Integer.parseInt(lbIdb_booking.getText());
+            SelectBill_Bill(idb);
+        } catch (Exception e) {
+            System.err.println("Error BUTTON - Ser_BackToBill:" + e.getMessage());
+        }
     }
 
     @FXML
@@ -2359,11 +2365,9 @@ public class StaffPageController implements Initializable {
             List<Integer> idp = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
             List<Label> lbStatus = Arrays.asList(bkPitch_lbStatus_1, bkPitch_lbStatus_2, bkPitch_lbStatus_3, bkPitch_lbStatus_4, bkPitch_lbStatus_5, bkPitch_lbStatus_6, bkPitch_lbStatus_7, bkPitch_lbStatus_8, bkPitch_lbStatus_9, bkPitch_lbStatus_10, bkPitch_lbStatus_11, bkPitch_lbStatus_12);
             List<Label> lbName = Arrays.asList(bkPitch_lbName_1, bkPitch_lbName_2, bkPitch_lbName_3, bkPitch_lbName_4, bkPitch_lbName_5, bkPitch_lbName_6, bkPitch_lbName_7, bkPitch_lbName_8, bkPitch_lbName_9, bkPitch_lbName_10, bkPitch_lbName_11, bkPitch_lbName_12);
-            //List<Label> lbTimeStart = Arrays.asList(bkPitch_lbTimeStart_1, bkPitch_lbTimeStart_2, bkPitch_lbTimeStart_3, bkPitch_lbTimeStart_4, bkPitch_lbTimeStart_5, bkPitch_lbTimeStart_6, bkPitch_lbTimeStart_7, bkPitch_lbTimeStart_8, bkPitch_lbTimeStart_9, bkPitch_lbTimeStart_10, bkPitch_lbTimeStart_11, bkPitch_lbTimeStart_12);
             List<Label> lb_Idb_List = Arrays.asList(bkPitch_lb_idb_1, bkPitch_lb_idb_2, bkPitch_lb_idb_3, bkPitch_lb_idb_4, bkPitch_lb_idb_5, bkPitch_lb_idb_6, bkPitch_lb_idb_7, bkPitch_lb_idb_8, bkPitch_lb_idb_9, bkPitch_lb_idb_10, bkPitch_lb_idb_11, bkPitch_lb_idb_12);
 
             int index = buttons.indexOf(event.getSource());
-            //Time timeStart = null;
 
             int stt = lbStatus.get(index).getText().equals("Available") ? 1 : lbStatus.get(index).getText().equals("Occupied") ? 2 : 3;
             String name = lbName.get(index).getText();
@@ -2373,11 +2377,9 @@ public class StaffPageController implements Initializable {
             lbIdu_booking.setText(Emp.getIdu());
             btnBillDetail_Booking.setVisible(false);
             btnStart_Booking.setVisible(false);
-            //int sttBK = 0;
             if (stt != 1) {
                 stpTimeBook_Booking.setVisible(true);
                 if (stt == 3) {
-                    //sttBK = 1;
                     btnStart_Booking.setVisible(true);
                     btnUpdate_Booking.setDisable(false);
                     btnDelete_Booking.setDisable(false);
@@ -2391,6 +2393,7 @@ public class StaffPageController implements Initializable {
 
                 int idb = Integer.parseInt(lb_Idb_List.get(index).getText());
                 PaymentBill pb = pmDAO.getBookingOrBillByPitch(idb);
+                System.out.println(pb);
                 txtDeposit_Booking.setText("" + pb.getDeposit());
                 txtTimeStart_Booking.setText(pb.getTime_book().toString());
                 spnHrs_Booking.getValueFactory().setValue(pb.getHrs());
@@ -2418,7 +2421,6 @@ public class StaffPageController implements Initializable {
                     spnHour_timeBook_Booking.setValueFactory(valueHour);
                     Click_spnHour_timeBook_Booking();
 
-                    //txtTimeStart_Booking.focusTraversableProperty();
                     setBtnDisible_Booking();
                     btnAdd_Booking.setDisable(false);
 
@@ -2506,11 +2508,7 @@ public class StaffPageController implements Initializable {
     @FXML
     private void bkPitch_clearTimeToFilter() {
         if (bkPitch_cboTime_from.getValue() != null) {
-            Time timeF = Time.valueOf(bkPitch_cboTime_from.getValue() + ":00");
-            int hr = timeF.toLocalTime().getHour();
-            int min = timeF.toLocalTime().getMinute();
-            hr++;
-            bkPitch_cboTime_to.setValue( hr + ":" + min);
+            bkPitch_cboTime_to.setValue(null);
             bkPitch_getTimeFilterfromCbo();
             setTime_forCboTo_booking();
         }
@@ -2519,6 +2517,5 @@ public class StaffPageController implements Initializable {
     @FXML
     private void AddNew_Bill(ActionEvent event) {
     }
-
 
 }
