@@ -323,4 +323,81 @@ public class ChartDAO extends ConnectDB<String, Double> {
         return getTT;
     }
 
+    public ObservableList<XYChart.Series> barChart_month_inside(String condition) {
+        ObservableList<XYChart.Series> data = FXCollections.observableArrayList();
+        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series series3 = new XYChart.Series();
+        series1.setName("Total payment");
+        series2.setName("Total service");
+        series3.setName("Total rental");
+
+        String sql = "SELECT \n" +
+                "    MONTH(payments.pay_date) AS month,\n" +
+                "    SUM(payments.tt_payment) AS tt_payment,\n" +
+                "    SUM(payments.tt_booking) AS t_booking,\n" +
+                "    SUM(payments.tt_service) AS tt_service\n" +
+                "FROM payments\n" +
+                condition +
+                "GROUP BY MONTH(payments.pay_date)\n" +
+                "ORDER BY month;";
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                String monthName;
+                int month = rs.getInt("month");
+                switch (month) {
+                    case 1:
+                        monthName = "January";
+                        break;
+                    case 2:
+                        monthName = "February";
+                        break;
+                    case 3:
+                        monthName = "March";
+                        break;
+                    case 4:
+                        monthName = "April";
+                        break;
+                    case 5:
+                        monthName = "May";
+                        break;
+                    case 6:
+                        monthName = "June";
+                        break;
+                    case 7:
+                        monthName = "July";
+                        break;
+                    case 8:
+                        monthName = "August";
+                        break;
+                    case 9:
+                        monthName = "September";
+                        break;
+                    case 10:
+                        monthName = "October";
+                        break;
+                    case 11:
+                        monthName = "November";
+                        break;
+                    case 12:
+                        monthName = "December";
+                        break;
+                    default:
+                        monthName = "Invalid month";
+                        break;
+                }
+                series1.getData().add(new XYChart.Data(monthName, rs.getDouble("tt_payment")));
+                series2.getData().add(new XYChart.Data(monthName, rs.getDouble("t_booking")));
+                series3.getData().add(new XYChart.Data(monthName, rs.getDouble("tt_service")));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        data.add(series1);
+        data.add(series2);
+        data.add(series3);
+        return data;
+    }
 }
