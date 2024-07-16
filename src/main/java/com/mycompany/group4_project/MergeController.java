@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import DAO.ChartDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +42,7 @@ public class MergeController implements Initializable {
     @FXML
     private BarChart<String, Number> dashboard_barChart_Income;
     @FXML
-    private ComboBox<?> dashboard_cboFilter;
+    private ComboBox<String> dashboard_cboFilter;
     @FXML
     private Button dashboard_btnSetChart_Service;
     @FXML
@@ -63,6 +64,11 @@ public class MergeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        ini_dashboard();
+    }
+
+    void ini_dashboard() {
+        setValue_cbo();
         setTotalLabels("");
         setData_chart("total");
     }
@@ -82,7 +88,7 @@ public class MergeController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else {
+        } else {
             setData_chart("total");
         }
 
@@ -96,7 +102,6 @@ public class MergeController implements Initializable {
     @FXML
     private void dashboard_btnSetChart_customer(ActionEvent event) {
         setData_chart("cus");
-
     }
 
     @FXML
@@ -125,7 +130,11 @@ public class MergeController implements Initializable {
                 dashboard_barChart_Income.setTitle("Service Income Last 6 Months");
                 break;
             case "cus":
-                dashboard_barChart_Income.getData().setAll(series1);
+                ObservableList<XYChart.Series> data = chartDAO.barChart_monthCus_inside();
+                XYChart.Series series11 = data.get(0);
+                XYChart.Series series22 = data.get(1);
+                XYChart.Series series33 = data.get(2);
+                dashboard_barChart_Income.getData().setAll(series11, series33, series22);
                 dashboard_barChart_Income.setTitle("Customer Income Last 6 Months");
                 break;
             default:
@@ -135,11 +144,17 @@ public class MergeController implements Initializable {
     }
 
     void setTotalLabels(String condition) {
-        HashMap<String, Double> tt = chartDAO.getTotalRevenue(condition);
+        HashMap<String, Double> tt = chartDAO.getTotalRevenue_inside(condition);
         lbTotalRevenue.setText(tt.get("ttRevenue") + "M");
-        lbRentalRevenua.setText(tt.get("ttRental") + "M");
+        lbRentalRevenua.setText(tt.get("ttRental") + "K");
         lbServiceRevenue.setText(tt.get("ttSer") + "K");
         int totalRentals = (int) Math.round(tt.get("numberOfRental"));
         lbTotalRentals.setText(String.valueOf(totalRentals));
+    }
+
+    void setValue_cbo() {
+        dashboard_cboFilter.getItems().add("Day");
+        dashboard_cboFilter.getItems().add("Week");
+        dashboard_cboFilter.getItems().add("Month");
     }
 }

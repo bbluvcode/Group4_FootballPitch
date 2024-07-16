@@ -17,9 +17,7 @@ public class test {
     public static void main(String[] args) {
         LocalDate currentDate = LocalDate.now();
         System.out.println(currentDate);
-        LocalDate before6MonthDate = currentDate.minusMonths(6);
-        System.out.println(before6MonthDate);
-        int day = before6MonthDate.getDayOfMonth();
-        before6MonthDate.atStartOfDay();
+        LocalDate before1week = currentDate.minusWeeks(1);
+        System.out.println(before1week);
     }
 }
