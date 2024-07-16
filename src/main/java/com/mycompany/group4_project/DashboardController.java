@@ -63,17 +63,16 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        setTotalLabels();
+        setTotalLabels("");
         setDataChart("");
         setValue_cboYear();
         setvalue_cboQuarter();
     }
 
-    PaymentBillDAO pmDAO = new PaymentBillDAO();
     ChartDAO chartDAO = new ChartDAO();
 
-    void setTotalLabels() {
-        HashMap<String, Double> tt = pmDAO.getTotalRevenue();
+    void setTotalLabels(String condition) {
+        HashMap<String, Double> tt = chartDAO.getTotalRevenue(condition);
         lbTotalRevenue.setText(tt.get("ttRevenue") + "M");
         lbRentalRevenua.setText(tt.get("ttRental") + "M");
         lbServiceRevenue.setText(tt.get("ttSer") + "K");
@@ -169,6 +168,7 @@ public class DashboardController implements Initializable {
     private void filterDashboard(ActionEvent event) {
         String condition = conditionFilter(cboQuarter.getValue());
         setDataChart(condition);
+        setTotalLabels(condition);
     }
 
     @FXML
@@ -179,7 +179,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void clearQuater_btn(ActionEvent event) {
-        cboQuarter.setValue(null);
+        cboQuarter.setValue("All");
         cboQuarter.setPromptText("All");
     }
 }

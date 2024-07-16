@@ -499,26 +499,6 @@ public class PaymentBillDAO extends ConnectDB<PaymentBill, Integer> {
         return ttRevenue;
     }*/
 
-    public HashMap<String, Double> getTotalRevenue() {
-        Double ttRevenue , ttRental, ttSer, numberOfRental;
-        HashMap<String, Double> getTT = new HashMap<>();
-        String sql = "SELECT ROUND(SUM(tt_payment)/1000000,2) AS ttRevenue, ROUND(SUM(tt_booking)/1000000,1) AS ttRental, ROUND(SUM(tt_service)/1000,1) AS ttSer , Count(idb) AS numberOfRental FROM payments";
-        try {
-            Statement st = getConnection().createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            ttRevenue = rs.getDouble("ttRevenue");
-            ttRental = rs.getDouble("ttRental");
-            ttSer = rs.getDouble("ttSer");
-            numberOfRental = rs.getDouble("numberOfRental");
-            getTT.put("ttRevenue",ttRevenue);
-            getTT.put("ttRental",ttRental);
-            getTT.put("ttSer",ttSer);
-            getTT.put("numberOfRental",numberOfRental);
-        } catch (Exception ex) {
-            System.err.println("pmDAO_totalRevenue: " + ex.getMessage());
-        }
-        return getTT;
-    }
+
 
 }

@@ -2008,7 +2008,7 @@ public class StaffPageController implements Initializable {
             totalsTable.addCell(new Cell().add(new Paragraph("Total Bill:"))
                     .setFontColor(new DeviceRgb(255, 0, 0))
                     .setFontSize(14).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
-            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbService_Bill.getText()))
+            totalsTable.addCell(new Cell().add(new Paragraph("$" + lbTotal_Bill.getText()))
                     .setTextAlignment(TextAlignment.RIGHT)
                     .setFontColor(new DeviceRgb(255, 0, 0))
                     .setFontSize(14).setBorder(Border.NO_BORDER));

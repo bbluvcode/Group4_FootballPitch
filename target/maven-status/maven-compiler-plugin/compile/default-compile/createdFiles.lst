@@ -12,6 +12,7 @@ com\mycompany\group4_project\LoginController$1.class
 Entities\Customer.class
 Entities\FieldCategory.class
 com\mycompany\group4_project\UserCategory.class
+com\mycompany\group4_project\MergeController.class
 DAO\BookingDAO.class
 DAO\ConnectDB.class
 com\mycompany\group4_project\CategoryDAO.class
