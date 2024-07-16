@@ -4,6 +4,8 @@
  */
 package com.mycompany.group4_project;
 
+import DAO.ChartDAO;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -15,21 +17,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.*;
+import java.sql.Date;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -43,6 +42,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -72,6 +72,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.*;
@@ -587,11 +588,29 @@ public class AdminPageController implements Initializable {
     @FXML
     private Button btnClear_CategoryService;
     @FXML
+    private Label lbDate_DetailPay;
+
+    //------------------------------------Dashboard
+    @FXML
+    private Label lbTotalRevenue;
+    @FXML
     private Button dashboard_btnSalesPerformance;
     @FXML
-    private BarChart<?, ?> dashboard_barChart_Income;
+    private Label lbServiceRevenue;
     @FXML
-    private ComboBox<?> dashboard_cboFilter;
+    private Button dashboard_btnSetChart_Service;
+    @FXML
+    private Label lbTotalRentals;
+    @FXML
+    private Button dashboard_btnSetChart_customer;
+    @FXML
+    private Label lbRentalRevenua;
+    @FXML
+    private Button dashboard_btnSetChart_pitch;
+    @FXML
+    private BarChart<String, Number> dashboard_barChart_Income;
+    @FXML
+    private ComboBox<String> dashboard_cboFilter;
 
     public AdminPageController() {
         this.categoryDAO = new CategoryDAO();
@@ -619,6 +638,8 @@ public class AdminPageController implements Initializable {
         setupOpenCatePitch();
         //ServiceCategory
         setupOpenCateService();
+        //Dashboard
+        ini_dashboard();
     }
 
     @FXML
@@ -713,7 +734,7 @@ public class AdminPageController implements Initializable {
                 break;
             case 4:
                 clearInDashboardPage();
-
+                ini_dashboard();
                 break;
             case 5:
                 clearInSellServicePage();
@@ -1114,7 +1135,7 @@ public class AdminPageController implements Initializable {
         boolean hasErr = false;
 
         if (curPass.isEmpty()) {
-            lbCurPass_EditProfile.setText("This field cannot be blank!");
+            lbCurPass_EditProfile.setText("CurrentPass cann't be blank!");
             if (tfCurPass_EditProfile.isVisible()) {
                 tfCurPass_EditProfile.requestFocus();
             } else {
@@ -1132,7 +1153,7 @@ public class AdminPageController implements Initializable {
         }
         if (!hasErr) {
             if (newPass.isEmpty()) {
-                lbNewPass_EditProfile.setText("This field cannot be blank!");
+                lbNewPass_EditProfile.setText("NewPass cann't be blank!");
                 if (tfNewPass_EditProfile.isVisible()) {
                     tfNewPass_EditProfile.requestFocus();
                 } else {
@@ -1159,7 +1180,7 @@ public class AdminPageController implements Initializable {
         }
 
         if (!hasErr && confirmPass.isEmpty()) {
-            lbConfirmPass_EditProfile.setText("This field cannot be blank!");
+            lbConfirmPass_EditProfile.setText("ConfirmPass cann't be blank!");
             if (tfConfirm_EditProfile.isVisible()) {
                 tfConfirm_EditProfile.requestFocus();
             } else {
@@ -1283,7 +1304,7 @@ public class AdminPageController implements Initializable {
         refreshCustomerList();
         refreshPitchList();
         completed_Pay.selectToggle(rdNo_Payment);
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 1);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 3, 1);
         spHrsBooking_Payment.setValueFactory(valueFactory);
         rdYes_Payment.setUserData("Yes");
         rdNo_Payment.setUserData("No");
@@ -1297,7 +1318,7 @@ public class AdminPageController implements Initializable {
         });
         btnCloseSearch_Payment.setVisible(false);
         btnCloseDate_Payment.setVisible(false);
-        tfTimeBooking_Payment.setEditable(true);
+        //tfTimeBooking_Payment.setEditable(true);
 
     }
 
@@ -1471,6 +1492,7 @@ public class AdminPageController implements Initializable {
             tvPayment.setItems(filterList);
         }
     }
+
     @FXML
     private Button btnCloseSearch_Payment;
     @FXML
@@ -1645,8 +1667,9 @@ public class AdminPageController implements Initializable {
         if (hasErr) {
             return;
         }
+
         try (Connection cn = new ConnectDB().getConnect(); PreparedStatement ps = cn.prepareStatement(
-                "INSERT INTO payments (idu, idp, idk, time_start, time_end, hrs_used, deposit, tt_booking, tt_service, tt_payment, pay_date, completed, time_book, hrs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                "INSERT INTO payments (idu, idp, idk, time_start, time_end, hrs_used, deposit, tt_booking, tt_service, tt_payment, pay_date, completed, time_book, hrs, stt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             ps.setString(1, categoryDAO.getIDInEmp(empName));
             ps.setInt(2, categoryDAO.getIDInPitch(pitchName));
@@ -1662,7 +1685,7 @@ public class AdminPageController implements Initializable {
             ps.setBoolean(12, completed);
             ps.setTime(13, timebooking);
             ps.setInt(14, hrs);
-
+            ps.setInt(15, 1);
             if (ps.executeUpdate() > 0) {
                 showAlert(AlertType.INFORMATION, "PaymentBill", "Payment Bill added Successfully!");
                 showPaymentBills();
@@ -1871,14 +1894,14 @@ public class AdminPageController implements Initializable {
 
     public void clearLabelsInPayment() {
         Label[] labels = {
-            lbEmpName_Payment,
-            lbPitchName_Payment,
-            lbCusName_Payment,
-            lbDeposit_Payment,
-            lbDate_Payment,
-            lbTimeBooking_Payment,
-            lbStart_Payment,
-            lbEnd_Payment
+                lbEmpName_Payment,
+                lbPitchName_Payment,
+                lbCusName_Payment,
+                lbDeposit_Payment,
+                lbDate_Payment,
+                lbTimeBooking_Payment,
+                lbStart_Payment,
+                lbEnd_Payment
         };
         for (Label label : labels) {
             label.setText("");
@@ -1895,6 +1918,7 @@ public class AdminPageController implements Initializable {
         spHrsBooking_Payment.getValueFactory().setValue(1);
         tfDeposit_Payment.clear();
         tfTimeBooking_Payment.clear();
+        tfTimeBooking_Payment.setEditable(true);
         tfStart_Payment.clear();
         tfEnd_Payment.clear();
         tfPricePitch_Payment.clear();
@@ -2100,6 +2124,7 @@ public class AdminPageController implements Initializable {
     }
 
     private void updateSpinnerInDetailPay() {
+        lbQty_DetailPay.setText("");
         String selectedProduct = cbProductName_DetailPay.getValue();
         RadioButton selectedRadioButton = (RadioButton) typeProduct_DetailPay.getSelectedToggle();
         if (selectedProduct != null) {
@@ -2115,13 +2140,18 @@ public class AdminPageController implements Initializable {
                 spQuantity_DetailPay.setValueFactory(valueFactory);
             }
             if (quantity == 0) {
-                lbQty_DetailPay.setText("The product " + selectedProduct + " is out of stock!");
+                lbQty_DetailPay.setText(selectedProduct + " is out of stock!");
                 return;
             }
         }
     }
 
     private void detailOfPaymentBill() {
+        LocalDate localDate = paySSI.getPay_date().toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String payDate = localDate.format(formatter);
+        lbDate_DetailPay.setText("Date: " + payDate);
+
         tfPayCode_DetailPay.setText("" + paySSI.getIdb());
         tfCusName_DetailPay.setText(paySSI.getKhachhang_name());
         tfPitName_DetailPay.setText(paySSI.getSanbong_name());
@@ -2133,9 +2163,11 @@ public class AdminPageController implements Initializable {
         if (paySSI.getPay_date().toLocalDate().isBefore(LocalDate.now())) {
             btnUpdate_PaymentDetail.setDisable(true);
             btnAdd_PaymentDetail.setDisable(true);
+            btnDelete_PaymentDetail.setDisable(true);
         } else {
             btnUpdate_PaymentDetail.setDisable(false);
             btnAdd_PaymentDetail.setDisable(false);
+            btnDelete_PaymentDetail.setDisable(true);
         }
         clearInDetailPay();
     }
@@ -3414,7 +3446,7 @@ public class AdminPageController implements Initializable {
         }).start();
     }
 
-// Hàm để gửi email xác nhận
+    // Hàm để gửi email xác nhận
     private void sendVerificationEmail_User(String email) {
         verificationCode = generateVerificationCode_User();
 
@@ -3460,25 +3492,25 @@ public class AdminPageController implements Initializable {
         }
     }
 
-// Hàm kiểm tra email hợp lệ
+    // Hàm kiểm tra email hợp lệ
     private boolean isValidEmail_User(String email) {
         // Simple email validation using regular expression
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);
     }
 
-// Hàm tạo mã xác nhận
+    // Hàm tạo mã xác nhận
     private String generateVerificationCode_User() {
         // Generate a random 6-digit verification code
         return String.valueOf((int) (Math.random() * 900000) + 100000);
     }
 
-// Hàm kiểm tra mã xác nhận
+    // Hàm kiểm tra mã xác nhận
     private boolean isVerificationCodeCorrect_User(String code) {
         return verificationCode != null && verificationCode.equals(code);
     }
 
-// Đặt lại trạng thái xác nhận email khi email bị thay đổi
+    // Đặt lại trạng thái xác nhận email khi email bị thay đổi
     private void tfEmail_User_TextChanged(ActionEvent event) {
         isEmailConfirmed_User = false;
         btnAdd_User.setDisable(true);
@@ -3940,6 +3972,12 @@ public class AdminPageController implements Initializable {
     //----------------------------------------------------------------------------------------------------
     //--------------------------------------------------Sell SERVICE--------------------------------------------------
     //----------------------------------------------------------------------------------------------------
+    private String selectImageName_SaleService;
+    private String selectImageURL_SaleService;
+    private String imageURL_SaleServicer;
+    private Path from_SaleService, to_SaleService;
+    private File selectedFile_SaleService;
+
     private void setupSellComboBox() {
         ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
         cbType_SaleService.setItems(TypeServiceList);
@@ -3951,7 +3989,7 @@ public class AdminPageController implements Initializable {
         //SalecomboBox();
         showSaleProducts();
         Salespinner();
-        
+
     }
 
     @FXML
@@ -4011,13 +4049,37 @@ public class AdminPageController implements Initializable {
     @FXML
     private void Import_image_SaleService(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
-        Stage stage = (Stage) cbType_SaleService.getScene().getWindow();
-        selectedFile = fileChooser.showOpenDialog(stage);
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        selectedFile_SaleService = fileChooser.showOpenDialog(null);
+        if (selectedFile_SaleService != null) {
+            // Update selectImageName with the selected file name
+            selectImageName_SaleService = selectedFile_SaleService.getName();
 
-        if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            imageview_SaleService.setImage(image);
+            // Construct selectImageURL correctly using URI.toString()
+            selectImageURL_SaleService = selectedFile_SaleService.toURI().toString();
+            System.out.println(selectImageURL_SaleService); // Debugging
+
+            // Copy the selected file to IMAGE_DIR
+            from_SaleService = selectedFile_SaleService.toPath();
+            to_SaleService = Paths.get(IMAGE_DIR + selectImageName_SaleService);
+
+            CopyOption options = StandardCopyOption.REPLACE_EXISTING;
+            try {
+                Files.copy(from_SaleService, to_SaleService, options);
+
+                // Load the image into ImageView
+                Image image = new Image(selectImageURL_SaleService);
+                imageview_SaleService.setImage(image);
+
+            } catch (IOException ex) {
+
+                System.out.println("Error: cannot copy " + ex.getMessage());
+            }
         }
     }
 
@@ -4027,6 +4089,7 @@ public class AdminPageController implements Initializable {
         cbType_SaleService.getSelectionModel().clearSelection();
         Quantity_SaleService.getValueFactory().setValue(1);
         imageview_SaleService.setImage(null);
+        selectedFile_SaleService = null;
     }
 
     @FXML
@@ -4037,7 +4100,6 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private void updateSaleService(ActionEvent event) {
-        // Get selected service from TableView
         Service_Sell selectedService = tbView_Ser.getSelectionModel().getSelectedItem();
         if (selectedService == null) {
             showSaleAlert(Alert.AlertType.ERROR, "Selection Error", "No service selected for update.");
@@ -4045,13 +4107,11 @@ public class AdminPageController implements Initializable {
         }
         int currentServiceId = selectedService.getIdss();
 
-        // Get input values from UI controls
-        String name = tfName_SaleService.getText().trim();
-        String priceText = tfPrice_SaleService.getText().trim();
+        String name = tfName_SaleService.getText();
+        String price = tfPrice_SaleService.getText();
         String type = cbType_SaleService.getValue();
         Integer quantity = Quantity_SaleService.getValue();
 
-        // Validate input fields
         if (name.isEmpty()) {
             showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Please enter a name.");
             return;
@@ -4059,7 +4119,7 @@ public class AdminPageController implements Initializable {
 
         int priceValue;
         try {
-            priceValue = Integer.parseInt(priceText);
+            priceValue = Integer.parseInt(price);
             if (priceValue < 0) {
                 showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Price cannot be negative.");
                 return;
@@ -4079,64 +4139,59 @@ public class AdminPageController implements Initializable {
             return;
         }
 
-        // Check if there are any changes
+        // Check if there are no changes
         if (name.equals(selectedService.getName())
                 && priceValue == selectedService.getPrice()
                 && type.equals(selectedService.getType())
                 && quantity.equals(selectedService.getQoh())
-                && (selectedFile == null || selectedFile.getName().equals(selectedService.getImg().getImage().getUrl().substring(5)))) {
+                && (selectedFile_SaleService == null || selectedFile_SaleService.getName().equals(selectedService.getImg().getImage().getUrl().substring(5)))) {
             showSaleAlert(Alert.AlertType.INFORMATION, "No Change", "No changes were made.");
             return;
         }
 
-        // Check for unique name (excluding the current service being updated)
+        // Check for unique name for update
         if (!isUniqueNameForUpdate(name, currentServiceId)) {
             showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Name already exists. Please choose a different name.");
             return;
         }
 
-        // Get category ID from type
         int categoryId = getIdcFromSaleType(type);
         if (categoryId == -1) {
             showSaleAlert(Alert.AlertType.ERROR, "Form Error!", "Selected type does not exist.");
             return;
         }
 
-        // Update service in the database
         ConnectDB con = new ConnectDB();
-        try (Connection cn = con.getConnect()) {
-            String updateQuery = "UPDATE ser_sell SET name = ?, price = ?, idc = ?, qoh = ?, img = ? WHERE idss = ?";
-            PreparedStatement ps = cn.prepareStatement(updateQuery);
-            ps.setString(1, name);
-            ps.setInt(2, priceValue);
-            ps.setInt(3, categoryId);
-            ps.setInt(4, quantity);
+        Connection cn = con.getConnect();
+        String query = "UPDATE ser_sell SET price = ?, idc = ?, qoh = ?, img = ? WHERE idss = ?";
 
-            // Handle image update
-            if (selectedFile != null) {
-                Path destination = Paths.get(IMAGE_DIR, selectedFile.getName());
+        try {
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1, priceValue);
+            ps.setInt(2, categoryId);
+            ps.setInt(3, quantity);
+
+            String imageFileName;
+            if (selectedFile_SaleService != null) {
+                // Update the image if a new file is selected
+                Path destination = Paths.get(IMAGE_DIR, selectedFile_SaleService.getName());
                 if (!Files.exists(destination)) {
-                    Files.copy(selectedFile.toPath(), destination);
+                    Files.copy(selectedFile_SaleService.toPath(), destination);
                 }
-                ps.setString(5, selectedFile.getName());
+                imageFileName = selectedFile_SaleService.getName();
             } else {
-                ps.setString(5, selectedService.getImg().getImage().getUrl().substring(5));
+                // Use the existing image file name
+                imageFileName = getCurrentSaleImageFromDB(name);
             }
+            ps.setString(4, imageFileName);
+            ps.setInt(5, currentServiceId);
 
-            ps.setInt(6, currentServiceId);
-
-            // Execute update
-            int rowsUpdated = ps.executeUpdate();
-            if (rowsUpdated > 0) {
-                showSaleAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully!");
-                clearInSellServicePage();
-                showSaleProducts();
-            } else {
-                showSaleAlert(Alert.AlertType.ERROR, "Error", "Failed to update service.");
-            }
+            ps.executeUpdate();
+            showSaleAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully!");
+            clearInSellServicePage();
+            showSaleProducts();
         } catch (SQLException | IOException ex) {
-            ex.printStackTrace();
-            showSaleAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the service: " + ex.getMessage());
+            showSaleAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the service.");
         }
     }
 
@@ -4400,6 +4455,12 @@ public class AdminPageController implements Initializable {
                 Quantity_SaleService.getValueFactory().setValue(selectedService.getQoh());
                 imageview_SaleService.setImage(selectedService.getImg().getImage());
 
+//               imageview_SaleService.setImage(selectedService.getImg().getImage());
+//
+//            // Assuming getImg() returns an ImageView directly
+//            String imageUrl = selectedService.getImg().getImage().getUrl();
+//            String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+//            selectImageName = imageName;
                 btnAdd_SaleService.setDisable(true);
             }
         } catch (Exception e) {
@@ -4411,6 +4472,12 @@ public class AdminPageController implements Initializable {
     ////----------------------------------------------------------------------------------------------------
     ////--------------------------------------------------Rent SERVICE--------------------------------------------------
     ////----------------------------------------------------------------------------------------------------
+    private String selectImageName_RentService;
+    private String selectImageURL_RentService;
+    private String imageURL_RentServicer;
+    private Path from_RentService, to_RentService;
+    private File selectedFile_RentService;
+
     private void setupRentComboBox() {
         ObservableList<String> TypeServiceList = categoryDAO.getTypeOfService();
         cbType_RentService.setItems(TypeServiceList);
@@ -4439,7 +4506,7 @@ public class AdminPageController implements Initializable {
         cbType_RentService.getSelectionModel().clearSelection();
         Quantity_RentService.getValueFactory().setValue(1);
         imageview_RentService.setImage(null);
-        selectedFile = null;
+        selectedFile_RentService = null;
     }
 
     private void showRentAlert(Alert.AlertType alertType, String title, String message) {
@@ -4453,13 +4520,37 @@ public class AdminPageController implements Initializable {
     @FXML
     private void Import_image_RentService(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
-        Stage stage = (Stage) RentServicePage.getScene().getWindow();
-        selectedFile = fileChooser.showOpenDialog(stage);
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        selectedFile_RentService = fileChooser.showOpenDialog(null);
+        if (selectedFile_RentService != null) {
+            // Update selectImageName with the selected file name
+            selectImageName_RentService = selectedFile_RentService.getName();
 
-        if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            imageview_RentService.setImage(image);
+            // Construct selectImageURL correctly using URI.toString()
+            selectImageURL_RentService = selectedFile_RentService.toURI().toString();
+            System.out.println(selectImageURL_RentService); // Debugging
+
+            // Copy the selected file to IMAGE_DIR
+            from_RentService = selectedFile_RentService.toPath();
+            to_RentService = Paths.get(IMAGE_DIR + selectImageName_RentService);
+
+            CopyOption options = StandardCopyOption.REPLACE_EXISTING;
+            try {
+                Files.copy(from_RentService, to_RentService, options);
+
+                // Load the image into ImageView
+                Image image = new Image(selectImageURL_RentService);
+                imageview_RentService.setImage(image);
+
+            } catch (IOException ex) {
+
+                System.out.println("Error: cannot copy " + ex.getMessage());
+            }
         }
     }
 
@@ -4660,7 +4751,7 @@ public class AdminPageController implements Initializable {
                 && priceValue == selectedService.getPrice()
                 && type.equals(selectedService.getType())
                 && quantity.equals(selectedService.getQoh())
-                && (selectedFile == null || selectedFile.getName().equals(selectedService.getImg().getImage().getUrl().substring(5)))) {
+                && (selectedFile_RentService == null || selectedFile_RentService.getName().equals(selectedService.getImg().getImage().getUrl().substring(5)))) {
             showRentAlert(Alert.AlertType.INFORMATION, "No Change", "No changes were made.");
             return;
         }
@@ -4689,12 +4780,12 @@ public class AdminPageController implements Initializable {
             ps.setInt(3, idc);
             ps.setInt(4, quantity);
 
-            if (selectedFile != null) {
-                Path destination = Paths.get(IMAGE_DIR, selectedFile.getName());
+            if (selectedFile_RentService != null) {
+                Path destination = Paths.get(IMAGE_DIR, selectedFile_RentService.getName());
                 if (!Files.exists(destination)) {
-                    Files.copy(selectedFile.toPath(), destination);
+                    Files.copy(selectedFile_RentService.toPath(), destination);
                 }
-                ps.setString(5, selectedFile.getName());
+                ps.setString(5, selectedFile_RentService.getName());
             } else {
                 String currentImage = getCurrentRentImageFromDB(selectedService.getName());
                 ps.setString(5, currentImage);
@@ -4988,7 +5079,7 @@ public class AdminPageController implements Initializable {
         btnAdd_Field.setDisable(false);
     }
 
-//    private boolean isDataChanged(Pitch selectedField, String newName, int newAvailability, int newIdcp) {
+    //    private boolean isDataChanged(Pitch selectedField, String newName, int newAvailability, int newIdcp) {
 //    return !selectedField.getName().equals(newName) ||
 //           selectedField.getAvailable() != newAvailability ||
 //           selectedField.getIdcp() != newIdcp;
@@ -5269,7 +5360,7 @@ public class AdminPageController implements Initializable {
     ////--------------------------------------------------PITCH CATEGORY--------------------------------------------------
     ////----------------------------------------------------------------------------------------------------
     private void setupOpenCatePitch() {
-        showFieldCateProducts();      
+        showFieldCateProducts();
     }
 
     private void showFieldCateProducts() {
@@ -5767,4 +5858,127 @@ public class AdminPageController implements Initializable {
         }
     }
 
+    ////----------------------------------------------------------------------------------------------------
+    ////--------------------------------------------------DASHBOARD--------------------------------------------------
+    ////----------------------------------------------------------------------------------------------------
+    void ini_dashboard() {
+        setValue_cbo();
+        setTotalLabels("");
+        setData_chart("", "total");
+    }
+
+    @FXML
+    private void setRoot_SalesPerformance(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Would you like view Sales Performance page?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            try {
+                App.setRoot("Dashboard");
+            } catch (IOException ex) {
+                Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            String filter = dashboard_cboFilter.getValue();
+            setData_chart(filter, "total");
+        }
+    }
+
+    @FXML
+    private void dashboard_btnSetChart_Service(ActionEvent event) {
+        String filter = dashboard_cboFilter.getValue();
+
+        setData_chart(filter, "ser");
+    }
+
+    @FXML
+    private void dashboard_btnSetChart_customer(ActionEvent event) {
+        String filter = dashboard_cboFilter.getValue();
+
+        setData_chart(filter, "cus");
+    }
+
+    @FXML
+    private void dashboard_btnSetChart_pitch(ActionEvent event) {
+        String filter = dashboard_cboFilter.getValue();
+        setData_chart(filter, "pitch");
+    }
+
+    ChartDAO chartDAO = new ChartDAO();
+
+    void setData_chart(String filter, String condition) {
+        ObservableList<XYChart.Series> data, data3;
+        if (filter.equals("Month")) {
+            data3 = chartDAO.barChart_month_inside();
+            data = chartDAO.barChart_monthCus_inside();
+        } else {
+            data3 = chartDAO.barChart_day_inside();
+            data = chartDAO.barChart_dayCus_inside();
+        }
+        XYChart.Series series1 = data3.get(0);
+        XYChart.Series series2 = data3.get(1);
+        XYChart.Series series3 = data3.get(2);
+
+        String titleSuffix = filter.equals("Day") ? "7 Day" : "6 Month";
+        switch (condition) {
+            case "total":
+                dashboard_barChart_Income.getData().setAll(series1, series3, series2);
+                dashboard_barChart_Income.setTitle("Total Income Last " + titleSuffix);
+                break;
+            case "pitch":
+                dashboard_barChart_Income.getData().setAll(series2);
+                dashboard_barChart_Income.setTitle("Pitch Income Last " + titleSuffix);
+                break;
+            case "ser":
+                dashboard_barChart_Income.getData().setAll(series3);
+                dashboard_barChart_Income.setTitle("Service Income Last " + titleSuffix);
+                break;
+            case "cus":
+                XYChart.Series series11 = data.get(0);
+                XYChart.Series series22 = data.get(1);
+                XYChart.Series series33 = data.get(2);
+                dashboard_barChart_Income.getData().setAll(series11, series33, series22);
+                dashboard_barChart_Income.setTitle("Customer Income Last " + titleSuffix);
+                break;
+            default:
+                dashboard_barChart_Income.getData().setAll(series1, series3, series2);
+                dashboard_barChart_Income.setTitle("Total Income Last " + titleSuffix);
+                break;
+        }
+
+    }
+
+    void setTotalLabels(String filter) {
+        HashMap<String, Double> tt;
+        if (filter.equals("Day")) {
+            tt = chartDAO.getTotalRevenue_day_inside();
+        } else {
+            tt = chartDAO.getTotalRevenue_inside();
+        }
+
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
+
+        lbTotalRevenue.setText(formatter.format(tt.get("ttRevenue")));
+        lbRentalRevenua.setText(formatter.format(tt.get("ttRental")));
+        lbServiceRevenue.setText(formatter.format(tt.get("ttSer")));
+
+        int totalRentals = (int) Math.round(tt.get("numberOfRental"));
+        lbTotalRentals.setText(NumberFormat.getInstance().format(totalRentals));
+    }
+
+    void setValue_cbo() {
+        dashboard_cboFilter.getItems().add("Day");
+        dashboard_cboFilter.getItems().add("Month");
+        dashboard_cboFilter.setValue("Month");
+    }
+
+    @FXML
+    private void Filter(ActionEvent event) {
+        String filter = dashboard_cboFilter.getValue();
+        setTotalLabels(filter);
+        setData_chart(filter, "total");
+    }
 }

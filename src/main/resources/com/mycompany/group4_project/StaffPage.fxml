@@ -30,7 +30,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
+<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
     <children>
       <AnchorPane layoutX="2.4" prefHeight="45.0" prefWidth="1260.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0">
          <children>
@@ -105,7 +105,7 @@
             </MenuButton>
             <Label fx:id="tfEmployeePosition" alignment="CENTER" layoutX="2.0" layoutY="161.0" prefHeight="46.0" prefWidth="194.0" textFill="#fafafa">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
          </children>
@@ -409,7 +409,7 @@
                   </AnchorPane>
                </left>
             </BorderPane>
-            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
+            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
                <center>
                   <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                      <children>
@@ -990,6 +990,7 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
+                              <DatePicker fx:id="bkPitch_datePicker" layoutX="26.0" layoutY="22.0" onAction="#bkPitch_datePicker_change" styleClass="filter_b" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -1238,7 +1239,7 @@
                   </BorderPane>
                </children>
             </AnchorPane>
-            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0">
+            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                <center>
                   <AnchorPane prefHeight="642.0" prefWidth="677.0" BorderPane.alignment="CENTER">
                      <children>
@@ -1621,7 +1622,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Button fx:id="Ser_btnSave" disable="true" layoutX="63.0" layoutY="552.0" mnemonicParsing="false" onAction="#Ser_SaveChangeService" prefHeight="36.0" prefWidth="158.0" styleClass="add-btn" text="SAVE" />
+                        <Button fx:id="Ser_btnSave" disable="true" layoutX="63.0" layoutY="525.0" mnemonicParsing="false" onAction="#Ser_SaveChangeService" prefHeight="36.0" prefWidth="158.0" styleClass="add-btn" text="SAVE" />
                         <Separator layoutY="507.0" prefHeight="3.0" prefWidth="274.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="507.0" />
                         <VBox fx:id="Ser_changeQtyService_Vbox" layoutX="17.0" layoutY="455.0" prefHeight="17.0" prefWidth="237.0" visible="false">
                            <children>
@@ -1721,6 +1722,7 @@
                               <FontAwesomeIcon glyphName="REFRESH" />
                            </graphic>
                         </Button>
+                        <Button fx:id="Ser_btnBacktoBill" disable="true" layoutX="63.0" layoutY="574.0" mnemonicParsing="false" onAction="#Ser_BackToBill" prefHeight="36.0" prefWidth="158.0" styleClass="delete-btn" text="Back" />
                      </children>
                   </AnchorPane>
                </children>

@@ -371,6 +371,10 @@ public class StaffPageController implements Initializable {
     private Label lbDeposit_Bill;
     @FXML
     private Button btnExportPDF;
+    @FXML
+    private Button Ser_btnBacktoBill;
+    @FXML
+    private DatePicker bkPitch_datePicker;
 
     public void ini() {
 
@@ -1948,13 +1952,13 @@ public class StaffPageController implements Initializable {
                     .setTextAlignment(TextAlignment.LEFT)
                     .setBorder(Border.NO_BORDER));
 
-            detailsTable.addCell(new Cell().add(new Paragraph("Payment Code: " + lb_idb_Bill.getText()))
+            detailsTable.addCell(new Cell().add(new Paragraph("Bill Code: " + lb_idb_Bill.getText()))
                     .setBorder(Border.NO_BORDER));
             detailsTable.addCell(new Cell().add(new Paragraph("Start Time: " + txtTimeStart_Bill.getText()))
                     .setTextAlignment(TextAlignment.LEFT)
                     .setBorder(Border.NO_BORDER));
 
-            detailsTable.addCell(new Cell().add(new Paragraph("Employee Code: " + lb_idp_Bill.getText()))
+            detailsTable.addCell(new Cell().add(new Paragraph("Employee: " + getNameInEmployee(lb_idb_Bill.getText())))
                     .setBorder(Border.NO_BORDER));
             detailsTable.addCell(new Cell().add(new Paragraph("End Time: " + txtTimeEnd_Bill.getText()))
                     .setTextAlignment(TextAlignment.LEFT)
@@ -2071,6 +2075,23 @@ public class StaffPageController implements Initializable {
     private void ExportPDF(ActionEvent event) {
         exportBillPDF("DetailBill.pdf");
         saveAndOpenPDF();
+    }
+
+    public String getNameInEmployee(String id) {
+        ConnectDB con = new ConnectDB();
+        Connection cn = con.getConnect();
+        String nameC = null;
+        String query = "SELECT q.name FROM qluser q JOIN payments p ON q.idu = p.idu  WHERE p.idb = ?";
+        try (PreparedStatement ps = cn.prepareStatement(query)) {
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nameC = rs.getString("name");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return nameC;
     }
 
     public String getNameInCustomer(String idk) {
@@ -2205,6 +2226,7 @@ public class StaffPageController implements Initializable {
     public void initialize_menuService(int IDB) {
         menuDisplayCard_Ser(IDB);
         Display_ServiceBill_Ser(IDB);
+        Ser_btnBacktoBill.setDisable(false);       
     }
 
     public void menuDisplayCard_Ser(int IDB) {
@@ -2326,6 +2348,13 @@ public class StaffPageController implements Initializable {
     }
 
     @FXML
+    private void Ser_BackToBill(ActionEvent event) {
+        initialize_Bill();
+        pBdpBillDetail_page.setVisible(true);
+        menuService_page.setVisible(false);
+    }
+
+    @FXML
     private void bkPitch_btn(ActionEvent event) {
         try {
             List<Button> buttons = Arrays.asList(bkPitch_btn_1, bkPitch_btn_2, bkPitch_btn_3, bkPitch_btn_4, bkPitch_btn_5, bkPitch_btn_6, bkPitch_btn_7, bkPitch_btn_8, bkPitch_btn_9, bkPitch_btn_10, bkPitch_btn_11, bkPitch_btn_12);
@@ -2357,20 +2386,11 @@ public class StaffPageController implements Initializable {
                     btnNew_Booking.setVisible(true);
                 }
                 if (stt == 2) {
-                    //sttBK = 2;
                     btnBillDetail_Booking.setVisible(true);
                     btnNew_Booking.setVisible(true);
-                    ///here need edit
-                    //timeStart = Time.valueOf(lbTimeStart.get(index).getText());
                 }
 
-                /*opPm = pmDAO.getBookingOrBillByPitch(idp.get(index), sttBK, timeStart);
-                if (opPm.isEmpty()) {
-                    System.out.println("Cannot found booking/bill");
-                    reset_Booking();
-                    return;
-                }
-                PaymentBill pb = opPm.get();*/
+
                 int idb = Integer.parseInt(lb_Idb_List.get(index).getText());
                 PaymentBill pb = pmDAO.getBookingOrBillByPitch(idb);
                 System.out.println(pb);
@@ -2497,6 +2517,10 @@ public class StaffPageController implements Initializable {
 
     @FXML
     private void AddNew_Bill(ActionEvent event) {
+    }
+
+    @FXML
+    private void bkPitch_datePicker_change(ActionEvent event) {
     }
 
 }

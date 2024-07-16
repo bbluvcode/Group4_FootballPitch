@@ -105,7 +105,7 @@
             </MenuButton>
             <Label fx:id="tfEmployeePosition" alignment="CENTER" layoutX="2.0" layoutY="161.0" prefHeight="46.0" prefWidth="194.0" textFill="#fafafa">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
          </children>
@@ -1238,7 +1238,7 @@
                   </BorderPane>
                </children>
             </AnchorPane>
-            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0">
+            <BorderPane fx:id="pBdpBillDetail_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
                <center>
                   <AnchorPane prefHeight="642.0" prefWidth="677.0" BorderPane.alignment="CENTER">
                      <children>
@@ -1572,7 +1572,7 @@
                   </AnchorPane>
                </right>
             </BorderPane>
-            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0" visible="false">
+            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0">
                <children>
                   <AnchorPane layoutX="8.0" layoutY="9.0" prefHeight="630.0" prefWidth="758.0" stylesheets="@page.css">
                      <styleClass>
@@ -1621,7 +1621,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Button fx:id="Ser_btnSave" disable="true" layoutX="63.0" layoutY="552.0" mnemonicParsing="false" onAction="#Ser_SaveChangeService" prefHeight="36.0" prefWidth="158.0" styleClass="add-btn" text="SAVE" />
+                        <Button fx:id="Ser_btnSave" disable="true" layoutX="63.0" layoutY="525.0" mnemonicParsing="false" onAction="#Ser_SaveChangeService" prefHeight="36.0" prefWidth="158.0" styleClass="add-btn" text="SAVE" />
                         <Separator layoutY="507.0" prefHeight="3.0" prefWidth="274.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="507.0" />
                         <VBox fx:id="Ser_changeQtyService_Vbox" layoutX="17.0" layoutY="455.0" prefHeight="17.0" prefWidth="237.0" visible="false">
                            <children>
@@ -1721,6 +1721,7 @@
                               <FontAwesomeIcon glyphName="REFRESH" />
                            </graphic>
                         </Button>
+                        <Button fx:id="Ser_btnBacktoBill" disable="true" layoutX="63.0" layoutY="574.0" mnemonicParsing="false" onAction="#Ser_BackToBill" prefHeight="36.0" prefWidth="158.0" styleClass="delete-btn" text="Back" />
                      </children>
                   </AnchorPane>
                </children>

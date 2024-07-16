@@ -325,6 +325,10 @@ public class ChartDAO extends ConnectDB<String, Double> {
         return getTT;
     }
 
+//======================================End dashboard overview======================================
+//=================================================================================
+//======================================Month======================================
+
     public ObservableList<XYChart.Series> barChart_month_inside() {
         ObservableList<XYChart.Series> data = FXCollections.observableArrayList();
         XYChart.Series series1 = new XYChart.Series();
@@ -410,10 +414,11 @@ public class ChartDAO extends ConnectDB<String, Double> {
         Double ttRevenue, ttRental, ttSer, numberOfRental;
         HashMap<String, Double> getTT = new HashMap<>();
         LocalDate currentDate = LocalDate.now();
-        LocalDate before6MonthDate = currentDate.minusMonths(6).withDayOfMonth(1);
-        String sql = "SELECT ROUND(SUM(tt_payment)/1000000,2) AS ttRevenue, ROUND(SUM(tt_booking)/1000,2) AS ttRental, ROUND(SUM(tt_service)/1000,2) AS ttSer , Count(idb) AS numberOfRental FROM payments " +
-                "WHERE payments.pay_date <= '" + currentDate + "'" +
-                "  AND payments.pay_date >= '" + before6MonthDate + "'";
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+        String sql = "SELECT ROUND(SUM(tt_payment),2) AS ttRevenue, ROUND(SUM(tt_booking),2) AS ttRental, ROUND(SUM(tt_service),2) AS ttSer , Count(idb) AS numberOfRental FROM payments " +
+                "WHERE MONTH(payments.pay_date) = '" + currentMonth + "'" +
+                " AND YEAR(payments.pay_date) = '" + currentYear + "'";
         try {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -432,5 +437,110 @@ public class ChartDAO extends ConnectDB<String, Double> {
         return getTT;
     }
 
-//======================================
+//======================================End by Month======================================
+//======================================Day======================================
+public ObservableList<XYChart.Series> barChart_day_inside() {
+    ObservableList<XYChart.Series> data = FXCollections.observableArrayList();
+    XYChart.Series series1 = new XYChart.Series();
+    XYChart.Series series2 = new XYChart.Series();
+    XYChart.Series series3 = new XYChart.Series();
+    series1.setName("Total payment");
+    series2.setName("Total rental");
+    series3.setName("Total service");
+
+    LocalDate currentDate = LocalDate.now();
+    LocalDate before1Week = currentDate.minusWeeks(1);
+
+    String sql = "SELECT \n" +
+            "    CONCAT(DAY(payments.pay_date), '/', MONTH(payments.pay_date)) AS label,\n" +
+            "    SUM(payments.tt_payment) AS tt_payment,\n" +
+            "    SUM(payments.tt_booking) AS tt_booking,\n" +
+            "    SUM(payments.tt_service) AS tt_service\n" +
+            "FROM payments\n" +
+            "WHERE payments.pay_date <= '" + currentDate + "'" +
+            "  AND payments.pay_date >= '" + before1Week + "'" +
+            " GROUP BY MONTH(payments.pay_date), YEAR(payments.pay_date),DAY(payments.pay_date)\n" +
+            "ORDER BY YEAR(payments.pay_date), MONTH(payments.pay_date),DAY(payments.pay_date);";
+    try {
+        Statement st = getConnection().createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()) {
+            String monthName = rs.getString("label");
+            series1.getData().add(new XYChart.Data(monthName, rs.getDouble("tt_payment")));
+            series2.getData().add(new XYChart.Data(monthName, rs.getDouble("tt_booking")));
+            series3.getData().add(new XYChart.Data(monthName, rs.getDouble("tt_service")));
+        }
+    } catch (SQLException ex) {
+        System.err.println(ex.getMessage());
+    }
+    data.add(series1);
+    data.add(series2);
+    data.add(series3);
+    return data;
+}
+
+    public ObservableList<XYChart.Series> barChart_dayCus_inside() {
+        ObservableList<XYChart.Series> data = FXCollections.observableArrayList();
+        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series series3 = new XYChart.Series();
+        series1.setName("Total payment");
+        series2.setName("Total rental");
+        series3.setName("Total service");
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate before1Week = currentDate.minusWeeks(1);
+
+        String sql = "SELECT TOP 3 \n" +
+                "    CONCAT(khachhang.name, '-', khachhang.idk) AS label,\n" +
+                "    SUM(payments.tt_payment) AS tt_payment,\n" +
+                "    SUM(payments.tt_booking) AS tt_booking,\n" +
+                "    SUM(payments.tt_service) AS tt_service\n" +
+                "FROM payments \n" +
+                "JOIN khachhang ON payments.idk = khachhang.idk\n" +
+                "WHERE payments.pay_date <= '" + currentDate + "'" +
+                "  AND payments.pay_date >= '" + before1Week + "'" +
+                "GROUP BY khachhang.name, khachhang.idk\n" +
+                "ORDER BY tt_payment DESC;";
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                String nameCus = rs.getString("label");
+                series1.getData().add(new XYChart.Data(nameCus, rs.getDouble("tt_payment")));
+                series2.getData().add(new XYChart.Data(nameCus, rs.getDouble("tt_booking")));
+                series3.getData().add(new XYChart.Data(nameCus, rs.getDouble("tt_service")));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        data.add(series1);
+        data.add(series2);
+        data.add(series3);
+        return data;
+    }
+
+    public HashMap<String, Double> getTotalRevenue_day_inside() {
+        Double ttRevenue, ttRental, ttSer, numberOfRental;
+        HashMap<String, Double> getTT = new HashMap<>();
+        LocalDate currentDate = LocalDate.now();
+        String sql = "SELECT ROUND(SUM(tt_payment),2) AS ttRevenue, ROUND(SUM(tt_booking),2) AS ttRental, ROUND(SUM(tt_service),2) AS ttSer , Count(idb) AS numberOfRental FROM payments " +
+                "WHERE payments.pay_date = '" + currentDate + "'";
+        try {
+            Statement st = getConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            ttRevenue = rs.getDouble("ttRevenue");
+            ttRental = rs.getDouble("ttRental");
+            ttSer = rs.getDouble("ttSer");
+            numberOfRental = rs.getDouble("numberOfRental");
+            getTT.put("ttRevenue", ttRevenue);
+            getTT.put("ttRental", ttRental);
+            getTT.put("ttSer", ttSer);
+            getTT.put("numberOfRental", numberOfRental);
+        } catch (Exception ex) {
+            System.err.println("pmDAO_totalRevenue: " + ex.getMessage());
+        }
+        return getTT;
+    }
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="DashboardPage" prefHeight="609.0" prefWidth="1042.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.MergeController">
+<BorderPane fx:id="DashboardPage" prefHeight="609.0" prefWidth="1042.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.MergeController">
    <center>
       <AnchorPane prefHeight="620.0" prefWidth="1042.0" BorderPane.alignment="CENTER">
          <children>
@@ -124,7 +124,7 @@
                               <Image url="@../imageView/onlyLogo.jpg" />
                            </image>
                         </ImageView>
-                        <ComboBox fx:id="dashboard_cboFilter" layoutX="858.0" layoutY="8.0" prefWidth="150.0" />
+                        <ComboBox fx:id="dashboard_cboFilter" layoutX="889.0" layoutY="8.0" onAction="#Filter" prefHeight="26.0" prefWidth="119.0" styleClass="filter_b" />
                      </children>
                   </AnchorPane>
                </children>

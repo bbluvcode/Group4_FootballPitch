@@ -1,0 +1,59 @@
+
+.label {
+    -fx-text-fill: white;
+}
+.text-field, .password-field {
+    -fx-background-color: #91c6ff;
+    -fx-text-fill:#e74c3c;
+    -fx-background-radius:10px;
+}
+.text-forgot{
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-background-color:#E6E0FA;
+}
+.pass-forgot{
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-background-color:white;
+}
+.btn-forgot{
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color:#2207A8;
+}
+.btn-forgot:hover{
+    -fx-background-color:#E54A36;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+.forgot:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+.signin{
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-background-color: #1a73e8;
+}
+.signin:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-background-color:darkred;
+    -fx-cursor: hand;
+}
+.close{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+.close:hover{
+    -fx-background-color: #ff4653;
+}
+
+.minimize{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+.minimize:hover{
+    -fx-background-color: #ddd;
+}
