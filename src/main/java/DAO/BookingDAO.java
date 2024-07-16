@@ -129,7 +129,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         String sql = "SELECT idp FROM payments" +
                 " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
                 + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book >= '" + from2 + "' AND time_book <= '" + from + "' AND hrs = " + hrsBooked + "))";
-        System.out.println(sql);
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -162,7 +161,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
                 + "FROM qluser INNER JOIN (sanbong INNER JOIN (khachhang INNER JOIN payments ON khachhang.[idk] = payments.[idk]) ON sanbong.[idp] = payments.[idp]) ON qluser.[idu] = payments.[idu] "
                 + " WHERE pay_date = CAST(GETDATE() AS DATE) AND time_start IS NULL AND completed IS NULL"
                 + " AND ((time_book >= '" + from + "' AND time_book < '" + to + "') OR (time_book >= '" + from2 + "' AND time_book <= '" + from + "' AND hrs = " + hrsBooked + "))";
-        System.out.println(sql);
 
         try {
             Statement st = cn.createStatement();
@@ -230,9 +228,6 @@ public class BookingDAO extends ConnectDB<Booking, Integer> {
         ObservableList<Booking> infoBookingForPitch = FXCollections.observableArrayList();
 
         Connection cn = getConnection();
-
-
-
 
         int hrsBooked = 1;
         if (from == null) {

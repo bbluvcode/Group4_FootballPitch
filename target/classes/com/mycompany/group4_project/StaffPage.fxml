@@ -30,7 +30,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
+<AnchorPane id="AnchorPane" fx:id="staff_page" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.StaffPageController">
     <children>
       <AnchorPane layoutX="2.4" prefHeight="45.0" prefWidth="1260.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0">
          <children>
@@ -409,7 +409,7 @@
                   </AnchorPane>
                </left>
             </BorderPane>
-            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0" visible="false">
+            <BorderPane fx:id="pBdpManagebooking_page" prefHeight="636.0" prefWidth="1050.0">
                <center>
                   <AnchorPane prefHeight="620.0" prefWidth="710.0" BorderPane.alignment="CENTER">
                      <children>
@@ -990,6 +990,7 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
+                              <DatePicker fx:id="bkPitch_datePicker" layoutX="26.0" layoutY="22.0" onAction="#bkPitch_datePicker_change" styleClass="filter_b" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -1572,7 +1573,7 @@
                   </AnchorPane>
                </right>
             </BorderPane>
-            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0">
+            <AnchorPane fx:id="menuService_page" prefHeight="658.0" prefWidth="1056.0" visible="false">
                <children>
                   <AnchorPane layoutX="8.0" layoutY="9.0" prefHeight="630.0" prefWidth="758.0" stylesheets="@page.css">
                      <styleClass>

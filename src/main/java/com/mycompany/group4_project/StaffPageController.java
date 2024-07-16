@@ -373,8 +373,6 @@ public class StaffPageController implements Initializable {
     private Button btnExportPDF;
     @FXML
     private Button Ser_btnBacktoBill;
-    @FXML
-    private DatePicker bkPitch_datePicker;
 
     public void ini() {
 
@@ -2393,7 +2391,6 @@ public class StaffPageController implements Initializable {
 
                 int idb = Integer.parseInt(lb_Idb_List.get(index).getText());
                 PaymentBill pb = pmDAO.getBookingOrBillByPitch(idb);
-                System.out.println(pb);
                 txtDeposit_Booking.setText("" + pb.getDeposit());
                 txtTimeStart_Booking.setText(pb.getTime_book().toString());
                 spnHrs_Booking.getValueFactory().setValue(pb.getHrs());
@@ -2509,7 +2506,11 @@ public class StaffPageController implements Initializable {
     @FXML
     private void bkPitch_clearTimeToFilter() {
         if (bkPitch_cboTime_from.getValue() != null) {
-            bkPitch_cboTime_to.setValue(null);
+            Time timeF = Time.valueOf(bkPitch_cboTime_from.getValue() + ":00");
+            int hr = timeF.toLocalTime().getHour();
+            int min = timeF.toLocalTime().getMinute();
+            hr++;
+            bkPitch_cboTime_to.setValue( hr + ":" + min);
             bkPitch_getTimeFilterfromCbo();
             setTime_forCboTo_booking();
         }
@@ -2519,8 +2520,5 @@ public class StaffPageController implements Initializable {
     private void AddNew_Bill(ActionEvent event) {
     }
 
-    @FXML
-    private void bkPitch_datePicker_change(ActionEvent event) {
-    }
 
 }

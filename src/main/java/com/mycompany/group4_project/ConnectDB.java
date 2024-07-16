@@ -23,7 +23,6 @@ public class ConnectDB {
 
             //connect to DB
             cn = DriverManager.getConnection(url, username, pass);
-            System.out.println("Connect successfully !");
         } catch (ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage());
         } catch (SQLException ex) {
