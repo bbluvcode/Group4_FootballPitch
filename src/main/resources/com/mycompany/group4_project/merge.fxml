@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="DashboardPage" prefHeight="609.0" prefWidth="1042.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.MergeController">
+<BorderPane fx:id="DashboardPage" prefHeight="609.0" prefWidth="1042.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.group4_project.MergeController">
    <center>
       <AnchorPane prefHeight="620.0" prefWidth="1042.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,7 +32,7 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
+                        <Label fx:id="lbTotalRevenue" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
@@ -49,7 +49,7 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
+                        <Label fx:id="lbServiceRevenue" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
@@ -64,7 +64,7 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="122.0" text="0" textFill="WHITE">
+                        <Label fx:id="lbTotalRentals" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="122.0" text="0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
@@ -84,7 +84,7 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
+                        <Label fx:id="lbRentalRevenua" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>

@@ -32,66 +32,69 @@
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="0" textFill="WHITE">
+                        <Label fx:id="lbTotalRevenue" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
                         </Label>
-                        <ImageView blendMode="SCREEN" fitHeight="59.0" fitWidth="69.0" layoutX="9.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imageView/customer.png" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="dashboard_btnSalesPerformance" layoutX="118.0" layoutY="67.0" mnemonicParsing="false" onAction="#setRoot_SalesPerformance" opacity="0.0" prefHeight="160.0" prefWidth="236.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <FontAwesomeIcon fill="WHITE" glyphName="DOLLAR" layoutX="26.0" layoutY="90.0" size="5em" />
+                        <Button fx:id="dashboard_btnSalesPerformance" layoutX="118.0" layoutY="67.0" mnemonicParsing="false" onAction="#setRoot_SalesPerformance" opacity="0.0" prefHeight="160.0" prefWidth="236.0" text="btnSetRoot" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="512.0" layoutY="11.0" prefHeight="160.0" prefWidth="236.0" styleClass="card3" stylesheets="@dashboard.css">
                      <children>
-                        <FontAwesomeIcon fill="WHITE" glyphName="MONEY" layoutX="14.0" layoutY="93.0" size="5em" />
-                        <Label layoutX="15.0" layoutY="105.0" text="Today's Income" textFill="WHITE">
+                        <FontAwesomeIcon fill="WHITE" glyphName="MONEY" layoutX="17.0" layoutY="90.0" size="5em" />
+                        <Label layoutX="15.0" layoutY="105.0" text="Service Income" textFill="WHITE">
                            <font>
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="151.0" text="\$0.0" textFill="WHITE">
+                        <Label fx:id="lbServiceRevenue" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
                         </Label>
+                        <Button fx:id="dashboard_btnSetChart_Service" mnemonicParsing="false" onAction="#dashboard_btnSetChart_Service" opacity="0.0" prefHeight="160.0" prefWidth="236.0" text="btnSetChart" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="775.0" layoutY="11.0" prefHeight="160.0" prefWidth="236.0" styleClass="card1" stylesheets="@dashboard.css">
+                  <AnchorPane layoutX="762.0" layoutY="11.0" prefHeight="160.0" prefWidth="249.0" styleClass="card1" stylesheets="@dashboard.css">
                      <children>
-                        <Label layoutX="20.0" layoutY="103.0" text="Total Income" textFill="WHITE">
+                        <Label layoutX="20.0" layoutY="103.0" text="Count of transaction" textFill="WHITE">
                            <font>
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="151.0" text="\$0.0" textFill="WHITE">
+                        <Label fx:id="lbTotalRentals" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="16.0" prefHeight="29.0" prefWidth="122.0" text="0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
                         </Label>
-                        <FontAwesomeIcon fill="WHITE" glyphName="DOLLAR" layoutX="14.0" layoutY="91.0" size="5em" />
+                        <ImageView blendMode="SCREEN" fitHeight="59.0" fitWidth="69.0" layoutX="23.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imageView/customer.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="dashboard_btnSetChart_customer" mnemonicParsing="false" onAction="#dashboard_btnSetChart_customer" opacity="0.0" prefHeight="160.0" prefWidth="236.0" text="btnSetChart" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="265.0" layoutY="11.0" prefHeight="160.0" prefWidth="236.0" styleClass="card2" stylesheets="@dashboard.css">
                      <children>
-                        <Label layoutX="30.0" layoutY="109.0" text="Available Sports Field" textFill="WHITE">
+                        <Label layoutX="27.0" layoutY="108.0" text="Sports Field Income" textFill="WHITE">
                            <font>
                               <Font name="Tahoma" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="0" textFill="WHITE">
+                        <Label fx:id="lbRentalRevenua" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="\$0.0" textFill="WHITE">
                            <font>
                               <Font name="Berlin Sans FB" size="25.0" />
                            </font>
                         </Label>
-                        <ImageView blendMode="SCREEN" fitHeight="62.0" fitWidth="78.0" layoutX="6.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView blendMode="SCREEN" fitHeight="62.0" fitWidth="78.0" layoutX="21.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../imageView/pitch.png" />
                            </image>
                         </ImageView>
+                        <Button fx:id="dashboard_btnSetChart_pitch" mnemonicParsing="false" onAction="#dashboard_btnSetChart_pitch" opacity="0.0" prefHeight="160.0" prefWidth="236.0" text="btnSetChart" />
                      </children>
                   </AnchorPane>
                </children>
@@ -108,7 +111,7 @@
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <BarChart fx:id="dashboard_barChart_Income" layoutX="-3.2" layoutY="5.333333333333333" prefHeight="432.0" prefWidth="1021.0" title="Income Data Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                        <BarChart fx:id="dashboard_barChart_Income" layoutX="-3.2" layoutY="5.333333333333333" prefHeight="437.2" prefWidth="1021.2" title="Income Data Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <xAxis>
                               <CategoryAxis side="BOTTOM" />
                            </xAxis>
